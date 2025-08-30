@@ -31,30 +31,28 @@ function ServicesSection() {
             // img="/images/haircut.jpg"
           />
         </div>
-        <div>
+        <MiddleChild>
           <Card 
             title="Hair Tools"
             description="Expert hair tools for styling and care."
             // price={49.99}
             img="/images/hair essentials.png"
           />
-        </div>
-        <div>
+        
           <Card 
             title="Hair Bundles"
             description="Expert hair bundling services."
             // price={49.99}
             img="/images/wav hair.png"
           />
-        </div>
-        <div>
+        
           <Card 
             title="Hair Products"
-            description="Expert hair products for all your styling needs."
+            description="Hair products for all your styling needs."
             // price={49.99}
             img="/images/hair essentials.png"
           />
-        </div>
+        </MiddleChild>
         <div>
           <Card 
             title="Hair Styling"
@@ -74,6 +72,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 max-width: 100%;
+flex-wrap: wrap;
 
   @media (max-width: 768px) {
     align-items: flex-start;
@@ -87,6 +86,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   // gap: 20px;
 
   first-child {
@@ -114,6 +114,19 @@ const Container = styled.div`
 
     }
     
+  }
+`;
+
+const MiddleChild = styled.div`
+  display:flex;
+  flex-direction:row;
+
+  @media (max-width: 768px) {
+    // flex-direction: column;
+    align-items: center;
+    width: 100%;
+    // gap: 10px;
+    border: none;
   }
 `;
 

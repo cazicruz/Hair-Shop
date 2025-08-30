@@ -5,6 +5,8 @@ import { FaOpencart } from 'react-icons/fa';
 import { RiAccountPinCircleFill } from "react-icons/ri";
 import Link from 'next/link';
 import Tooltip from '@/components/UI/Tooltip';
+import { BsStars } from "react-icons/bs";
+
 
 const navLinks = [
     { name: 'Home', href: '/' },
@@ -122,7 +124,7 @@ export default function Navbar() {
     return (
         <NavbarContainer>
             <Logo>
-                <span role="img" aria-label="hair">💇‍♀️</span> HairShop
+                <span role="img" aria-label="B-Classy hair shop"></span> B-Classy <BsStars color="#333"/>
             </Logo>
             <LinksDesktop>
                 {navLinks.map(link => (

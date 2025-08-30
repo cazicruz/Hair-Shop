@@ -2,6 +2,8 @@
 import React from "react";
 import styled from "styled-components";
 import Image from 'next/image'
+import { BsStars } from "react-icons/bs";
+
 
 
 const HeroSection = styled.section`
@@ -82,7 +84,7 @@ const Hero = () => (
     <HeroSection>
         <HeroContent>
             <HeroTitle>
-                Elevate Your Look with Luxurious Hair
+                Elevate Your Look with Luxury Hairs from B-Classy <BsStars color="#333"/>
             </HeroTitle>
             <HeroText>
                 Discover premium hair extensions, wigs, and care products designed to help you shine every day. Shop the latest styles and experience unmatched quality.

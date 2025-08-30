@@ -19,6 +19,9 @@ const CardWrapper = styled.div`
   flex-direction: column;
   padding: 16px;
   text-align: center;
+  align-items: center;
+//   flex-shrink: 2;
+  max-width: 300px;
   img {
     border-radius: 20px;
   }
