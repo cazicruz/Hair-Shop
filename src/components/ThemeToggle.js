@@ -2,6 +2,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useThemeContext } from '../lib/theme-provider';
+import { FloatButton } from "antd";
+import { MdDarkMode } from "react-icons/md";
+import { BsBrightnessHigh } from "react-icons/bs";
+
+
 
 const ToggleButton = styled.button`
     padding: 8px 16px;
@@ -21,8 +26,13 @@ export default function ThemeToggle() {
     const { isDarkMode, toggleTheme } = useThemeContext();
 
     return (
-        <ToggleButton onClick={toggleTheme}>
-            Switch to {isDarkMode ? 'Light' : 'Dark'} Mode
-        </ToggleButton>
+        <FloatButton 
+        tooltip={`Switch ${isDarkMode ? 'Light' : 'Dark'} Mode`}
+        icon={isDarkMode ? <MdDarkMode /> : <BsBrightnessHigh />}
+        style={{  backgroundColor: isDarkMode ? '#333' : '#fff', color: isDarkMode ? '#fff' : '#333', insetInlineEnd: 30, border: 'none' }}
+        type="primary"
+        onClick={toggleTheme}>
+            {/* Switch to {isDarkMode ? 'Light' : 'Dark'} Mode */}
+        </FloatButton>
     );
 }

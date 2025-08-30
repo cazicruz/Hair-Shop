@@ -5,14 +5,19 @@ import Footer from "@/components/Footer";
 import ThemeToggle from "@/components/ThemeToggle";
 import Hero from "@/components/Hero";
 import Latest from '@/components/Latest';
+import Testimonials from "@/components/Testimonials";
+import ServicesSection from "@/components/ServicesSection";
+import Faq from '@/components/Faq'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ overflowX: 'hidden' }}>
       <Hero />
       <Latest />
+      <ServicesSection />
+      <Testimonials />
+      <Faq />
       <ThemeToggle />
-      <h1 className={styles.title}>Welcome to Hair Shop</h1>
       <Footer />
     </div>
   );

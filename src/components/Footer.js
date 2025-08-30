@@ -106,11 +106,13 @@ const Footer = () => {
             <li><p><strong>Sunday:</strong> Closed</p></li>
             <li>
               {/* Replace helpline icon with phone icon */}
-              <span style={{ marginRight: '6px', verticalAlign: 'middle' }}>
+              
+              <p>
+                <span style={{ marginRight: '6px', verticalAlign: 'middle' }}>
                 {/* Import FaPhone from react-icons/fa at the top */}
                 <FaPhone />
               </span>
-              <p><strong>Helpline:</strong> +234 708 470 4785</p>
+                <strong>:</strong> +234 708 470 4785</p>
             </li>
           </ul>
         </FooterElement>
