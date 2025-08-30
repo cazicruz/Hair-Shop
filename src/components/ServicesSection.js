@@ -120,10 +120,13 @@ const Container = styled.div`
 const MiddleChild = styled.div`
   display:flex;
   flex-direction:row;
+  align-self:center;
 
   @media (max-width: 768px) {
     // flex-direction: column;
     align-items: center;
+      align-self:center;
+
     width: 100%;
     // gap: 10px;
     border: none;
