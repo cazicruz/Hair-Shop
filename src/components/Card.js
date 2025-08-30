@@ -2,22 +2,22 @@ import React from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 
-function Card({ title, description, price,img }) {
+function Card({ title, description, price,img, border=true ,priceModify=false}) {
   return (
-    <CardWrapper>
-      {img && <Image src={img} alt={title} width={200} height={200} />}
+    <CardWrapper border={border} priceModify={priceModify}>
+      {img&& <Image src={img} alt={title} width={200} height={200} />}
       <h3>{title}</h3>
-      <p>{description}</p>
-      {price && <p>Price: ${price}</p>}
+      {price && <PriceTag priceModify={priceModify}>{price}</PriceTag>}
+      {description && <p>{description}</p>}
     </CardWrapper>
   )
 }
 const CardWrapper = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: ${({ border }) => (border ? '1px solid' : 'none')} ${({ theme }) => theme.colors.border};
   border-radius: 8px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 8px;
   text-align: center;
   align-items: center;
 //   flex-shrink: 2;
@@ -26,7 +26,8 @@ const CardWrapper = styled.div`
     border-radius: 20px;
   }
     h3 {
-      margin: 12px 0;
+    font-size: ${(props) => props.theme.fontSize.small};
+      margin: 0px 0;
     }
 
   margin: 16px;
@@ -45,6 +46,7 @@ const CardWrapper = styled.div`
       padding: 0px;
       margin: 5px 0 0 0;
     }
+     
     // padding: 0px;
     img {
       width: 100px;
@@ -53,6 +55,13 @@ const CardWrapper = styled.div`
       border-radius: 8px;
     }
   }
+`;
+const PriceTag = styled.p`
+  color: ${({ priceModify, theme }) => priceModify ? theme.colors.primary : 'inherit'};
+  font-size: ${({ priceModify, theme }) => priceModify ? theme.fontSize.small : 'inherit'};
+  font-weight: ${({ priceModify }) => priceModify ? 600 : 'normal'};
+  padding: 0;
+  margin:0px;
 `;
 
 export default Card

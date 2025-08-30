@@ -8,6 +8,8 @@ import Latest from '@/components/Latest';
 import Testimonials from "@/components/Testimonials";
 import ServicesSection from "@/components/ServicesSection";
 import Faq from '@/components/Faq'
+import CardSwiper from '@/components/CardSwiper'
+import About from "@/components/About";
 
 export default function Home() {
   return (
@@ -15,8 +17,10 @@ export default function Home() {
       <Hero />
       <Latest />
       <ServicesSection />
+      <About />
       <Testimonials />
       <Faq />
+      <CardSwiper />
       <ThemeToggle />
       <Footer />
     </div>
