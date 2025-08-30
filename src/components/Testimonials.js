@@ -25,7 +25,7 @@ function Testimonials() {
                 <Image
                 style={{ borderRadius: '50%', marginBottom: '1rem' }}
                 src={testimony.photo} alt={`Testimonial ${index + 1}`} width={100} height={100} />
-                <p>"{testimony.quote}" <br /> <strong>- {testimony.author}</strong></p>
+                <p>{testimony.quote} <br /> <strong>- {testimony.author}</strong></p>
             </TestimonyWrapper>
             ))}
         </div>

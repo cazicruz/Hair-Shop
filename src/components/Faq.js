@@ -51,7 +51,7 @@ function Faq() {
       ];
   return (
     <Wrapper>
-        <h2>FAQ's</h2 >
+        <h2>FAQ&apos;s</h2 >
         <p>Have questions? We're here to help! Check out our frequently asked questions below.</p>
         <FaqContainer>
             <Collapse
