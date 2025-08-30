@@ -77,11 +77,11 @@ const TestimonyWrapper = styled.div`
 
     p{
       margin: 0;
-      font-size: ${props => props.theme.fontSize.xxsmall};
+      font-size: ${props => props.theme.fontSize.xsmall};
       strong{
         display: inline-block;
         font-weight: bold;
-        font-size: ${props => props.theme.fontSize.xxsmall};
+        font-size: ${props => props.theme.fontSize.xsmall};
       }
     }
     img{

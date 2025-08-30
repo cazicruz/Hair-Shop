@@ -38,7 +38,7 @@ const CardWrapper = styled.div`
 
 
     h3,p{
-      font-size: ${props => props.theme.fontSize.xxsmall};
+      font-size: ${props => props.theme.fontSize.xsmall};
       padding: 0px;
       margin: 5px 0 0 0;
     }
