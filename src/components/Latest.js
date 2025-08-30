@@ -53,7 +53,7 @@ function Latest() {
             price={item.price}
             img={item.image}
             border={false}
-            priceModify={true}
+            priceModify={true} 
           />
         ))}
         </CardSwiper>
