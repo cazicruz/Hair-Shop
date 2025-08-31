@@ -8,7 +8,7 @@ export const lightTheme = {
         text: '#2D2D2D', // Dark gray
         muted: '#F6EAF5', // Muted pink
         border: '#F3C6D3', // Light border
-        shadow: 'rgba(0, 0, 0, 0.1)',
+        shadow: '#A569BD',
     },
     fonts: {
         heading: '"Playfair Display", serif',
@@ -41,7 +41,7 @@ export const darkTheme = {
         text: '#FFFFFF', // White text
         muted: '#2D2D2D', // Muted dark gray
         border: '#3C3C3C', // Dark border
-        shadow: 'rgba(255, 255, 255, 0.62)',
+        shadow: '#E75480',
     },
     fonts: {
         heading: '"Playfair Display", serif',

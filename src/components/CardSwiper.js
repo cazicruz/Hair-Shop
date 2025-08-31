@@ -116,6 +116,12 @@ const Carousel = styled.div`
       background: #fff;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
+      @media (max-width: 768px) {
+        margin-bottom:20px;
+        .card{
+        margin-bottom:0px;
+        }
+      }
 
 //   & > div {
 //     flex: 0 0 auto;

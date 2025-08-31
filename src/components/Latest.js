@@ -17,7 +17,7 @@ const newItems = [
   { id: 6, name: 'Wavy Lace Front Wig', image: '/images/image2.jpg', price: '$89.99' },
 ];
 const SliderWrapper = styled.section`
-    margin:auto;
+    margin-bottom:30px;
     // // background-color:red;
     // display:flex; 
     align-items:center;
@@ -32,10 +32,11 @@ const SliderWrapper = styled.section`
     }
 
     // //add mobile style
-    // @media (max-width: 768px) {
-    //     padding: 10px 10px 0px 10px;
-    //     max-width: 100vw;
-    // }
+    @media (max-width: 768px) {
+        // padding: 10px 10px 0px 10px;
+        margin-bottom: 30px;
+        // max-width: 100vw;
+    }
 
 `;
 function Latest() {

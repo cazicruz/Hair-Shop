@@ -60,6 +60,7 @@ const GradientOverlay = styled.div`
   z-index: 2;
 
   @media (max-width: 768px) {
+  display:none;
     left: 0;
     top: 100%;
     bottom: 90%;
@@ -71,7 +72,7 @@ const GradientOverlay = styled.div`
 const TextSection = styled.div`
   flex: 1;
   padding: 24px;
-  color: #000000ff;
+  color: #4b4b4bff;
   background: #f9f9f9;
   z-index: 3;
   display: flex;
@@ -79,7 +80,7 @@ const TextSection = styled.div`
   justify-content: center;
 
   h2,h3,p{
-  color:#000;}
+  color:#4b4b4bff;}
 
   @media (max-width: 768px) {
     padding: 16px;

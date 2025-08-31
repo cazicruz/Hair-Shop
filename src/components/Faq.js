@@ -70,7 +70,7 @@ function Faq() {
 const Wrapper= styled.section`
 display:flex;
 flex-direction:column;
-padding: 2rem 2rem;
+padding: 1rem 0rem;
 align-text:center;
 
   justify-content: center;
