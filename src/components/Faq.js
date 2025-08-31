@@ -52,7 +52,7 @@ function Faq() {
   return (
     <Wrapper>
         <h2>FAQ&apos;s</h2 >
-        <p>Have questions? We're here to help! Check out our frequently asked questions below.</p>
+        <p>Have questions? We're here to help! Check out our <br />frequently asked questions below.</p>
         <FaqContainer>
             <Collapse
             // defaultActiveKey={['1']}
@@ -73,10 +73,10 @@ flex-direction:column;
 padding: 1rem 0rem;
 align-text:center;
 
-  justify-content: center;
-  align-items: center;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
+justify-content: center;
+align-items: center;
+background: ${({ theme }) => theme.colors.background};
+color: ${({ theme }) => theme.colors.text};
 
   
 `
