@@ -4,7 +4,7 @@ import styled from 'styled-components'
 
 function Card({ title, description, price,img, border=true ,priceModify=false}) {
   return (
-    <CardWrapper border={border} priceModify={priceModify}>
+    <CardWrapper border={border} >
       {img&& <Image src={img} alt={title} width={200} height={200} />}
       <h3>{title}</h3>
       {price && <PriceTag priceModify={priceModify}>{price}</PriceTag>}
