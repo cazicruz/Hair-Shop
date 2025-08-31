@@ -4,7 +4,7 @@ export const lightTheme = {
         primary: '#E75480', // Pink
         secondary: '#FFD1DC', // Light Pink
         accent: '#A569BD', // Lavender
-        background: '#FFF8F9', // Soft white
+        background: '#f8fcffff', // Soft white
         text: '#2D2D2D', // Dark gray
         muted: '#F6EAF5', // Muted pink
         border: '#F3C6D3', // Light border
