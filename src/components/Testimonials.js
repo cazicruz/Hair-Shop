@@ -3,13 +3,15 @@ import React from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { Carousel } from 'antd';
+import ImageSlider from '@/components/ImageSlider';
+
 
 // import  ImageSlider from '@/components/ImageSlider'
 
 const testimonies=[
-    { quote: "This is the best hair shop ever!", author: "Happy Customer",photo:'/images/wav hair.png' },
-    { quote: "I love the variety of products available.", author: "Satisfied Client", photo:'/images/lux hair.png' },
-    { quote: "The staff is so friendly and helpful!", author: "Loyal Customer", photo:'/images/hair essentials.png' },  
+    { quote: "This is the best hair shop ever!", author: "Happy Customer", image:'/images/wav hair.png' },
+    { quote: "I love the variety of products available.", author: "Satisfied Client", image:'/images/lux hair.png' },
+    { quote: "The staff is so friendly and helpful!", author: "Loyal Customer", image:'/images/hair essentials.png' },  
 ]
 
 function Testimonials() {
@@ -20,17 +22,27 @@ function Testimonials() {
             <p>What our customers are saying about us:</p>
         </span>
       <div>
+        {/* <ImageSlider content={testimonies} styles={styles}/> */}
             {testimonies.map((testimony, index) => (
             <TestimonyWrapper key={index}>
                 <Image
                 style={{ borderRadius: '50%', marginBottom: '1rem' }}
-                src={testimony.photo} alt={`Testimonial ${index + 1}`} width={100} height={100} />
+                src={testimony.image} alt={`Testimonial ${index + 1}`} width={100} height={100} />
                 <p>{testimony.quote} <br /> <strong>- {testimony.author}</strong></p>
             </TestimonyWrapper>
             ))}
         </div>
     </Wrapper>
   )
+}
+
+const styles = {
+  '@media (min-width: 768px)': {
+    padding: '1rem',
+    maxWidth: '100%',
+    flexDirection: 'column',
+    display:'hidden',
+  }
 }
 
 export const Wrapper = styled.section`
@@ -65,21 +77,24 @@ export const Wrapper = styled.section`
 `
 const TestimonyWrapper = styled.div`
   margin-bottom: 1rem;
+  margin: 0 1rem;
   padding:10px;
   display:flex;
   flex-direction: column;
+  box-shadow: 0 2px 4px ${({ theme }) => theme.colors.shadow};
 @media (max-width: 768px) {
     padding: 0.5rem;
     margin: 0;
     border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: 8px;
     height: 100px;
+  display:none;
 
     p{
       margin: 0;
       font-size: ${props => props.theme.fontSize.xsmall};
       strong{
-        display: inline-block;
+        // display: inline-block;
         font-weight: bold;
         font-size: ${props => props.theme.fontSize.xsmall};
       }
@@ -89,29 +104,6 @@ const TestimonyWrapper = styled.div`
       height: 50px;
 
     }
-      @media (max-width: 768px) {
-        display: flex;
-        align-items: center;
-        padding: 0.5rem;
-        margin: 0;
-        border: 1px solid ${({ theme }) => theme.colors.border};
-        border-radius: 8px;
-        height: 100px;
-        text-align: end;
-
-        p{
-        margin: 5px;
-        font-size: $0.5rem;
-
-        strong{
-            display: inline-block;
-          font-weight: bold;
-          font-size: ${props => props.theme.fontSize.xxsmall};
-        }
-        img{
-        max-width: 50%;
-        height: 50px;
-        }
-    }
+  }
 `
 export default Testimonials
