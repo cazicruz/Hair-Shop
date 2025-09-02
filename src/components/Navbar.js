@@ -20,7 +20,7 @@ const NavbarContainer = styled.nav`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(90deg, #f8cdda 0%, #1d2b64 100%);
+    background: linear-gradient(42deg,rgba(252, 176, 69, 1) 0%, rgba(253, 29, 29, 1) 77%, rgba(121, 0, 201, 1) 7%);
     padding: 0.75rem 2rem;
     position: relative;
     font-family: sans-serif;
@@ -124,7 +124,7 @@ export default function Navbar() {
     return (
         <NavbarContainer>
             <Logo>
-                <span role="img" aria-label="B-Classy hair shop"></span> B-Classy <BsStars color="#333"/>
+                <span role="img" aria-label="B-Classy hair shop"></span> B-Classy <BsStars color="gold"/>
             </Logo>
             <LinksDesktop>
                 {navLinks.map(link => (

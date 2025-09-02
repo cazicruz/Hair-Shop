@@ -5,6 +5,7 @@ import ImageSlider from '@/components/ImageSlider';
 import CardSwiper from '@/components/CardSwiper';
 import Card from '@/components/Card';
 import { HeroImage } from '@/components/Hero';
+import HairCarousel from '@/components/HairCarusel'
 
 
 
@@ -17,48 +18,29 @@ const newItems = [
   { id: 6, name: 'Wavy Lace Front Wig', image: '/images/image2.jpg', price: '$89.99' },
 ];
 const SliderWrapper = styled.section`
-    margin-bottom:30px;
-    // // background-color:red;
-    // display:flex; 
-    align-items:center;
-    justify-content:center;
-    // flex-direction:column;
-    // padding: 20px 20px 0px 20px;
-
-    .latest{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    }
-
-    // //add mobile style
-    @media (max-width: 768px) {
-        // padding: 10px 10px 0px 10px;
-        margin-bottom: 30px;
-        // max-width: 100vw;
-    }
+  padding:1rem 2rem;
+  justify-content:center;
+  align-text:center;
+  // background:linear-gradient(90deg,rgba(252, 157, 69, 1) 0%, rgba(253, 29, 29, 1) 73%, rgba(131, 58, 180, 1) 100%);
 
 `;
+export const HeaderText=styled.div`
+margin-bottom:1rem;
+display:flex;
+justify-content:center;
+flex-direction :column;
+align-items:center;
+align-text:center;
+` 
+
 function Latest() {
   return (
     <SliderWrapper>
-        <span className="latest">
+        <HeaderText className="latest">
         <h2>New In Shop ✨</h2>
         <p>Check a random list of our latest arrivals!</p>
-        </span>
-        <CardSwiper>
-        {newItems.map(item => (
-          <Card
-            key={item.id}
-            title={item.name}
-            price={item.price}
-            img={item.image}
-            border={false}
-            priceModify={true} 
-          />
-        ))}
-        </CardSwiper>
-      {/* <ImageSlider content={newItems} /> */}
+        </HeaderText>
+        <HairCarousel itemsList={newItems} />
     </SliderWrapper>
   )
 }

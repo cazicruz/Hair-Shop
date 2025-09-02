@@ -1,13 +1,14 @@
-import React from 'react'
+import React ,{useState} from 'react'
 import Image from 'next/image'
 import styled from 'styled-components'
 
 function Card({ title, description, price,img, border=true ,priceModify=false}) {
-  return (
+  const [isPriceModified, setIsPriceModified] = useState(priceModify)
+    return (
     <CardWrapper border={border} >
       {img&& <Image src={img} alt={title} width={200} height={200} />}
       <h3>{title}</h3>
-      {price && <PriceTag priceModify={priceModify}>{price}</PriceTag>}
+      {price && <PriceTag priceModify={isPriceModified}>{price}</PriceTag>}
       {description && <p>{description}</p>}
     </CardWrapper>
   )

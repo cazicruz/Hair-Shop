@@ -37,7 +37,7 @@ export const darkTheme = {
         primary: '#A569BD', // Purple
         secondary: '#2C2C2C', // Dark Gray
         accent: '#E75480', // Pink accent
-        background: '#121212', // Deep black
+        background: '#515457ff', // Deep black
         text: '#FFFFFF', // White text
         muted: '#2D2D2D', // Muted dark gray
         border: '#3C3C3C', // Dark border

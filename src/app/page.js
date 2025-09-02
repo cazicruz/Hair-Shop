@@ -11,6 +11,7 @@ import Faq from '@/components/Faq'
 import CardSwiper from '@/components/CardSwiper'
 import About from "@/components/About";
 import HeroTwo from '@/components/HeroTwo';
+import HairCarousel from '@/components/HairCarusel';
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <ServicesSection />
       <About />
       <Testimonials />
+      <HairCarousel />
       <Faq />
       {/* <CardSwiper /> */}
       <ThemeToggle />

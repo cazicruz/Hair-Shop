@@ -65,6 +65,10 @@ const Content = styled.div`
     margin-bottom: 16px;
     font-weight: 700;
       color: gold;
+      font-size: 72px;
+  background: -webkit-linear-gradient(90deg,rgba(252, 157, 69, 1) 0%, rgba(253, 29, 29, 1) 73%, rgba(131, 58, 180, 1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
   }
 
@@ -86,8 +90,8 @@ const Content = styled.div`
 `;
 
 const CTAButton = styled.button`
-  background-color: #ff69b4;
-  color: white;
+background: linear-gradient(42deg,rgba(252, 176, 69, 1) 0%, rgba(253, 29, 29, 1) 77%, rgba(121, 0, 201, 1) 100%);
+color: white;
   padding: 12px 24px;
   font-size: 1rem;
   border: none;
