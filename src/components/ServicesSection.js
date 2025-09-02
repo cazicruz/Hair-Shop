@@ -31,7 +31,7 @@ function ServicesSection({ services=serviceList, title = "Our Services", subtitl
       </HeaderText>
       <Container>
         {services.map((service, index) => (
-          <ServiceCard>
+          <ServiceCard key={index}>
             <Image 
             src={service.img}
             width={100}
