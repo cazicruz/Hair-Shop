@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 function About() {
   return (
-    <section style={{padding:'2rem 0'}}>
+    <section >
       <AboutContainer>
         <ImageSection>
   <Image src="/images/whiteAndBlack.jpg" alt="About Us"  width={500} height={300} />          <GradientOverlay />
@@ -25,6 +25,7 @@ const AboutContainer = styled.div`
   position: relative;
   height: 300px;
   // padding:1rem;
+  margin:0;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -70,6 +71,7 @@ const GradientOverlay = styled.div`
 `;
 
 const TextSection = styled.div`
+
   flex: 1;
   padding: 24px;
   color: #4b4b4bff;
@@ -78,20 +80,41 @@ const TextSection = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
 
   h2,h3,p{
   color:#4b4b4bff;}
 
   @media (max-width: 768px) {
-    padding: 16px;
+    // padding: 16px;
     text-align: left;
     position:absolute;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     display:flex;
-    background:transparent;
+    // background: #fff;
     align-items:center;
     width:200px;
     align-self:flex-end;
+    border-radius:8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-left: 4px solid #ff69b4;
 
+
+    background: #f9f9f9;
+  padding: 24px;
+  transform: skew(-5deg);
+  transition: transform 0.4s ease;
+
+  &:hover {
+    transform: skew(5deg);
+    background: linear-gradient(167deg,rgba(121, 0, 201, 1) 0%, rgba(253, 29, 29, 1) 28%, rgba(252, 176, 69, 1) 100%);
+    h3,p{
+    color:#f9f9f9}
+  }
+
+  h3, p {
+    transform: skew(5deg); /* counter-skew to keep text readable */
+  }
 
   //   h2,h3,p{
   // color:#fff;}

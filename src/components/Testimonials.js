@@ -2,8 +2,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
-import { Carousel } from 'antd';
-import ImageSlider from '@/components/ImageSlider';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import {HeaderText} from '@/components/Latest'
+
 
 
 // import  ImageSlider from '@/components/ImageSlider'
@@ -12,98 +17,87 @@ const testimonies=[
     { quote: "This is the best hair shop ever!", author: "Happy Customer", image:'/images/wav hair.png' },
     { quote: "I love the variety of products available.", author: "Satisfied Client", image:'/images/lux hair.png' },
     { quote: "The staff is so friendly and helpful!", author: "Loyal Customer", image:'/images/hair essentials.png' },  
+    { quote: "The staff is so friendly and helpful!", author: "Loyal Customer", image:'/images/hair essentials.png' },  
 ]
+
+const TestimonySlide = ({ testimonies }) => {
+  return (
+    <Swiper
+    style={{height:'150px'}}
+      modules={[Navigation, Pagination, Autoplay]}
+      spaceBetween={20}
+      slidesPerView={1}
+      navigation
+      pagination={{ clickable: true }}
+      autoplay={{ delay: 3000 }}
+      breakpoints={{
+        768: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      }}
+    >
+      {testimonies.map((testimony, index) => (
+        <SwiperSlide key={index}>
+          <TestimonyCard>
+            <Image
+              src={testimony.image}
+              alt={`${testimony.author}'s testimony`}
+              width={100}
+              height={100}
+            />
+            <div>
+              <p>
+                {testimony.quote}
+                <br />
+                <strong>- {testimony.author}</strong>
+              </p>
+            </div>
+          </TestimonyCard>
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  );
+};
+
 
 function Testimonials() {
   return (
     <Wrapper>
-        <span className="header">
+        <HeaderText>
             <h2>Testimonials</h2>
             <p>What our customers are saying about us:</p>
-        </span>
+        </HeaderText>
       <div>
-        {/* <ImageSlider content={testimonies} styles={styles}/> */}
-            {testimonies.map((testimony, index) => (
-            <TestimonyWrapper key={index}>
-                <Image
-                style={{ borderRadius: '50%', marginBottom: '1rem' }}
-                src={testimony.image} alt={`Testimonial ${index + 1}`} width={100} height={100} />
-                <p>{testimony.quote} <br /> <strong>- {testimony.author}</strong></p>
-            </TestimonyWrapper>
-            ))}
-        </div>
+          <TestimonySlide  testimonies={testimonies} />
+      </div>
     </Wrapper>
   )
 }
 
-const styles = {
-  '@media (min-width: 768px)': {
-    padding: '1rem',
-    maxWidth: '100%',
-    flexDirection: 'column',
-    display:'hidden',
-  }
-}
 
 export const Wrapper = styled.section`
-  padding: 2rem 1rem;
-  display:flex;
-  width: 100%;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  background: ${({ theme }) => theme.colors.background};
-  color: ${({ theme }) => theme.colors.text};
-  text-align: center;
-  div{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap:5px;
-      }
-
-  @media (max-width: 768px) {
-    padding: 1rem;
-    max-width: 100%;
-      flex-direction: column;
-
-      div{
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      }
-
-  }
+display:flex;
+flex-direction:column;
+  padding:1rem 2rem;  
+  height:;
+position:relative;
 `
-const TestimonyWrapper = styled.div`
-  margin-bottom: 1rem;
-  margin: 0 1rem;
-  padding:10px;
-  display:flex;
-  flex-direction: column;
-  box-shadow: 0 2px 4px ${({ theme }) => theme.colors.shadow};
-@media (max-width: 768px) {
-    padding: 0.5rem;
-    margin: 0;
-    border: 1px solid ${({ theme }) => theme.colors.border};
-    border-radius: 8px;
-    height: 100px;
-  display:none;
+export const TestimonyCard = styled.div`
+padding:0 10% ;
+display:flex;
+align-items:flex-start;
+justify-contents:center;
+gap:20px;
+// height:contain;
+box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
 
-    p{
-      margin: 0;
-      font-size: ${props => props.theme.fontSize.xsmall};
-      strong{
-        // display: inline-block;
-        font-weight: bold;
-        font-size: ${props => props.theme.fontSize.xsmall};
-      }
-    }
-    img{
-      max-width: 50%;
-      height: 50px;
 
-    }
-  }
+img{
+border-radius:8px;
+}
+div{
+align-self:center;
+padding:10px;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
 `
 export default Testimonials

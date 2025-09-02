@@ -1,9 +1,17 @@
 'use client'
-import React from 'react'
-import {Wrapper}  from '@/components/Testimonials'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Carousel } from 'antd';
-import Card from '@/components/Card';
+import {HeaderText} from '@/components/Latest'
+import Image from 'next/image'
+
+const serviceList = [
+  { title: "Wigs", description: "Professional wigs for all occasions.", img: "/images/bundle.png" },
+  { title: "Hair Tools", description: "Expert hair tools for styling and care.", img: "/images/hair-tools.jpg" },
+  { title: "Hair Bundles", description: "Expert hair bundling services.", img: "/images/wav hair.png" },
+  { title: "Hair Products", description: "Hair products for all your styling needs.", img: "/images/hair essentials.png" },
+  { title: "Hair Styling", description: "Creative hair styling for any occasion.", img: "/images/wig1.png" },
+]
+
 
 //   const contentStyle = {
 //   margin: 0,
@@ -14,72 +22,46 @@ import Card from '@/components/Card';
 //   background: '#364d79',
 // };
 
-function ServicesSection() {
-  const onChange = currentSlide => {
-    console.log(currentSlide);
-  };
+function ServicesSection({ services=serviceList, title = "Our Services", subtitle = "We offer a variety of hair services to meet your needs." }) {
   return (
     <ServicesWrapper>
-      <h2>Our Services</h2>
-      <p>We offer a variety of hair services to meet your needs.</p>
+      <HeaderText>
+        <h2>{title}</h2>
+        <p>{subtitle}</p>
+      </HeaderText>
       <Container>
-        <div>
-          <Card 
-            title="Wigs"
-            description="Professional wigs for all occasions."
-            // price={29.99}
-            // img="/images/haircut.jpg"
-          />
-        </div>
-        <MiddleChild>
-          <Card 
-            title="Hair Tools"
-            description="Expert hair tools for styling and care."
-            // price={49.99}
-            img="/images/hair essentials.png"
-          />
-        
-          <Card 
-            title="Hair Bundles"
-            description="Expert hair bundling services."
-            // price={49.99}
-            img="/images/wav hair.png"
-          />
-        
-          <Card 
-            title="Hair Products"
-            description="Hair products for all your styling needs."
-            // price={49.99}
-            img="/images/hair essentials.png"
-          />
-        </MiddleChild>
-        <div>
-          <Card 
-            title="Hair Styling"
-            description="Creative hair styling for any occasion."
-            // price={39.99}
-            // img="/images/hair-styling.jpg"
-          />
-        </div>
+        {services.map((service, index) => (
+          <ServiceCard>
+            <Image 
+            src={service.img}
+            width={100}
+            height={100} />
+            <div>
+              <h3>{service.title}</h3>
+              <p><strong>{service.description}</strong></p>
+            </div>
+          </ServiceCard>
+        ))}
       </Container>
     </ServicesWrapper>
   )
 }
 
 const ServicesWrapper = styled.section`
+padding:2rem 2rem;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
 max-width: 100%;
-flex-wrap: wrap;
+background: linear-gradient(167deg,rgba(252, 176, 69, 1) 0%, rgba(253, 29, 29, 1) 51%, rgba(252, 176, 69, 1) 15%);
 
-  @media (max-width: 768px) {
-    align-items: flex-start;
-    padding: 10px 10px 0px 10px;
-    text-align: left;
-    max-width: 100%;
-  }
+  // @media (max-width: 768px) {
+  //   align-items: flex-start;
+  //   padding: 10px 10px 0px 10px;
+  //   text-align: left;
+  //   max-width: 100%;
+  // }
 `
 const Container = styled.div`
   display: flex;
@@ -87,50 +69,39 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  // gap: 20px;
-
-  first-child {
-    width: 200px;
-    border: 2px solid ${({ theme }) => theme.colors.border};
-  }
-    last-child {
-    width:200px;
-    border: 2px solid ${({ theme }) => theme.colors.border};
-  }
-  @media (max-width: 768px) {
-  display:flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-
-    first-child, last-child {
-      width: 100%;
-      display:block;
-    }
-      last-child {
-      width: 100%;
-      display:block;
-
-    }
-    
-  }
+  padding:0 40px;
+  gap:3rem; 
 `;
 
-const MiddleChild = styled.div`
-  display:flex;
-  flex-direction:row;
-  align-self:center;
+const ServiceCard= styled.div`
+display:flex;
+flex-direction:row;
+justify-content:center;
+align-items:center;
+padding:1rem;
+background:#f8f8f8;
+max-width:15rem;
+height:10rem;
+border-radius: 8px;
 
-  @media (max-width: 768px) {
-    // flex-direction: column;
-    align-items: center;
-      align-self:center;
 
-    width: 100%;
-    // gap: 10px;
-    border: none;
-  }
-`;
+div{
+display:flex;
+align-self:center;
+flex-direction:column;
+padding:1rem;
+}
+img{
+min-width:100px;
+// padding:10px;
+// object-fit:contain;
+border-radius: 8px;
+}
+h3,p{
+color: #4b4a4aff;
+
+}
+
+`
 
 export default ServicesSection

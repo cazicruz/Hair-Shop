@@ -1,7 +1,7 @@
 // themes.js
 export const lightTheme = {
     colors: {
-        primary: '#E75480', // Pink
+        primary: '#FFD1DC', // Pink
         secondary: '#FFD1DC', // Light Pink
         accent: '#A569BD', // Lavender
         background: '#f8fcffff', // Soft white
@@ -37,8 +37,8 @@ export const darkTheme = {
         primary: '#A569BD', // Purple
         secondary: '#2C2C2C', // Dark Gray
         accent: '#E75480', // Pink accent
-        background: '#515457ff', // Deep black
-        text: '#FFFFFF', // White text
+        background: '#2a2a2aff', // Deep black
+        text: '#edf3f7ff', // White text
         muted: '#2D2D2D', // Muted dark gray
         border: '#3C3C3C', // Dark border
         shadow: '#c7758e9d',

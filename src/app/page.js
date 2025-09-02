@@ -20,9 +20,9 @@ export default function Home() {
       <HeroTwo />
       <Latest />
       <ServicesSection />
-      <About />
       <Testimonials />
-      <HairCarousel />
+      <About />
+      {/* <HairCarousel /> */}
       <Faq />
       {/* <CardSwiper /> */}
       <ThemeToggle />

@@ -25,7 +25,7 @@ const SliderWrapper = styled.section`
 
 `;
 export const HeaderText=styled.div`
-margin-bottom:1rem;
+margin:1rem 0;
 display:flex;
 justify-content:center;
 flex-direction :column;

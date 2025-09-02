@@ -1,17 +1,39 @@
 'use client'
-import React from 'react'
+import React,{useRef,useEffect} from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
+import gsap from 'gsap'
+import Typewriter from 'typewriter-effect'
 
 function HeroTwo() {
+  const contentRef = useRef(null)
+
+  useEffect(() => {
+    gsap.from(contentRef.current, {
+      y: -50,
+      opacity: 0,
+      duration: 1.2,
+      ease: 'power3.out',
+    })
+  }, [])
   return (
     <HeroWrapper>
       <BackgroundImage>
         <Image src="/images/image1.jpg" alt="Luxury Hair Products" fill priority   style={{ objectFit: 'cover' }} />
         <Overlay />
       </BackgroundImage>
-      <Content>
-        <h1>Unleash Your Crown</h1>
+      <Content ref={contentRef}>
+        <h1>
+          <Typewriter
+            options={{
+              strings: ['Unleash Your Crown', 'Embrace Your Style', 'Rule Your Look'],
+              autoStart: true,
+              loop: true,
+              delay: 75,
+              deleteSpeed: 40,
+            }}
+          />
+        </h1>
         <p>Discover premium hair care and extensions that elevate your natural beauty.</p>
         <CTAButton>Shop Now</CTAButton>
       </Content>
@@ -59,16 +81,25 @@ const Content = styled.div`
   text-align: center;
   max-width: 600px;
   padding: 0 20px;
+  @keyframes shimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+    }
 
   h1 {
+    
     font-size: 3rem;
     margin-bottom: 16px;
     font-weight: 700;
       color: gold;
       font-size: 72px;
-  background: -webkit-linear-gradient(90deg,rgba(252, 157, 69, 1) 0%, rgba(253, 29, 29, 1) 73%, rgba(131, 58, 180, 1) 100%);
+  background: -webkit-linear-gradient(258deg,rgba(121, 0, 201, 1) 0%, rgba(253, 29, 29, 1) 28%, rgba(252, 176, 69, 1) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+
+  
 
   }
 
