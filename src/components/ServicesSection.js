@@ -54,7 +54,8 @@ const ServiceSlide = ({ services }) => {
             transition={{ duration: 0.6, delay: index * 0.2 }}
             viewport={{ once: true }}
           >
-            <Image src={service.img} width={100} height={100} />
+            <Image src={service.img} width={100} height={100} alt={service.title}
+/>
             <div>
               <h4>{service.title}</h4>
               <p><strong>{service.description}</strong></p>
