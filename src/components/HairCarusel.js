@@ -22,10 +22,11 @@ function HairCarousel({itemsList}) {
     const [items, setItems] = useState(itemsList?itemsList:hairItems);
   return (
     <Swiper
+    data-aos="fade-up"
     // style={{backgroundColor:'transperent', border:'none'}}
       modules={[Navigation, Pagination, Autoplay]}
       spaceBetween={20}
-      slidesPerView={1}
+      slidesPerView={2}
       navigation
     //   pagination={{ clickable: true }}
       autoplay={{ delay: 3000 }}
@@ -35,7 +36,7 @@ function HairCarousel({itemsList}) {
       }}
     >
       {hairItems.map(item => (
-        <SwiperSlide key={item.id}>
+        <SwiperSlide key={item.id} style={{border:'none'}}>
           <CarouselCard style={{ textAlign: 'center' }}>
             <Image src={item.image} alt={item.name} width={200} height={200} style={{boxShadow: 'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset'}} />
             <h3>{item.name}</h3>
@@ -50,7 +51,7 @@ function HairCarousel({itemsList}) {
 const CarouselCard = styled.div`
     margin:0px;
     padding:0px;
-    border: 1px solid #eee;
+    // border: 1px solid #eee;
     border-radius: 8px;
     img{
     border-radius:8px;
@@ -58,9 +59,23 @@ const CarouselCard = styled.div`
     padding:0px;
     }
     p{
-    color:${({theme})=>theme.colors.primary};
+    color: #f04c4cff;
     font-weight:200px;
     }
+
+    //animation effect
+    &:hover {
+    animation: vibrate 0.3s linear infinite;
+  }
+
+  @keyframes vibrate {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+  }
 `
 
 export default HairCarousel

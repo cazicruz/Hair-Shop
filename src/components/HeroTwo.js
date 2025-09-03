@@ -35,7 +35,7 @@ function HeroTwo() {
           />
         </h1>
         <p>Discover premium hair care and extensions that elevate your natural beauty.</p>
-        <CTAButton>Shop Now</CTAButton>
+        <CTAButton >Shop Now</CTAButton>
       </Content>
     </HeroWrapper>
   )
@@ -120,7 +120,7 @@ const Content = styled.div`
   }
 `;
 
-const CTAButton = styled.button`
+export const CTAButton = styled.button`
 background: linear-gradient(42deg,rgba(252, 176, 69, 1) 0%, rgba(253, 29, 29, 1) 77%, rgba(121, 0, 201, 1) 100%);
 color: white;
   padding: 12px 24px;
@@ -129,6 +129,7 @@ color: white;
   border-radius: 30px;
   cursor: pointer;
   transition: background 0.3s ease;
+  position:relative;
 
   &:hover {
     background-color: #e055a1;

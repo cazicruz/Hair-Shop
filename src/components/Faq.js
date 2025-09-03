@@ -1,72 +1,66 @@
 'use client'
-import React from 'react';
-import { Collapse, Select } from 'antd';
-import styled from 'styled-components';
+import React from 'react'
+import { Collapse } from 'antd'
+import styled from 'styled-components'
+import {HeaderText} from '@/components/Latest'
 
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
 
 function Faq() {
-    const items = [
-        {
-          key: '1',
-          label: <CollapseText>What services do you offer?</CollapseText>,
-          children: <div>
-            We offer high-quality raw human hair wigs, bundles, lace fronts, hair care products, and tools.
-          </div>,
-        //   style: { border: 'none', backgroundColor: 'red' }
-        },
-        {
-          key: '2',
-          label: <CollapseText>How do I track my order?</CollapseText>,
-          children: <div>
-            You can track your order by logging into your account or contacting our customer support team.
-          </div>,
-        },
-        {
-          key: '3',
-          label: <CollapseText>What is your return policy?</CollapseText>,
-          children: <div>
-            We offer a 48-hour return and exchange policy. To be eligible for a refund, your item must be in its original condition and accompanied by all original tags, packaging, and accessories. Please see our full policy on our IG page.
-          </div>,
-        },
-        {
-          key: '4',
-          label: <CollapseText>What payment methods do you accept?</CollapseText>,
-          children: <div>
-            We accept major credit cards (Visa, Mastercard) via Paystack.
-          </div>,
-        },
-        {
-          key: '5',
-          label: <CollapseText>Do you offer discounts?</CollapseText>,
-          children: <div>
-            We offer occasional discounts and promotions. Please follow us on social media to stay updated.
-          </div>,
-        },
-      ];
+  const items = [
+    {
+      key: '1',
+      label: <CollapseText>What services do you offer?</CollapseText>,
+      children: <div>We offer high-quality raw human hair wigs, bundles, lace fronts, hair care products, and tools.</div>,
+    },
+    {
+      key: '2',
+      label: <CollapseText>How do I track my order?</CollapseText>,
+      children: <div>You can track your order by logging into your account or contacting our customer support team.</div>,
+    },
+    {
+      key: '3',
+      label: <CollapseText>What is your return policy?</CollapseText>,
+      children: <div>We offer a 48-hour return and exchange policy. To be eligible for a refund, your item must be in its original condition and accompanied by all original tags, packaging, and accessories. Please see our full policy on our IG page.</div>,
+    },
+    {
+      key: '4',
+      label: <CollapseText>What payment methods do you accept?</CollapseText>,
+      children: <div>We accept major credit cards (Visa, Mastercard) via Paystack.</div>,
+    },
+    {
+      key: '5',
+      label: <CollapseText>Do you offer discounts?</CollapseText>,
+      children: <div>We offer occasional discounts and promotions. Please follow us on social media to stay updated.</div>,
+    },
+  ]
+
   return (
     <Wrapper>
-        <h2>FAQ&apos;s</h2 >
-        <p>Have questions? We're here to help! Check out our <br />frequently asked questions below.</p>
-        <FaqContainer>
+      <HeaderText className="latest" data-aos="flip-up">
+      <h2>FAQ&apos;s</h2>
+      <p>Have questions? We're here to help! Check out our <br />frequently asked questions below.</p>
+      </HeaderText>
+      <FaqContainer>
+        {items.map((item, index) => (
+          <div
+            key={item.key}
+            data-aos="fade-up"
+            data-aos-delay={index * 150}
+            data-aos-duration="600"
+          >
             <Collapse
-            // defaultActiveKey={['1']}
-            // onChange={onChange}
-            accordion
-            expandIconPosition={"end"}
-            items={items}
-            style={{ border: 'none', background:'inherit', color: '#fff' }}
-            >
-            </Collapse>
-        </FaqContainer>
+              accordion
+              expandIconPosition="end"
+              items={[item]}
+              style={{ border: 'none', background: 'inherit', color: '#fff' }}
+            />
+          </div>
+        ))}
+      </FaqContainer>
     </Wrapper>
   )
 }
+
 const Wrapper= styled.section`
 display:flex;
 flex-direction:column;
@@ -107,5 +101,4 @@ const CollapseText = styled.div`
 //     // font-size: ${props => props.theme.fontSize.xsmall};
 //   }
 `;
-
 export default Faq

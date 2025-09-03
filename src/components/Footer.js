@@ -87,61 +87,63 @@ const FooterElement = styled.div`
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <FooterContainer>
-      <div className="footer-content">
-        <FooterElement >
-          <div><FaStore size={60} /></div>
-          <h3>STORE INFORMATION</h3>
-          <p>Visit us at our physical locations for premium hair products.</p>
-          <p><FaMapMarkerAlt /> <strong>Address:</strong> fillme pls</p>
-          <SocialBox />
-        </FooterElement>
+    <FooterContainer data-aos="fade-up" data-aos-offset="150">
+  <div className="footer-content">
+    <FooterElement data-aos="fade-right" data-aos-offset="200">
+      <div><FaStore size={60} /></div>
+      <h3>STORE INFORMATION</h3>
+      <p>Visit us at our physical locations for premium hair products.</p>
+      <p><FaMapMarkerAlt /> <strong>Address:</strong> 123 Beauty Lane, Port Harcourt</p>
+      <SocialBox />
+    </FooterElement>
 
-        <FooterElement>
-          <h3>ONLINE STORE INFORMATION</h3>
-          <p><strong>OPENING HOURS</strong></p>
-          <ul>
-            <li><p><strong>Monday</strong> - Friday: 8:00AM - 5:00PM</p></li>
-            <li><p><strong>Saturday:</strong> 10:00AM - 3:00PM</p></li>
-            <li><p><strong>Sunday:</strong> Closed</p></li>
-            <li>
-              {/* Replace helpline icon with phone icon */}
-              
-              <p>
-                <span style={{ marginRight: '6px', verticalAlign: 'middle' }}>
-                {/* Import FaPhone from react-icons/fa at the top */}
-                <FaPhone />
-              </span>
-                <strong>:</strong> +234 708 470 4785</p>
-            </li>
-          </ul>
-        </FooterElement>
+    <FooterElement data-aos="fade-up" data-aos-offset="200" data-aos-delay="150">
+      <h3>ONLINE STORE INFORMATION</h3>
+      <p><strong>OPENING HOURS</strong></p>
+      <ul>
+        <li><p><strong>Monday</strong> - Friday: 8:00AM - 5:00PM</p></li>
+        <li><p><strong>Saturday:</strong> 10:00AM - 3:00PM</p></li>
+        <li><p><strong>Sunday:</strong> Closed</p></li>
+        <li>
+          <p>
+            <FaPhone style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+            <strong>:</strong> +234 708 470 4785
+          </p>
+        </li>
+      </ul>
+    </FooterElement>
 
-        <FooterElement>
-          <h3>Helpful Links</h3>
-          <ul>
-            <li><Link href="/about"><p>About Us</p></Link></li>
-            <li><Link href="/contact"><p>Contact</p></Link></li>
-            <li><Link href="/policy/trading"><p>Our Trading Policy</p></Link></li>
-            <li><Link href="/policy/privacy"><p>Privacy Policy</p></Link></li>
-            <li><Link href="/terms"><p>Terms of Service</p></Link></li>
-            <li><Link href="/faq"><p>FAQ&rsquo;s</p></Link></li>
-          </ul>
-        </FooterElement>
-      </div>
+    <FooterElement data-aos="fade-left" data-aos-offset="200" data-aos-delay="300">
+      <h3>Helpful Links</h3>
+      <ul>
+        <li><Link href="/about">About Us</Link></li>
+        <li><Link href="/contact">Contact</Link></li>
+        <li><Link href="/policy/trading">Our Trading Policy</Link></li>
+        <li><Link href="/policy/privacy">Privacy Policy</Link></li>
+        <li><Link href="/terms">Terms of Service</Link></li>
+        <li><Link href="/faq">FAQ&rsquo;s</Link></li>
+      </ul>
+    </FooterElement>
+  </div>
 
-      {/* <ThemeToggle />    */}
-      <hr />
-      <div style={{ margin: '1rem 0' }}></div>
-      <div>
-        <p><strong><a href='https://cazicruz.github.io/portfolio/'>
-          &copy; {currentYear} DavDev</a></strong>. All rights reserved.
-          <br />
-          This website and all its content are the exclusive property of DavDev. Any unauthorized copying, reproduction, or distribution of materials from this site is strictly forbidden. For licensing, permissions, or further inquiries, please contact DavDev directly. Thank you for respecting our intellectual property and supporting our work.
-        </p>
-      </div>
-      <div>Designed and developed by <strong>DavDev</strong></div>
-    </FooterContainer>
+  <hr />
+  <div style={{ margin: '1rem 0' }} data-aos="fade-in" data-aos-offset="100" data-aos-delay="400"></div>
+  <div data-aos="fade-in" data-aos-offset="100" data-aos-delay="500">
+    <p>
+      <strong>
+        <a href="https://cazicruz.github.io/portfolio/">
+          &copy; {currentYear} DavDev
+        </a>
+      </strong>. All rights reserved.
+      <br />
+      This website and all its content are the exclusive property of DavDev...
+    </p>
+  </div>
+  <div data-aos="fade-in" data-aos-offset="100" data-aos-delay="600">
+    Designed and developed by <strong>DavDev</strong>
+  </div>
+</FooterContainer>
+
   );
 };
 

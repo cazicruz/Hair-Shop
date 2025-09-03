@@ -7,10 +7,10 @@ function About() {
   return (
     <section >
       <AboutContainer>
-        <ImageSection>
+        <ImageSection data-aos="slide-right">
   <Image src="/images/whiteAndBlack.jpg" alt="About Us"  width={500} height={300} />          <GradientOverlay />
         </ImageSection>
-        <TextSection>
+        <TextSection data-aos="slide-left">
           <h3>Our Mission</h3>
           <p>To provide exceptional hair care services that enhance our clients&apos; natural beauty.</p>
           <p>We are a leading hair salon offering a wide range of services to keep your hair looking its best.</p>
@@ -103,11 +103,11 @@ const TextSection = styled.div`
     background: #f9f9f9;
   padding: 24px;
   transform: skew(-5deg);
-  transition: transform 0.4s ease;
+  transition: transform 0.7s ease;
 
   &:hover {
     transform: skew(5deg);
-    background: linear-gradient(167deg,rgba(121, 0, 201, 1) 0%, rgba(253, 29, 29, 1) 28%, rgba(252, 176, 69, 1) 100%);
+    background: linear-gradient( 135deg, #EECE13 10%, #B210FF 100%);
     h3,p{
     color:#f9f9f9}
   }

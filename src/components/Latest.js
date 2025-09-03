@@ -36,7 +36,7 @@ align-text:center;
 function Latest() {
   return (
     <SliderWrapper>
-        <HeaderText className="latest">
+        <HeaderText className="latest" data-aos="fade-up">
         <h2>New In Shop ✨</h2>
         <p>Check a random list of our latest arrivals!</p>
         </HeaderText>
