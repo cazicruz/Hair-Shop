@@ -46,7 +46,8 @@ export default function ProductsPage() {
                 marginTop: "2rem"
             }}>
                 {products.map(product => (
-                    <Link href={`/products/${product.id}`}><div key={product.id} style={{
+                    <Link href={`/products/${product.id}`} key={product.id}>
+                        <div  style={{
                         border: "1px solid #eee",
                         borderRadius: "8px",
                         padding: "1rem",
