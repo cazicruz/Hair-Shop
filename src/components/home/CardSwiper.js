@@ -1,6 +1,6 @@
 'use client'
 import React ,{useRef}from 'react'
-import Card from '@/components/Card'
+import Card from '@/components/home/Card'
 import styled from 'styled-components'
 import { MdArrowBackIos,MdArrowForwardIos } from "react-icons/md";
 

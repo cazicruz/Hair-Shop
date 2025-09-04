@@ -1,11 +1,10 @@
 'use client'
 import React,{ useState }  from "react";
 import styled from "styled-components";
-import ImageSlider from '@/components/ImageSlider';
-import CardSwiper from '@/components/CardSwiper';
-import Card from '@/components/Card';
-import { HeroImage } from '@/components/Hero';
-import HairCarousel from '@/components/HairCarusel'
+import ImageSlider from '@/components/home/ImageSlider';
+import Card from '@/components/home/Card';
+import { HeroImage } from '@/components/home/Hero';
+import HairCarousel from '@/components/home/HairCarusel'
 
 
 

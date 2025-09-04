@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from '../ThemeToggle';
 import { FaMapMarkerAlt, FaStore, FaPhone, FaInstagram, FaTwitter, FaFacebook, FaXTwitter, FaWhatsapp } from 'react-icons/fa';
 import Link from 'next/link'
 import SocialBox from './SocialBox';

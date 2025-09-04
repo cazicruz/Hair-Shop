@@ -1,17 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
-import Footer from "@/components/Footer";
+import Footer from "@/components/home/Footer";
 import ThemeToggle from "@/components/ThemeToggle";
-import Hero from "@/components/Hero";
-import Latest from '@/components/Latest';
-import Testimonials from "@/components/Testimonials";
-import ServicesSection from "@/components/ServicesSection";
-import Faq from '@/components/Faq'
-import CardSwiper from '@/components/CardSwiper'
-import About from "@/components/About";
-import HeroTwo from '@/components/HeroTwo';
-import HairCarousel from '@/components/HairCarusel';
+import Hero from "@/components/home/Hero";
+import Latest from '@/components/home/Latest';
+import Testimonials from "@/components/home/Testimonials";
+import ServicesSection from "@/components/home/ServicesSection";
+import Faq from '@/components/home/Faq'
+import About from "@/components/home/About";
+import HeroTwo from '@/components/home/HeroTwo';
 
 export default function Home() {
   return (
@@ -22,9 +20,7 @@ export default function Home() {
       <ServicesSection />
       <Testimonials />
       <About />
-      {/* <HairCarousel /> */}
       <Faq />
-      {/* <CardSwiper /> */}
       <ThemeToggle />
       <Footer />
     </div>

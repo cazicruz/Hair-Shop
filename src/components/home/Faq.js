@@ -2,7 +2,7 @@
 import React from 'react'
 import { Collapse } from 'antd'
 import styled from 'styled-components'
-import {HeaderText} from '@/components/Latest'
+import {HeaderText} from '@/components/home/Latest'
 
 
 function Faq() {

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { HeroImage } from '@/components/Hero';
+import { HeroImage } from '@/components/home/Hero';
 import { RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 
 

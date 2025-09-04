@@ -61,7 +61,7 @@ const GradientOverlay = styled.div`
   z-index: 2;
 
   @media (max-width: 768px) {
-  display:hidden;
+  display:none;
     left: 0;
     top: 100%;
     bottom: 90%;
