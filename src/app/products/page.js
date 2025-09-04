@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 // Dummy product data
@@ -45,7 +46,7 @@ export default function ProductsPage() {
                 marginTop: "2rem"
             }}>
                 {products.map(product => (
-                    <div key={product.id} style={{
+                    <Link href={`/products/${product.id}`}><div key={product.id} style={{
                         border: "1px solid #eee",
                         borderRadius: "8px",
                         padding: "1rem",
@@ -62,7 +63,7 @@ export default function ProductsPage() {
                         <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
                         <button
                             style={{
-                                marginTop: "1rem",
+                                margin: "1rem 0 0 1rem",
                                 padding: "0.5rem 1rem",
                                 background: "#e91e63",
                                 color: "#fff",
@@ -73,7 +74,7 @@ export default function ProductsPage() {
                         >
                             Add to Cart
                         </button>
-                    </div>
+                    </div></Link>
                 ))}
             </div>
         </main>

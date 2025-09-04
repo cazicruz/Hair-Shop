@@ -12,7 +12,7 @@ import { Badge } from 'antd';
 
 const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Shop', href: '/shop' },
+    { name: 'Shop', href: '/products' },
     { name: 'About', href: '/about' },
     { name: 'Contact', href: '/contact' },
     { name: "FAQ's", href: '/faq' },
