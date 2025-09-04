@@ -63,7 +63,7 @@ export default function ProductsPage() {
                         <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
                         <button
                             style={{
-                                margin: "1rem",
+                                margin: "1rem 0 0 1rem",
                                 padding: "0.5rem 1rem",
                                 background: "#e91e63",
                                 color: "#fff",
