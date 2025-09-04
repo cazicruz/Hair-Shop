@@ -61,7 +61,7 @@ const GradientOverlay = styled.div`
   z-index: 2;
 
   @media (max-width: 768px) {
-  display:none;
+  display:hidden;
     left: 0;
     top: 100%;
     bottom: 90%;
@@ -101,20 +101,20 @@ const TextSection = styled.div`
 
 
     background: #f9f9f9;
-  padding: 24px;
-  transform: skew(-5deg);
-  transition: transform 0.7s ease;
+    padding: 24px;
+    transform: skew(-5deg);
+    transition: transform 0.7s ease;
 
-  &:hover {
-    transform: skew(5deg);
-    background: linear-gradient( 135deg, #EECE13 10%, #B210FF 100%);
-    h3,p{
-    color:#f9f9f9}
-  }
+    &:hover {
+      transform: skew(5deg);
+      background: linear-gradient( 135deg, #EECE13 10%, #B210FF 100%);
+      h3,p{
+      color:#f9f9f9}
+    }
 
-  h3, p {
-    transform: skew(5deg); /* counter-skew to keep text readable */
-  }
+    h3, p {
+      transform: skew(5deg); /* counter-skew to keep text readable */
+    }
 
   //   h2,h3,p{
   // color:#fff;}

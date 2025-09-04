@@ -21,6 +21,7 @@ const hairItems = [
 function HairCarousel({itemsList}) {
     const [items, setItems] = useState(itemsList?itemsList:hairItems);
   return (
+        <CarouselWrapper>
     <Swiper
     data-aos="fade-up"
     // style={{backgroundColor:'transperent', border:'none'}}
@@ -45,6 +46,7 @@ function HairCarousel({itemsList}) {
         </SwiperSlide>
       ))}
     </Swiper>
+        </CarouselWrapper>
   )
 }
 
@@ -76,6 +78,29 @@ const CarouselCard = styled.div`
     80% { transform: translate(2px, -2px); }
     100% { transform: translate(0); }
   }
+
 `
+export const CarouselWrapper = styled.div`
+  position: relative;
+
+  /* Target swiper nav arrows */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #f04c4c; /* your brand color */
+    width: 30px;    /* smaller width */
+    height: 30px;   /* smaller height */
+    &:after {
+      font-size: 20px; /* shrink arrow icon */
+    }
+  }
+
+  .swiper-button-next {
+    right: 5px; /* move closer in */
+  }
+
+  .swiper-button-prev {
+    left: 5px;
+  }
+`;
 
 export default HairCarousel

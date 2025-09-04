@@ -8,6 +8,7 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import {HeaderText} from '@/components/home/Latest'
+import {CarouselWrapper} from '@/components/home/HairCarusel'
 
 
 
@@ -22,39 +23,41 @@ const testimonies=[
 
 const TestimonySlide = ({ testimonies }) => {
   return (
-    <Swiper
-    style={{height:'150px'}}
-      modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={20}
-      slidesPerView={1}
-      navigation
-      pagination={{ clickable: true }}
-      autoplay={{ delay: 3000 }}
-      breakpoints={{
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
-      }}
-    >
-      {testimonies.map((testimony, index) => (
-        <SwiperSlide key={index}>
-          <TestimonyCard>
-            <Image
-              src={testimony.image}
-              alt={`${testimony.author}'s testimony`}
-              width={100}
-              height={100}
-            />
-            <div>
-              <p>
-                {testimony.quote}
-                <br />
-                <strong>- {testimony.author}</strong>
-              </p>
-            </div>
-          </TestimonyCard>
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <CarouselWrapper>
+      <Swiper
+      style={{height:'150px'}}
+        modules={[Navigation, Pagination, Autoplay]}
+        spaceBetween={20}
+        slidesPerView={1}
+        navigation
+        // pagination={{ clickable: true }}
+        autoplay={{ delay: 3000 }}
+        breakpoints={{
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+      >
+        {testimonies.map((testimony, index) => (
+          <SwiperSlide key={index}>
+            <TestimonyCard>
+              <Image
+                src={testimony.image}
+                alt={`${testimony.author}'s testimony`}
+                width={100}
+                height={100}
+              />
+              <div>
+                <p>
+                  {testimony.quote}
+                  <br />
+                  <strong>- {testimony.author}</strong>
+                </p>
+              </div>
+            </TestimonyCard>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </CarouselWrapper>
   );
 };
 

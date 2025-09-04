@@ -38,7 +38,7 @@ const ServiceSlide = ({ services }) => {
       modules={[Navigation, Pagination, Autoplay]}
       spaceBetween={20}
       slidesPerView={1}
-      navigation
+      // navigation
       pagination={{ clickable: true }}
       autoplay={{ delay: 3000 }}
       breakpoints={{

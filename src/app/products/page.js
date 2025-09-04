@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import ProductList from '@/components/products/ProductList'
 
 // Dummy product data
 const productsData = [
@@ -38,46 +39,8 @@ export default function ProductsPage() {
 
     return (
         <main style={{ padding: "2rem" }}>
-            <h1>Hair Shop Products</h1>
-            <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-                gap: "2rem",
-                marginTop: "2rem"
-            }}>
-                {products.map(product => (
-                    <Link href={`/products/${product.id}`} key={product.id}>
-                        <div  style={{
-                        border: "1px solid #eee",
-                        borderRadius: "8px",
-                        padding: "1rem",
-                        background: "#fff",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.05)"
-                    }}>
-                        <img
-                            src={product.image}
-                            alt={product.name}
-                            style={{ width: "100%", height: "180px", objectFit: "cover", borderRadius: "6px" }}
-                        />
-                        <h2 style={{ fontSize: "1.2rem", margin: "1rem 0 0.5rem" }}>{product.name}</h2>
-                        <p style={{ color: "#888", marginBottom: "0.5rem" }}>{product.description}</p>
-                        <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
-                        <button
-                            style={{
-                                margin: "1rem 0 0 1rem",
-                                padding: "0.5rem 1rem",
-                                background: "#e91e63",
-                                color: "#fff",
-                                border: "none",
-                                borderRadius: "4px",
-                                cursor: "pointer"
-                            }}
-                        >
-                            Add to Cart
-                        </button>
-                    </div></Link>
-                ))}
-            </div>
+            <h2>{`Hair Shop Products`}</h2>
+            <ProductList products={products}/>
         </main>
     );
 }
