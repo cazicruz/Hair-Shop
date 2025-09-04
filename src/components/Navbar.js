@@ -6,6 +6,8 @@ import { RiAccountPinCircleFill } from "react-icons/ri";
 import Link from 'next/link';
 import Tooltip from '@/components/UI/Tooltip';
 import { BsStars } from "react-icons/bs";
+import LoginForm from '@/components/LoginForm'
+import { Badge } from 'antd';
 
 
 const navLinks = [
@@ -63,7 +65,7 @@ const CartLink = styled.a`
     text-decoration: none;
 `;
 
-const AccountLink = styled.a`
+const AccountLink = styled.div`
     color: #fff;
     font-size: 1.2rem;
     margin-left: 0.5rem;
@@ -81,6 +83,36 @@ const MenuButton = styled.button`
         display: block;
     }
 `;
+const Hamburger = styled.div`
+  width: 24px;
+  height: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+
+  span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: #fff;
+    border-radius: 3px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* When open, transform into X */
+  &.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  &.open span:nth-child(2) {
+    opacity: 0;
+  }
+  &.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+`;
+
 
 const LinksMobile = styled.div`
     position: absolute;
@@ -96,6 +128,9 @@ const LinksMobile = styled.div`
     z-index: 100;
     border-radius: 0 0 8px 8px;
     overflow: hidden;
+    transform: ${({ open }) => (open ? 'scaleY(1)' : 'scaleY(0)')};
+    transform-origin: top;
+    transition: transform 0.01s ease-in-out;
 
     @media (min-width: 769px) {
         display: none;
@@ -119,6 +154,8 @@ const NavLinkMobile = styled.a`
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const [openModal,setOpenModal] = useState(false);
+    const [cart,setCart]=useState([1,2,3])
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
     return (
@@ -133,24 +170,43 @@ export default function Navbar() {
                     </NavLink>
                 ))}
                 <CartLink href="/cart">
-                    <Tooltip text='Cart' position='bottom'>
-                        <span role="img" aria-label="cart"><FaOpencart size={23}/></span>
+                        <Badge 
+                        count={cart.length} 
+                        overflowCount={10} 
+                        size="small" 
+                        title={`${cart.length} items in cart`}>
+                    <Tooltip text={"Cart"} position='bottom'>
+                            <span role="img" aria-label="cart"><FaOpencart size={23} color='#fff'/></span>
                     </Tooltip>
+                        </Badge>
                 </CartLink>
                 <AccountLink href="/account">
                     <Tooltip text='Account' position='bottom'>
-                        <span role="img" aria-label="account"><RiAccountPinCircleFill /></span>
+                        <span role="img" aria-label="account"
+                        onClick={()=>setOpenModal(true)}
+                        ><RiAccountPinCircleFill size={23} /></span>
                     </Tooltip>
+                    <LoginForm 
+                    setOpenModal={setOpenModal}
+                    openModal={openModal}
+                      />
                 </AccountLink>
             </LinksDesktop>
             <MenuButton
                 onClick={toggleMenu}
                 aria-label="Toggle menu"
             >
-                <span style={{ fontSize: 24 }}>☰</span>
+                <Hamburger className={menuOpen ? "open" : ""}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </Hamburger>
             </MenuButton>
             {menuOpen && (
-                <LinksMobile>
+                <LinksMobile open={menuOpen} 
+                data-aos="fade-down" 
+                data-aos-easing="linear"
+                data-aos-duration="1500">
                     {navLinks.map(link => (
                         <NavLinkMobile key={link.name} href={link.href} onClick={() => setMenuOpen(false)}>
                             {link.name}
@@ -159,7 +215,10 @@ export default function Navbar() {
                     <NavLinkMobile href="/cart" onClick={() => setMenuOpen(false)}>
                         Cart <FaOpencart />
                     </NavLinkMobile>
-                    <NavLinkMobile href="/account" onClick={() => setMenuOpen(false)}>
+                    <NavLinkMobile href="/account" onClick={() => {
+                        setMenuOpen(false)
+                        
+                        }}>
                         Account
                     </NavLinkMobile>
                 </LinksMobile>

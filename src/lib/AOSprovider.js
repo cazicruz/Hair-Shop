@@ -9,7 +9,7 @@ export default function AOSProvider({ children }) {
     AOS.init({
       duration: 800,
       once: true,
-      offset: 200,
+      offset: -100,
       anchorPlacement: 'top-bottom',
       easing: 'ease-out-cubic',
     });

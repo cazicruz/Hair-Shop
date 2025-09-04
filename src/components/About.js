@@ -7,7 +7,7 @@ function About() {
   return (
     <section >
       <AboutContainer>
-        <ImageSection data-aos="slide-right">
+        <ImageSection data-aos="slide-right" data-aos-offset="-100">
   <Image src="/images/whiteAndBlack.jpg" alt="About Us"  width={500} height={300} />          <GradientOverlay />
         </ImageSection>
         <TextSection data-aos="slide-left">
@@ -61,7 +61,7 @@ const GradientOverlay = styled.div`
   z-index: 2;
 
   @media (max-width: 768px) {
-  display:none;
+  display:hidden;
     left: 0;
     top: 100%;
     bottom: 90%;

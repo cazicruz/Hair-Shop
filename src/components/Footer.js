@@ -127,8 +127,8 @@ const Footer = () => {
   </div>
 
   <hr />
-  <div style={{ margin: '1rem 0' }} data-aos="fade-in" data-aos-offset="100" data-aos-delay="400"></div>
-  <div data-aos="fade-in" data-aos-offset="100" data-aos-delay="500">
+  <div style={{ margin: '1rem 0' }} data-aos="fade-in" data-aos-offset="0" data-aos-delay="400"></div>
+  <div data-aos="fade-in" data-aos-offset="0" data-aos-delay="500">
     <p>
       <strong>
         <a href="https://cazicruz.github.io/portfolio/">
@@ -139,7 +139,7 @@ const Footer = () => {
       This website and all its content are the exclusive property of DavDev...
     </p>
   </div>
-  <div data-aos="fade-in" data-aos-offset="100" data-aos-delay="600">
+  <div data-aos="fade-down" data-aos-offset="0" data-aos-delay="600">
     Designed and developed by <strong>DavDev</strong>
   </div>
 </FooterContainer>
