@@ -22,7 +22,7 @@ function ProductCard({product}) {
                 style={{
                     margin: "1rem 0 0 1rem",
                     padding: "0.5rem 0.5rem",
-                    background: "#e91e63",
+                    background: "rgba(253, 29, 29, 1)",
                     color: "#fff",
                     border: "none",
                     borderRadius: "4px",

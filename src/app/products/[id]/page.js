@@ -1,6 +1,9 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import ImageWithThumbnail from '@/components/products/ImageWithThumbnail'
+import ProductDetailsSection from '@/components/products/ProductDetailsSection'
 
 // Dummy fetch function, replace with real API call
 const fetchProduct = async (id) => {
@@ -10,7 +13,11 @@ const fetchProduct = async (id) => {
         name: 'Luxury Hair Extension',
         description: 'Premium quality human hair extension for a natural look.',
         price: 129.99,
-        image: '/images/hair essentials.png',
+        images: [
+            "/images/hair essentials.png",
+            "/images/bundle2.png",
+            "/images/bundle.png",
+        ],
         inStock: true,
         brand: 'GlamourLocks',
         length: '18 inches',
@@ -34,46 +41,26 @@ export default function ProductDetails() {
     }
 
     return (
-        <div style={{ maxWidth: 800, margin: '2rem auto', padding: 24, background: '#fff', borderRadius: 8 }}>
-            <div style={{ display: 'flex', gap: 32 }}>
-                <img
-                    src={product.image}
-                    alt={product.name}
+        <main style={{ maxWidth: 800, margin: '2rem auto', padding: 24, background: '#fff', borderRadius: 8 }}>
+            <ProductDetailsWrapper style={{ display: 'flex', gap: 32}}>
+                <ImageWithThumbnail
+                    images={product.images}
+                    productName={product.name}
                     style={{ width: 320, height: 320, objectFit: 'cover', borderRadius: 8 }}
                 />
-                <div>
-                    <h1>{product.name}</h1>
-                    <p style={{ color: '#888' }}>{product.brand}</p>
-                    <p>{product.description}</p>
-                    <ul>
-                        <li><strong>Length:</strong> {product.length}</li>
-                        <li><strong>Color:</strong> {product.color}</li>
-                    </ul>
-                    <h2 style={{ color: '#b12704' }}>${product.price.toFixed(2)}</h2>
-                    <p>
-                        {product.inStock ? (
-                            <span style={{ color: 'green' }}>In Stock</span>
-                        ) : (
-                            <span style={{ color: 'red' }}>Out of Stock</span>
-                        )}
-                    </p>
-                    <button
-                        style={{
-                            marginTop: 16,
-                            padding: '12px 32px',
-                            background: '#222',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: 4,
-                            cursor: product.inStock ? 'pointer' : 'not-allowed',
-                            opacity: product.inStock ? 1 : 0.5,
-                        }}
-                        disabled={!product.inStock}
-                    >
-                        Add to Cart
-                    </button>
-                </div>
-            </div>
-        </div>
+                <ProductDetailsSection product={product} />
+            </ProductDetailsWrapper>
+
+        </main>
     );
 }
+const ProductDetailsWrapper = styled.div`
+display:flex;
+gap:32;
+
+@media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+    ImageWithThumbnail{
+    min-width:100%;}
+`
