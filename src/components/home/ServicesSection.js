@@ -87,8 +87,8 @@ function ServicesSection({ services=serviceList, title = "Our Services", subtitl
   return (
     <ServicesWrapper>
       <HeaderText style={{color:'#f8f8f8'}}>
-        <h2>{title}</h2>
-        <p>{subtitle}</p>
+        <h2 style={{color:'#f8f8f8'}}>{title}</h2>
+        <p style={{color:'#f8f8f8'}}>{subtitle}</p>
       </HeaderText>
       <Container>
           {isMobile?(

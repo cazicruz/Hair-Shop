@@ -37,7 +37,7 @@ const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(62, 62, 62, 0.85);
   backdrop-filter: blur(1px);
   z-index: 9999;
 `;
