@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ImageWithThumbnail from '@/components/products/ImageWithThumbnail'
 import ProductDetailsSection from '@/components/products/ProductDetailsSection'
+import LoadingScreen from '@/components/LoadingAnimation'
 
 // Dummy fetch function, replace with real API call
 const fetchProduct = async (id) => {
@@ -37,7 +38,7 @@ export default function ProductDetails() {
     }, [id]);
 
     if (!product) {
-        return <div>Loading...</div>;
+        return <LoadingScreen />;
     }
 
     return (
