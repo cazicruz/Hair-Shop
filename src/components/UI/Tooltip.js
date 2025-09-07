@@ -17,8 +17,8 @@ const TooltipText = styled.span`
   padding: 6px 10px;
   position: absolute;
   z-index: 10;
-  top: ${({ position }) => (position === "top" ? "auto" : "125%")};
-  bottom: ${({ position }) => (position === "top" ? "125%" : "auto")};
+  top: ${({ $position }) => ($position === "top" ? "auto" : "125%")};
+  bottom: ${({ $position }) => ($position === "top" ? "125%" : "auto")};
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
@@ -27,7 +27,7 @@ const TooltipText = styled.span`
   /* Arrow for TOP position */
   &::after {
     content: "";
-    display: ${({ position }) => (position === "top" ? "block" : "none")};
+    display: ${({ $position }) => ($position === "top" ? "block" : "none")};
     position: absolute;
     top: 100%;
     left: 50%;
@@ -40,7 +40,7 @@ const TooltipText = styled.span`
   /* Arrow for BOTTOM position */
   &::before {
     content: "";
-    display: ${({ position }) => (position === "bottom" ? "block" : "none")};
+    display: ${({ $position }) => ($position === "bottom" ? "block" : "none")};
     position: absolute;
     bottom: 100%;
     left: 50%;
@@ -60,7 +60,7 @@ const Tooltip = ({ text, children, position = "bottom" }) => {
   return (
     <TooltipWrapper>
       {children}
-      <TooltipText position={position}>{text}</TooltipText>
+      <TooltipText $position={position}>{text}</TooltipText>
     </TooltipWrapper>
   );
 };

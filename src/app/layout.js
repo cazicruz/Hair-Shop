@@ -1,6 +1,6 @@
 import StyledComponentsRegistry from '@/lib/registry';
 import './globals.css'
-import { Inter } from '@next/font/google';
+import { Inter } from "next/font/google";
 import StyledComponentsThemeProvider from '@/lib/theme-provider';
 import Navbar from '@/components/home/Navbar';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
