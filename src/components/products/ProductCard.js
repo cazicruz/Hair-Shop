@@ -18,32 +18,32 @@ function ProductCard({product}) {
                 <h2 style={{ fontSize: "1.2rem", margin: "1rem 0 0.5rem" }}>{product.name}</h2>
                 <p style={{ color: "#888", marginBottom: "0.5rem" }}>{product.description}</p>
                 <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
-                <button
-                style={{
-                    margin: "1rem 0 0 1rem",
-                    padding: "0.5rem 0.5rem",
-                    background: "rgba(253, 29, 29, 1)",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer"
-                }}
-                >
-                Add to Cart
-                </button>
-                <button
-                style={{
-                    margin: "1rem 0 0 1rem",
-                    padding: "0.5rem 1rem",
-                    background: "#8a1ee9fc",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer"
-                }}
-                >
-                Buy Now
-                </button>
+                <ButtonWrapper>
+                    <button
+                    style={{
+                        padding: "0.5rem 0.5rem",
+                        background: "rgba(253, 29, 29, 1)",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer"
+                    }}
+                    >
+                    Add to Cart
+                    </button>
+                    <button
+                    style={{
+                        padding: "0.5rem",
+                        background: "#8a1ee9fc",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "4px",
+                        cursor: "pointer"
+                    }}
+                    >
+                    Buy Now
+                    </button>
+                </ButtonWrapper>
             </ProductContainer>
             </Link>
     </div>
@@ -62,6 +62,38 @@ const ProductContainer = styled.div`
     
         }
     }
+`
+const ButtonWrapper= styled.div`
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0.5rem 0 0.5rem; ;
+
+    button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:first-child {
+        background: "rgba(253, 29, 29, 1)";
+        color: "#fff";
+    }
+
+    button:last-child {
+        background: "#8a1ee9fc";
+        color: "#fff";
+    }
+    @media (max-width: 600px) {
+        flex-direction: column;
+        button {
+            width: 100%;
+            margin:0;
+            padding:0;
+        }
+
 `
 
 export default ProductCard
