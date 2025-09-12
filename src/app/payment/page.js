@@ -4,7 +4,7 @@ import styled, { ThemeProvider } from "styled-components";
 
 const theme = {
   colors: {
-    primary: "#FF69B4",
+    primary: "#f04c4c",
     background: "#FFF0F6",
     text: "#222",
     accent: "#FFB6C1",
@@ -100,33 +100,59 @@ const Button = styled.button`
   }
 `;
 const Capsule = styled.div`
-  background: ${({ theme }) => theme.colors.background};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: 999px;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  font-size: 0.9rem;
+  gap: ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.background};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: 8px;
+  padding: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+`;
+
+const ProductImage = styled.img`
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
 `;
 
 const CapsuleContent = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
+  .price{
+    color: ${({ theme }) => theme.colors.primary};
+    font-weight: 600;
+    align-self: flex-end;
+}
 `;
 
 const QuantityBadge = styled.span`
   background: ${({ theme }) => theme.colors.primary};
   color: #fff;
   border-radius: 50%;
-  padding: 4px 10px;
+  padding: 6px 12px;
   font-size: 0.8rem;
   font-weight: bold;
+  align-self: flex-start;
 `;
+
 const sampleOrder = [
-  { name: "Body Wave Bundle", price: 25000, quantity: 2, description: "Soft, bouncy texture" },
-  { name: "Closure 4x4", price: 15000, quantity: 1, description: "Perfect finish for your install" },
+  {
+    name: "Body Wave Bundle",
+    price: 25000,
+    quantity: 2,
+    description: "Soft, bouncy texture",
+    image: "/images/red-hair.png"
+  },
+  {
+    name: "Closure 4x4",
+    price: 15000,
+    quantity: 1,
+    description: "Perfect finish for your install",
+    image: "/images/red-hair.png"
+  }
 ];
 
 
@@ -211,15 +237,16 @@ const PaymentPage = ({order=sampleOrder}) => {
               <SectionTitle>Order Summary</SectionTitle>
               <div>
                 {order?.map((item, index) => (
-              <Capsule key={index}>
-                <CapsuleContent>
-                  <strong>{item.name}</strong>
-                  <span>₦{item.price}</span>
-                  <small>{item.description || "Premium quality hair extension"}</small>
-                </CapsuleContent>
-                <QuantityBadge>{item.quantity}</QuantityBadge>
-              </Capsule>
-            ))}
+                  <Capsule key={index}>
+                    <ProductImage src={item.image} alt={item.name} />
+                    <CapsuleContent>
+                      <strong>{item.name}</strong>
+                      <span className="price">₦{item.price}</span>
+                      <small>{item.description || "Premium quality hair extension"}</small>
+                    </CapsuleContent>
+                    <QuantityBadge>{item.quantity}</QuantityBadge>
+                  </Capsule>
+                ))}
               </div>
             </section>
             <Summary>
