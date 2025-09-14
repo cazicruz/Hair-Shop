@@ -1,5 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import {TestimonyCard} from '@/components/home/Testimonials';
+import Image from 'next/image';
 
 // Dummy order data
 const dummyOrders = [
@@ -8,8 +11,20 @@ const dummyOrders = [
         date: '2024-06-01',
         status: 'Pending',
         items: [
-            { name: 'Shampoo', qty: 2 },
-            { name: 'Hair Oil', qty: 1 },
+            {
+                name: "Body Wave Bundle",
+                price: 25000,
+                quantity: 2,
+                description: "Soft, bouncy texture",
+                image: ["/images/wig2.png"]
+            },
+            {
+                name: 'Hair Oil',
+                price: 5000,
+                quantity: 1,
+                description: "Nourishing hair oil",
+                image:[ "/images/wig3.png"]
+            },
         ],
         total: 25.99,
     },
@@ -18,7 +33,13 @@ const dummyOrders = [
         date: '2024-05-28',
         status: 'Delivered',
         items: [
-            { name: 'Conditioner', qty: 1 },
+            {
+                name: "Body Wave Bundle",
+                price: 25000,
+                quantity: 2,
+                description: "Soft, bouncy texture",
+                image: ["/images/wav hair.png", "/images/wig1.png"]
+            },
         ],
         total: 12.99,
     },
@@ -27,7 +48,20 @@ const dummyOrders = [
         date: '2024-06-03',
         status: 'Shipped',
         items: [
-            { name: 'Hair Gel', qty: 3 },
+            { 
+            name: "Body Wave Bundle",
+            price: 25000,
+            quantity: 2,
+            description: "Soft, bouncy texture",
+            image: ["/images/red-hair.png", "/images/red-hair.png"]
+            },
+            {
+            name: "Closure 4x4",
+            price: 15000,
+            quantity: 1,
+            description: "Perfect finish for your install",
+            image:[ "/images/red-hair.png", "/images/red-hair.png" ]
+            }
         ],
         total: 30.00,
     },
@@ -40,6 +74,90 @@ const sortOptions = [
     { value: 'total', label: 'Total' },
 ];
 
+// Styled Components
+const Container = styled.div`
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+`;
+
+const Header = styled.h1`
+    margin-bottom: 1rem;
+`;
+
+const Controls = styled.div`
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 2rem;
+`;
+
+const Label = styled.label`
+    font-weight: 500;
+`;
+
+const Select = styled.select`
+    padding: 0.4rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+`;
+
+const Table = styled.table`
+    width: 100%;
+    border-collapse: collapse;
+`;
+
+const Th = styled.th`
+    text-align: left;
+    padding: 0.75rem;
+    background-color: #f4f4f4;
+`;
+
+const Tr = styled.tr`
+    border-bottom: 1px solid #eee;
+    &:hover {
+        background-color: #f9f9f9;
+    }
+`;
+
+const Td = styled.td`
+    padding: 0.75rem;
+`;
+
+const ViewButton = styled.button`
+    padding: 0.4rem 0.8rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    &:hover {
+        background-color: #0056b3;
+    }
+`;
+
+const DetailsCard = styled.div`
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fafafa;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+`;
+
+const CloseButton = styled.button`
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    &:hover {
+        background-color: #a71d2a;
+    }
+`;
+
 function OrdersPage() {
     const [orders, setOrders] = useState([]);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -50,79 +168,65 @@ function OrdersPage() {
         setOrders(dummyOrders);
     }, []);
 
-    // Filter and sort orders
     const filteredOrders = orders
         .filter(order => statusFilter === 'All' || order.status === statusFilter)
         .sort((a, b) => {
-            if (sortBy === 'date') {
-                return new Date(b.date) - new Date(a.date);
-            }
-            if (sortBy === 'status') {
-                return a.status.localeCompare(b.status);
-            }
-            if (sortBy === 'total') {
-                return b.total - a.total;
-            }
+            if (sortBy === 'date') return new Date(b.date) - new Date(a.date);
+            if (sortBy === 'status') return a.status.localeCompare(b.status);
+            if (sortBy === 'total') return b.total - a.total;
             return 0;
         });
 
     return (
-        <div style={{ padding: 24 }}>
-            <h1>Your Orders</h1>
-            <div style={{ marginBottom: 16 }}>
-                <label>
+        <Container>
+            <Header>Your Orders</Header>
+            <Controls>
+                <Label>
                     Status:&nbsp;
-                    <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                    <Select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
                         {statusOptions.map(status => (
                             <option key={status} value={status}>{status}</option>
                         ))}
-                    </select>
-                </label>
-                &nbsp;&nbsp;
-                <label>
+                    </Select>
+                </Label>
+                <Label>
                     Sort by:&nbsp;
-                    <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                    <Select value={sortBy} onChange={e => setSortBy(e.target.value)}>
                         {sortOptions.map(opt => (
                             <option key={opt.value} value={opt.value}>{opt.label}</option>
                         ))}
-                    </select>
-                </label>
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    </Select>
+                </Label>
+            </Controls>
+            <Table>
                 <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Details</th>
-                    </tr>
+                    <Tr>
+                        <Th>Order ID</Th>
+                        <Th>Date</Th>
+                        <Th>Status</Th>
+                        <Th>Total</Th>
+                        <Th>Details</Th>
+                    </Tr>
                 </thead>
                 <tbody>
                     {filteredOrders.map(order => (
-                        <tr key={order.id} style={{ borderBottom: '1px solid #eee' }}>
-                            <td>{order.id}</td>
-                            <td>{order.date}</td>
-                            <td>{order.status}</td>
-                            <td>${order.total.toFixed(2)}</td>
-                            <td>
-                                <button onClick={() => setSelectedOrder(order)}>
-                                    View
-                                </button>
-                            </td>
-                        </tr>
+                        <Tr key={order.id}
+                        style={{ cursor: 'pointer', backgroundColor: selectedOrder === order ? '#e9ecef' : '' }}
+                        >
+                            <Td>{order.id}</Td>
+                            <Td>{order.date}</Td>
+                            <Td>{order.status}</Td>
+                            <Td>${order.total.toFixed(2)}</Td>
+                            <Td>
+                                <ViewButton onClick={() => setSelectedOrder(order)}>View</ViewButton>
+                            </Td>
+                        </Tr>
                     ))}
                 </tbody>
-            </table>
+            </Table>
 
             {selectedOrder && (
-                <div style={{
-                    marginTop: 24,
-                    padding: 16,
-                    border: '1px solid #ccc',
-                    borderRadius: 8,
-                    background: '#fafafa'
-                }}>
+                <DetailsCard>
                     <h2>Order Details: {selectedOrder.id}</h2>
                     <p><strong>Date:</strong> {selectedOrder.date}</p>
                     <p><strong>Status:</strong> {selectedOrder.status}</p>
@@ -130,14 +234,39 @@ function OrdersPage() {
                     <h3>Items:</h3>
                     <ul>
                         {selectedOrder.items.map((item, idx) => (
-                            <li key={idx}>{item.name} x {item.qty}</li>
+                            <li key={idx}>
+                                <ItemCard>
+                                    <img src={item?.image[0]} alt={item?.name} width={60} height={60} />
+                                    <div>
+                                        {item?.name} x {item?.quantity}
+                                        <br />
+                                        <small>{item?.description}</small>
+                                        <br />
+                                        <strong>₦{(item?.price * item?.quantity).toLocaleString()}</strong>
+                                    </div>
+                                </ItemCard>
+                            </li>
                         ))}
                     </ul>
-                    <button onClick={() => setSelectedOrder(null)}>Close</button>
-                </div>
+                    <CloseButton onClick={() => setSelectedOrder(null)}>Close</CloseButton>
+                </DetailsCard>
             )}
-        </div>
+        </Container>
     );
 }
+
+const ItemCard = styled.div`
+display: flex;
+align-items: center;
+gap: 1rem;
+justify-content: flex-start;
+padding: 10px;
+border-radius:8px;
+
+img{
+border-radius:8px;
+}
+box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+`
 
 export default OrdersPage;
