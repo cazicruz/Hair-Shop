@@ -1,7 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { useSelector,useDispatch } from 'react-redux';
+import { addItem, removeItem ,updateQuantity} from '@/redux/cartSlice';
+import { useRouter } from 'next/navigation';
+
+
 
 
 // Reusable Components
@@ -123,42 +128,24 @@ const CheckoutButton = styled.button`
     }
 `;
 
-// Dummy Data
-const cartItems = [
-    {
-        id: 1,
-        name: 'Brazilian Body Wave Wig',
-        desc: '100% Human Hair, Natural Black, 20 inches',
-        image: '/images/freepik__the-style-is-candid-image-photography-with-natural__34909.png',
-        price: 120,
-        qty: 1,
-    },
-    {
-        id: 2,
-        name: 'Deep Curly Lace Front',
-        desc: 'Premium Remy Hair, 18 inches',
-        image: '/images/wig1.png',
-        price: 95,
-        qty: 2,
-    },
-];
 
 // Cart Item Component
 function CartItem({ item, onQtyChange, onRemove }) {
+    
     return (
         <CartItemContainer>
-            <ProductImage src={item.image} alt={item.name} />
+            <ProductImage src={item.images[0]} alt={item.name} />
             <ProductDetails>
                 <ProductName>{item.name}</ProductName>
                 <ProductDesc>{item.desc}</ProductDesc>
                 <QuantityControl>
-                    <QtyButton onClick={() => onQtyChange(item.id, item.qty - 1)} disabled={item.qty <= 1}>-</QtyButton>
-                    <span>{item.qty}</span>
-                    <QtyButton onClick={() => onQtyChange(item.id, item.qty + 1)}>+</QtyButton>
+                    <QtyButton onClick={() => onQtyChange(item.id, item.quantity - 1)} disabled={item.quantity <= 1}>-</QtyButton>
+                    <span>{item.quantity}</span>
+                    <QtyButton onClick={() => onQtyChange(item.id, item.quantity + 1)}>+</QtyButton>
                 </QuantityControl>
             </ProductDetails>
-            <Price>${(item.price * item.qty).toFixed(2)}</Price>
-            <RemoveButton onClick={() => onRemove(item.id)}>
+            <Price>${(item.price * (item.quantity || 1)).toFixed(2)}</Price>
+            <RemoveButton onClick={() => onRemove(item?.id)}>
                 <MdOutlineDeleteForever size={25} />
             </RemoveButton>
         </CartItemContainer>
@@ -167,38 +154,46 @@ function CartItem({ item, onQtyChange, onRemove }) {
 
 // Main Cart Page
 export default function CartPage() {
-    const [items, setItems] = React.useState(cartItems);
+    const cartItems = useSelector((state) => state.cart.items);
+    console.log("Cart Items from Redux:", cartItems);
+
+    const dispatch = useDispatch();
+    
+    const handleDeleteFromCart = (productId) => {
+        // Implement delete from cart functionality
+        dispatch(removeItem(productId));
+    }
 
     const handleQtyChange = (id, qty) => {
-        setItems(items =>
-            items.map(item =>
-                item.id === id ? { ...item, qty: qty > 0 ? qty : 1 } : item
-            )
-        );
+        if (qty < 1) return;
+        // Implement quantity change functionality
+        dispatch(updateQuantity({ id, quantity: qty }));
     };
 
-    const handleRemove = id => {
-        setItems(items => items.filter(item => item.id !== id));
+    const router = useRouter();
+
+    const handleCheckout = () => {
+    router.push('/checkout'); // or '/payment' depending on your route
     };
 
-    const subtotal = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const shipping = subtotal > 0 ? 12 : 0;
     const total = subtotal + shipping;
 
     return (
         <PageContainer>
             <Title>Your Cart</Title>
-            {items.length === 0 ? (
+            {cartItems.length === 0 ? (
                 <div>Your cart is empty.</div>
             ) : (
                 <>
                     <CartList>
-                        {items.map(item => (
+                        {cartItems.map(item => (
                             <CartItem
                                 key={item.id}
                                 item={item}
                                 onQtyChange={handleQtyChange}
-                                onRemove={handleRemove}
+                                onRemove={handleDeleteFromCart}
                             />
                         ))}
                     </CartList>
@@ -215,7 +210,7 @@ export default function CartPage() {
                             <span>Total</span>
                             <span>${total.toFixed(2)}</span>
                         </SummaryRow>
-                        <CheckoutButton>Proceed to Checkout</CheckoutButton>
+                        <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
                     </SummaryContainer>
                 </>
             )}

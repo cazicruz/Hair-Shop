@@ -24,7 +24,7 @@ const CartButton = styled.button`
   }
 
   ${props =>
-    props.fullWidth &&
+    props.$fullWidth &&
     `
       width: 100%;
     `}
@@ -43,7 +43,7 @@ function AddToCart({
       disabled={disabled}
       onClick={onClick}
       style={style}
-      fullWidth={fullWidth}
+      $fullWidth={fullWidth}
       aria-disabled={disabled}
     >
       {icon && <span style={{ padding: '0px 7px 0px 0px' }}>{icon}</span>}

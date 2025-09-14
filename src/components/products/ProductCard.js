@@ -2,14 +2,23 @@ import React from 'react'
 import Link from "next/link";
 import Image from 'next/image';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { addItem } from '@/redux/cartSlice';
 
 function ProductCard({product}) {
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (product) => {
+            // Implement add to cart functionality
+            dispatch(addItem(product));
+        }
   return (
     <div>
-        <Link href={`/products/${product.id}`} >
+        
             <ProductContainer  >
+            <Link href={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <Image
-                    src={product.image}
+                    src={product.images[0]}
                     alt={product.name}
                     width={200}
                     height={280}
@@ -18,6 +27,7 @@ function ProductCard({product}) {
                 <h2 style={{ fontSize: "1.2rem", margin: "1rem 0 0.5rem" }}>{product.name}</h2>
                 <p style={{ color: "#888", marginBottom: "0.5rem" }}>{product.description}</p>
                 <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
+            </Link>
                 <ButtonWrapper>
                     <button
                     style={{
@@ -27,6 +37,10 @@ function ProductCard({product}) {
                         border: "none",
                         borderRadius: "4px",
                         cursor: "pointer"
+                    }}
+                    onClick={(e)=>{
+                        e.preventDefault();
+                        handleAddToCart(product);
                     }}
                     >
                     Add to Cart
@@ -45,7 +59,6 @@ function ProductCard({product}) {
                     </button>
                 </ButtonWrapper>
             </ProductContainer>
-            </Link>
     </div>
   )
 }

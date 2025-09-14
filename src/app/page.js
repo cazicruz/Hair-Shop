@@ -15,6 +15,7 @@ export default function Home() {
   return (
     <div className={styles.container} style={{ overflowX: 'hidden' }}>
       {/* <Hero /> */}
+      {/* <Navbar /> */}
       <HeroTwo />
       <Latest />
       <ServicesSection />

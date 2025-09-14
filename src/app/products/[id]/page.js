@@ -5,25 +5,12 @@ import styled from 'styled-components';
 import ImageWithThumbnail from '@/components/products/ImageWithThumbnail'
 import ProductDetailsSection from '@/components/products/ProductDetailsSection'
 import LoadingScreen from '@/components/LoadingAnimation'
+import { products } from '@/data/products';
 
 // Dummy fetch function, replace with real API call
 const fetchProduct = async (id) => {
     // Simulate API response
-    return {
-        id:1,
-        name: 'Luxury Hair Extension',
-        description: 'Premium quality human hair extension for a natural look.',
-        price: 129.99,
-        images: [
-            "/images/hair essentials.png",
-            "/images/bundle2.png",
-            "/images/bundle.png",
-        ],
-        inStock: true,
-        brand: 'GlamourLocks',
-        length: '18 inches',
-        color: 'Natural Black',
-    };
+    return products.find(product => product.id === parseInt(id));
 };
 
 export default function ProductDetails() {

@@ -2,9 +2,17 @@ import React from 'react'
 import AddToCart from '@/components/buttons/AddToCart'
 import { FaOpencart } from 'react-icons/fa';
 import { IoBagHandleSharp } from "react-icons/io5";
+import { useDispatch } from 'react-redux';
+import { addItem } from '../../redux/cartSlice';
 
 
 function ProductDetailsSection({product}) {
+    const dispatch = useDispatch();
+
+    const handleAddToCart = (product) => {
+        // Implement add to cart functionality
+        dispatch(addItem(product));
+    }
   return (
     <div>
         <h1>{product.name}</h1>
@@ -34,6 +42,7 @@ function ProductDetailsSection({product}) {
                 opacity: product.inStock ? 1 : 0.5,
             }}
             icon={<FaOpencart size={20} />}
+            onClick={() => handleAddToCart(product)}
             disabled={!product.inStock}
             text={'Add to Cart'}
         /> 

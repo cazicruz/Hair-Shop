@@ -31,7 +31,7 @@ function ProductList({products}) {
           <ProductGrid>
             <Hits hitComponent={Hit} />
           </ProductGrid>
-        <Configure hitsPerPage={10} />
+        <Configure hitsPerPage={9} />
         <StyledPagination>
           <Pagination />
         </StyledPagination>

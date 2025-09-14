@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import styled from 'styled-components';
 import { FaOpencart } from 'react-icons/fa';
 import { RiAccountPinCircleFill } from "react-icons/ri";
@@ -8,6 +8,7 @@ import Tooltip from '@/components/UI/Tooltip';
 import { BsStars } from "react-icons/bs";
 import LoginForm from '@/components/LoginForm'
 import { Badge } from 'antd';
+import { useSelector } from 'react-redux';
 
 
 const navLinks = [
@@ -155,8 +156,13 @@ const NavLinkMobile = styled.a`
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     const [openModal,setOpenModal] = useState(false);
-    const [cart,setCart]=useState([1,2,3])
+    const cart = useSelector((state) => state.cart.items);
+    const [cartCount,setCartCount]=useState(cart.length)
     const toggleMenu = () => setMenuOpen(!menuOpen);
+
+    useEffect(() => {
+        setCartCount(cart.length);
+    }, [cart]);
 
     return (
         <NavbarContainer>
@@ -171,10 +177,10 @@ export default function Navbar() {
                 ))}
                 <CartLink href="/cart">
                         <Badge 
-                        count={cart.length} 
+                        count={cartCount} 
                         overflowCount={10} 
                         size="small" 
-                        title={`${cart.length} items in cart`}>
+                        title={`${cartCount} items in cart`}>
                     <Tooltip text={"Cart"} position='bottom'>
                             <span role="img" aria-label="cart"><FaOpencart size={23} color='#fff'/></span>
                     </Tooltip>
