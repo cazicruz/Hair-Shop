@@ -242,7 +242,7 @@ function OrdersPage() {
                         {selectedOrder.items.map((item, idx) => (
                             <li key={idx}>
                                 <ItemCard>
-                                    <img src={item?.image[0]} alt={item?.name} width={60} height={60} />
+                                    <Image src={item?.image[0]} alt={item?.name} width={60} height={60} />
                                     <div>
                                         {item?.name} x {item?.quantity}
                                         <br />
