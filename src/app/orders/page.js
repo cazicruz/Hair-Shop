@@ -78,6 +78,10 @@ const sortOptions = [
 const Container = styled.div`
     padding: 2rem;
     font-family: 'Segoe UI', sans-serif;
+
+    @media (max-width: 600px) {
+        padding: 1rem;
+    }
 `;
 
 const Header = styled.h1`
