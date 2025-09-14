@@ -80,7 +80,7 @@ const Container = styled.div`
     font-family: 'Segoe UI', sans-serif;
 
     @media (max-width: 600px) {
-        padding-left: 0rem;
+        padding: 2rem 0rem;
     }
 `;
 
