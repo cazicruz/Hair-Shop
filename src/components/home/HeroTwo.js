@@ -4,9 +4,15 @@ import styled from 'styled-components'
 import Image from 'next/image'
 import gsap from 'gsap'
 import Typewriter from 'typewriter-effect'
+import { useRouter } from 'next/navigation';
 
 function HeroTwo() {
   const contentRef = useRef(null)
+  const router = useRouter();
+
+  const handleCTAClick = () => {
+    router.push('/products'); // Navigate to the products page
+  };
 
   useEffect(() => {
     gsap.from(contentRef.current, {
@@ -35,7 +41,9 @@ function HeroTwo() {
           />
         </h1>
         <p>Discover premium hair care and extensions that elevate your natural beauty.</p>
-        <CTAButton >Shop Now</CTAButton>
+        <CTAButton 
+        onClick={handleCTAClick}
+        >Shop Now</CTAButton>
       </Content>
     </HeroWrapper>
   )

@@ -11,6 +11,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { motion } from 'framer-motion'
 import {useIsMobile} from '@/hooks/IsMobile'
+import { useRouter } from 'next/navigation';
 
 const serviceList = [
   { title: "Wigs", description: "Professional wigs for all occasions.", img: "/images/bundle.png" },
@@ -83,6 +84,11 @@ const StyledSwiper = styled(Swiper)`
 
 function ServicesSection({ services=serviceList, title = "Our Services", subtitle = "We offer a variety of hair services to meet your needs." }) {
   const isMobile = useIsMobile();
+  const router = useRouter();
+
+  const handleCTAClick = () => {
+    router.push('/products'); // Navigate to the products page
+  };
 
   return (
     <ServicesWrapper>
@@ -115,7 +121,9 @@ function ServicesSection({ services=serviceList, title = "Our Services", subtitl
           )))}
       </Container>
       <HeaderText>
-      <CTAButton style={{margin:'30px'}}>Browse Collection</CTAButton>
+      <CTAButton 
+      onClick={handleCTAClick}
+      style={{margin:'30px'}}>Browse Collection</CTAButton>
 
       </HeaderText>
     </ServicesWrapper>

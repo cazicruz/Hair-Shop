@@ -81,7 +81,10 @@ const MenuButton = styled.button`
     cursor: pointer;
 
     @media (max-width: 768px) {
-        display: block;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        justify-content: center;
     }
 `;
 const Hamburger = styled.div`
@@ -186,7 +189,8 @@ export default function Navbar() {
                     </Tooltip>
                         </Badge>
                 </CartLink>
-                <AccountLink href="/account">
+                {/* Assuming a simple loggedIn state for demonstration */}
+                <AccountLink href={localStorage.getItem('token') ? "/orders" : "/login"}>
                     <Tooltip text='Account' position='bottom'>
                         <span role="img" aria-label="account"
                         onClick={()=>setOpenModal(true)}
@@ -198,11 +202,22 @@ export default function Navbar() {
                       />
                 </AccountLink>
             </LinksDesktop>
-            <MenuButton
+            <MenuButton>
+                <CartLink href="/cart">
+                        <Badge 
+                        count={cartCount} 
+                        overflowCount={10} 
+                        size="small" 
+                        title={`${cartCount} items in cart`}>
+                    <Tooltip text={"Cart"} position='bottom'>
+                            <span role="img" aria-label="cart"><FaOpencart size={30} color='#fff'/></span>
+                    </Tooltip>
+                        </Badge>
+                </CartLink>
+                <Hamburger 
                 onClick={toggleMenu}
                 aria-label="Toggle menu"
-            >
-                <Hamburger className={menuOpen ? "open" : ""}>
+                className={menuOpen ? "open" : ""}>
                     <span></span>
                     <span></span>
                     <span></span>
@@ -218,10 +233,10 @@ export default function Navbar() {
                             {link.name}
                         </NavLinkMobile>
                     ))}
-                    <NavLinkMobile href="/cart" onClick={() => setMenuOpen(false)}>
+                    {/* <NavLinkMobile href="/cart" onClick={() => setMenuOpen(false)}>
                         Cart <FaOpencart />
-                    </NavLinkMobile>
-                    <NavLinkMobile href="/account" onClick={() => {
+                    </NavLinkMobile> */}
+                    <NavLinkMobile href={localStorage.getItem('token') ? "/orders" : "/login"} onClick={() => {
                         setMenuOpen(false)
                         
                         }}>
