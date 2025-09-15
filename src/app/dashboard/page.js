@@ -97,6 +97,7 @@ const Table = styled.table`
 
   @media (max-width: 600px) {
     font-size: 0.85rem;
+    margin:0px;
   }
 `;
 
@@ -106,13 +107,17 @@ const Th = styled.th`
   background: #f4f4f4;
 
   @media (max-width: 600px) {
-    padding: 8px;
+    padding: 6px;
   }
 `;
 
 const Td = styled.td`
   padding: 12px;
   border-bottom: 1px solid #eee;
+
+@media (max-width: 600px) {
+    padding:8px;
+    }
 `;
 
 const StatusBadge = styled.span`
@@ -128,6 +133,7 @@ const StatusBadge = styled.span`
     @media (max-width: 600px) {
       font-size: 0.75rem;
         padding: 3px 6px;
+        margin:0px;
     }
 `;
 
