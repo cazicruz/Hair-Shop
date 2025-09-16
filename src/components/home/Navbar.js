@@ -6,7 +6,7 @@ import { RiAccountPinCircleFill } from "react-icons/ri";
 import Link from 'next/link';
 import Tooltip from '@/components/UI/Tooltip';
 import { BsStars } from "react-icons/bs";
-import LoginForm from '@/components/LoginForm'
+import LoginForm from '@/components/modals/LoginForm'
 import { Badge } from 'antd';
 import { useSelector } from 'react-redux';
 
@@ -236,8 +236,9 @@ export default function Navbar() {
                     {/* <NavLinkMobile href="/cart" onClick={() => setMenuOpen(false)}>
                         Cart <FaOpencart />
                     </NavLinkMobile> */}
-                    <NavLinkMobile href={localStorage.getItem('token') ? "/orders" : "/login"} onClick={() => {
+                    <NavLinkMobile href={localStorage.getItem('token') ? "/orders" :null} onClick={() => {
                         setMenuOpen(false)
+                        setOpenModal(true)
                         
                         }}>
                         Account

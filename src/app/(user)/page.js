@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 import Footer from "@/components/home/Footer";
 import ThemeToggle from "@/components/ThemeToggle";
 import Hero from "@/components/home/Hero";
