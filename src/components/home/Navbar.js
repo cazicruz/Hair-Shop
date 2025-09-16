@@ -14,9 +14,9 @@ import { useSelector } from 'react-redux';
 const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/products' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
-    { name: "FAQ's", href: '/faq' },
+    { name: 'About', href: '/#about' },
+    { name: 'Contact', href: '/#contact' },
+    { name: "FAQ's", href: '/#faq' },
 ];
 
 const NavbarContainer = styled.nav`

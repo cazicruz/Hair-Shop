@@ -35,7 +35,7 @@ function Faq() {
   ]
 
   return (
-    <Wrapper>
+    <Wrapper id='faq'>
       <HeaderText className="latest" data-aos="flip-up">
       <h2>FAQ&apos;s</h2>
       <p>Have questions? We're here to help! Check out our <br />frequently asked questions below.</p>

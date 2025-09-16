@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 function About() {
   return (
-    <section >
+    <section id='about'>
       <AboutContainer>
         <ImageSection data-aos="slide-right" data-aos-offset="-100">
   <Image src="/images/whiteAndBlack.jpg" alt="About Us"  width={500} height={300} />          <GradientOverlay />

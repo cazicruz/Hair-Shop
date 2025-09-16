@@ -88,7 +88,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
     <FooterContainer data-aos="fade-up" data-aos-offset="150">
-  <div className="footer-content">
+  <div className="footer-content" id='contact'>
     <FooterElement data-aos="fade-right" data-aos-offset="200">
       <div><FaStore size={60} /></div>
       <h3>STORE INFORMATION</h3>
