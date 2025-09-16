@@ -4,6 +4,8 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addItem } from '@/redux/cartSlice';
+import { toast } from 'react-toastify';
+
 
 function ProductCard({product}) {
     const dispatch = useDispatch();
@@ -11,6 +13,7 @@ function ProductCard({product}) {
     const handleAddToCart = (product) => {
             // Implement add to cart functionality
             dispatch(addItem(product));
+            toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
         }
   return (
     <div>

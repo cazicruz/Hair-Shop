@@ -1,0 +1,28 @@
+/* styles/toast.css */
+.toast-success {
+    background-color: white !important;
+    color: #52c41a !important;
+    /* success green */
+    border: 2px solid #52c41a;
+}
+
+.toast-error {
+    background-color: white !important;
+    color: #ff4d4f !important;
+    /* error red */
+    border: 2px solid #ff4d4f;
+}
+
+.toast-info {
+    background-color: white !important;
+    color: #1890ff !important;
+    /* info blue */
+    border: 2px solid #1890ff;
+}
+
+.toast-warning {
+    background-color: white !important;
+    color: #faad14 !important;
+    /* warning orange */
+    border: 2px solid #faad14;
+}

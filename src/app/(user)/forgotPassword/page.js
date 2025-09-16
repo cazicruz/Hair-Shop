@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { theme } from 'antd';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   max-width: 400px;
@@ -110,9 +111,11 @@ export default function ForgotPassword() {
     setError('');
     try {
       await sendOtp(email);
+      toast.success('OTP sent to your email!', { className: 'toast-success' });
       setStep(2);
     } catch {
       setError('Failed to send OTP. Try again.');
+      toast.error('Failed to send OTP. Try again.', { className: 'toast-error' });
     }
     setLoading(false);
   };
@@ -123,9 +126,11 @@ export default function ForgotPassword() {
     setError('');
     try {
       await verifyOtp(email, otp);
+      toast.success('OTP verified successfully!', { className: 'toast-success' });
       setStep(3);
     } catch {
       setError('Invalid OTP. Try again.');
+      toast.error('Invalid OTP. Try again.', { className: 'toast-error' });
     }
     setLoading(false);
   };
@@ -136,6 +141,7 @@ export default function ForgotPassword() {
     setError('');
     if (newPassword !== confirmPassword) {
       setError('Passwords do not match.');
+      toast.error('Passwords do not match.', { className: 'toast-error' });
       setLoading(false);
       return;
     }
@@ -143,9 +149,11 @@ export default function ForgotPassword() {
       await updatePassword(email, newPassword);
       await signIn(email, newPassword);
       router.push('/products');
+      toast.success('Password updated and signed in successfully!', { className: 'toast-success' });
       setStep(4);
     } catch {
       setError('Failed to update password. Try again.');
+      toast.error('Failed to update password. Try again.', { className: 'toast-error' });
     }
     setLoading(false);
   };

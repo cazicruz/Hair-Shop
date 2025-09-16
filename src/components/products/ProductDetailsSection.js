@@ -4,6 +4,8 @@ import { FaOpencart } from 'react-icons/fa';
 import { IoBagHandleSharp } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../redux/cartSlice';
+import { toast } from 'react-toastify';
+
 
 
 function ProductDetailsSection({product}) {
@@ -12,6 +14,7 @@ function ProductDetailsSection({product}) {
     const handleAddToCart = (product) => {
         // Implement add to cart functionality
         dispatch(addItem(product));
+        toast.success('Product added to cart!', { className: 'toast-success' });
     }
   return (
     <div>

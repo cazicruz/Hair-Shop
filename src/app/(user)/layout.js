@@ -8,6 +8,9 @@ import AOSProvider from '@/lib/AOSprovider'
 import { Provider } from 'react-redux';
 import {store,persistor} from '../../redux/store';
 import ReduxProvider from '@/components/UI/ReduxProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../toast.css'
 
 const inter = Inter({ subsets: ['latin'], fallback: ['system-ui', 'arial'] })
 
@@ -22,6 +25,16 @@ export default function RootLayout({ children }) {
                     <ReduxProvider>
                       <Navbar />
                       {children}
+                      <ToastContainer
+                        position="top-right"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop
+                        closeOnClick
+                        pauseOnHover
+                        draggable
+                        theme="colored"
+                      />
                     </ReduxProvider>
                 </AOSProvider>
                 </AntdRegistry>
