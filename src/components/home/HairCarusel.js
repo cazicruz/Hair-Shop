@@ -26,14 +26,14 @@ function HairCarousel({itemsList}) {
     data-aos="fade-up"
     // style={{backgroundColor:'transperent', border:'none'}}
       modules={[Navigation, Pagination, Autoplay]}
-      spaceBetween={20}
-      slidesPerView={2}
+      spaceBetween={2}
+      slidesPerView={1}
       navigation
     //   pagination={{ clickable: true }}
       autoplay={{ delay: 3000 }}
       breakpoints={{
-        768: { slidesPerView: 2 },
-        1024: { slidesPerView: 3 },
+        768: { slidesPerView: 3 },
+        1024: { slidesPerView: 4 },
       }}
     >
       {hairItems.map(item => (
