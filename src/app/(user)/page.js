@@ -13,7 +13,7 @@ import HeroTwo from '@/components/home/HeroTwo';
 
 export default function Home() {
   return (
-    <div className={styles.container} style={{ overflowX: 'hidden' }}>
+    <div className={styles.container} style={{ overflow: 'hidden' }}>
       {/* <Hero /> */}
       {/* <Navbar /> */}
       <HeroTwo />
