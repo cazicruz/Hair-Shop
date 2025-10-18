@@ -132,21 +132,22 @@ const CheckoutButton = styled.button`
 
 // Cart Item Component
 function CartItem({ item, onQtyChange, onRemove }) {
+    console.log("Cart Item:", item);
     
     return (
         <CartItemContainer>
-            <ProductImage src={item.images[0]} alt={item.name} />
+            <ProductImage src={item.productId.images[0]} alt={item.productId.name} />
             <ProductDetails>
-                <ProductName>{item.name}</ProductName>
-                <ProductDesc>{item.desc}</ProductDesc>
+                <ProductName>{item.productId.name}</ProductName>
+                <ProductDesc>{item.productId.desc}</ProductDesc>
                 <QuantityControl>
-                    <QtyButton onClick={() => onQtyChange(item.id, item.quantity - 1)} disabled={item.quantity <= 1}>-</QtyButton>
+                    <QtyButton onClick={() => onQtyChange(item.productId._id, item.quantity - 1)} disabled={item.quantity <= 1}>-</QtyButton>
                     <span>{item.quantity}</span>
-                    <QtyButton onClick={() => onQtyChange(item.id, item.quantity + 1)}>+</QtyButton>
+                    <QtyButton onClick={() => onQtyChange(item.productId._id, item.quantity + 1)}>+</QtyButton>
                 </QuantityControl>
             </ProductDetails>
-            <Price>${(item.price * (item.quantity || 1)).toFixed(2)}</Price>
-            <RemoveButton onClick={() => onRemove(item?.id)}>
+            <Price>${(item.productId.price * (item.quantity || 1)).toFixed(2)}</Price>
+            <RemoveButton onClick={() => onRemove(item?.productId._id)}>
                 <MdOutlineDeleteForever size={25} />
             </RemoveButton>
         </CartItemContainer>
@@ -169,7 +170,7 @@ export default function CartPage() {
     const handleQtyChange = (id, qty) => {
         if (qty < 1) return;
         // Implement quantity change functionality
-        dispatch(updateCartQuantity({ id, quantity: qty }));
+        dispatch(updateCartQuantity( id, qty ));
     };
 
     const router = useRouter();
@@ -178,7 +179,7 @@ export default function CartPage() {
     router.push('/checkout'); // or '/payment' depending on your route
     };
 
-    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
     const shipping = subtotal > 0 ? 12 : 0;
     const total = subtotal + shipping;
 
@@ -192,7 +193,7 @@ export default function CartPage() {
                     <CartList>
                         {cartItems.map(item => (
                             <CartItem
-                                key={item.id}
+                                key={item._id}
                                 item={item}
                                 onQtyChange={handleQtyChange}
                                 onRemove={handleDeleteFromCart}

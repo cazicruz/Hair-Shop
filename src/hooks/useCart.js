@@ -1,7 +1,9 @@
 'use client';
-
+import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '@/lib/axiosClient';
+import { setCart} from '@/redux/cartSlice';
+import { useSelector,useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
 // Centralized route definitions
@@ -17,6 +19,8 @@ const cartRoutes = {
 
 export function useCart() {
   const queryClient = useQueryClient();
+        const dispatch = useDispatch();
+
 
   // --- GET: Fetch cart items
   const {
@@ -31,6 +35,13 @@ export function useCart() {
       return res.data.data.cart;
     },
   });
+
+   useEffect(() => {
+    if (cart) {
+      console.log("Cart data on success:", cart.items);
+      dispatch(setCart(cart.items));
+    }
+  }, [cart, dispatch]);
 
   // --- POST: Add to cart
   const addToCart = useMutation({
@@ -53,7 +64,7 @@ export function useCart() {
       productId,
       quantity,
     }) => {
-      const res = await axiosClient.put(cartRoutes.updateQuantity, {
+      const res = await axiosClient.patch(cartRoutes.updateQuantity, {
         productId,
         quantity,
       });
@@ -65,7 +76,7 @@ export function useCart() {
   // --- DELETE: Remove a specific item
   const deleteCartItem = useMutation({
     mutationFn: async (productId) => {
-      const res = await axiosClient.delete(`${cartRoutes.removeCartItem}`,{productId});
+      const res = await axiosClient.delete(`${cartRoutes.removeCartItem}`,{data:{productId}});
       return res.data;
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),

@@ -120,6 +120,12 @@ const ButtonWrapper= styled.div`
         flex-direction: column;
         padding:0;
         margin:0;
+        
+        /* Make 2nd child appear first */
+        div:nth-child(2) {
+        
+            order: -1;
+        }
         button {
             width: 100%;
             margin:0;

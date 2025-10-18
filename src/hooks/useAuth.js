@@ -51,7 +51,6 @@ const useAuth = () => {
     const loginMutation = useMutation({
         mutationFn: async (credentials) => {
             try {
-                console.log("Logging in with credentials:", credentials);
                 const response = await axiosClient.post('/auth/login', credentials);
                 const { token: accessToken, user: userObj } = response.data.data;
 
@@ -80,11 +79,9 @@ const useAuth = () => {
             // Update the user query cache
             queryClient.setQueryData(['user'], userData);
             toast.success('Login Successfull', { className: 'toast-success' });
-            console.log(document.cookie);
             router.push('/products');
         },
         onError: (error) => {
-            console.error('Login failed:', error);
             const message = error?.message || 'Error logging in';
             toast.error(message, { className: 'toast-error' });
         }
