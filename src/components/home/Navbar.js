@@ -6,9 +6,11 @@ import { RiAccountPinCircleFill } from "react-icons/ri";
 import Link from 'next/link';
 import Tooltip from '@/components/UI/Tooltip';
 import { BsStars } from "react-icons/bs";
-import LoginForm from '@/components/modals/LoginForm'
+// import LoginForm from '@/components/modals/LoginForm'
 import { Badge } from 'antd';
 import { useSelector } from 'react-redux';
+import { useQueryClient } from '@tanstack/react-query';
+import {extractNameFromEmail} from '@/utils/helpers';
 
 
 const navLinks = [
@@ -163,6 +165,10 @@ export default function Navbar() {
     const [cartCount,setCartCount]=useState(cart.length)
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
+    const queryClient = useQueryClient();
+    const user = queryClient.getQueryData(['user']);
+    const userName = user ? extractNameFromEmail(user.email) : '';
+
     useEffect(() => {
         setCartCount(cart.length);
     }, [cart]);
@@ -191,15 +197,15 @@ export default function Navbar() {
                 </CartLink>
                 {/* Assuming a simple loggedIn state for demonstration */}
                 <AccountLink href={localStorage.getItem('token') ? "/orders" : "/login"}>
-                    <Tooltip text='Account' position='bottom'>
-                        <span role="img" aria-label="account"
+                    <Tooltip text={`${userName.firstName} ${userName.lastName}'s Account`} position='bottom'>
+                        <span role="img" aria-label={`${userName.firstName} ${userName.lastName}'s Account`}
                         onClick={()=>setOpenModal(true)}
                         ><RiAccountPinCircleFill size={23} /></span>
                     </Tooltip>
-                    <LoginForm 
+                    {/* <LoginForm 
                     setOpenModal={setOpenModal}
                     openModal={openModal}
-                      />
+                      /> */}
                 </AccountLink>
             </LinksDesktop>
             <MenuButton>
@@ -236,12 +242,12 @@ export default function Navbar() {
                     {/* <NavLinkMobile href="/cart" onClick={() => setMenuOpen(false)}>
                         Cart <FaOpencart />
                     </NavLinkMobile> */}
-                    <NavLinkMobile href={localStorage.getItem('token') ? "/orders" :null} onClick={() => {
+                    <NavLinkMobile href={user ? "/orders" :'/login'} onClick={() => {
                         setMenuOpen(false)
                         setOpenModal(true)
                         
                         }}>
-                        Account
+                        {user? `${userName.firstName} ${userName.lastName}'s Orders` :'Login / Sign Up'}
                     </NavLinkMobile>
                 </LinksMobile>
             )}

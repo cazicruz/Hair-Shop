@@ -5,63 +5,77 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addItem } from '@/redux/cartSlice';
 import { toast } from 'react-toastify';
+import {capitalizeFirst} from '@/utils/helpers'
+import {useCartActions} from '@/hooks/cartThunks'
+
 
 
 function ProductCard({product}) {
+    const { addItemToCart} = useCartActions();
     const dispatch = useDispatch();
+    const inStock = product.stockQuantity > 0;
 
     const handleAddToCart = (product) => {
-            // Implement add to cart functionality
-            dispatch(addItem(product));
+            dispatch(addItemToCart(product));
             toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
         }
   return (
     <div>
         
-            <ProductContainer  >
-            <Link href={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Image
-                    src={product.images[0]}
-                    alt={product.name}
-                    width={200}
-                    height={280}
-                    style={{ width: "100%", height: "280px", objectFit: "", borderRadius: "6px" }}
-                />
-                <h2 style={{ fontSize: "1.2rem", margin: "1rem 0 0.5rem" }}>{product.name}</h2>
-                <p style={{ color: "#888", marginBottom: "0.5rem" }}>{product.description}</p>
-                <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
-            </Link>
-                <ButtonWrapper>
-                    <button
-                    style={{
-                        padding: "0.5rem 0.5rem",
-                        background: "rgba(253, 29, 29, 1)",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer"
-                    }}
-                    onClick={(e)=>{
-                        e.preventDefault();
-                        handleAddToCart(product);
-                    }}
-                    >
-                    Add to Cart
-                    </button>
-                    <button
-                    style={{
-                        padding: "0.5rem",
-                        background: "#8a1ee9fc",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer"
-                    }}
-                    >
-                    Buy Now
-                    </button>
-                </ButtonWrapper>
-            </ProductContainer>
+        <ProductContainer  >
+        <Link href={`/products/${product._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Image
+                src={product.images[0]}
+                alt={product.name}
+                width={200}
+                height={280}
+                style={{ width: "100%", height: "280px", objectFit: "", borderRadius: "6px" }}
+            />
+            <h2 style={{ fontSize: "1.2rem", margin: "1rem 0 0.5rem" }}>{capitalizeFirst(product.name)}</h2>
+            <p style={{ color: "#888", marginBottom: "0.5rem" }}>{capitalizeFirst(product.description)}</p>
+            <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
+        </Link>
+            <ButtonWrapper>
+                <button
+                style={{
+                    padding: "0.5rem 0.5rem",
+                    background: "rgba(253, 29, 29, 1)",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer"
+                }}
+                onClick={(e)=>{
+                    e.preventDefault();
+                    handleAddToCart(product);
+                }}
+                >
+                Add to Cart
+                </button>
+                <div>
+                    <p>
+                        {inStock ? (
+                            <span style={{ color: 'green' }}>In Stock</span>
+                        ) : (
+                            <span style={{ color: 'red' }}>Out of Stock</span>
+                        )}
+                    </p>
+                </div>
+                <button
+                disabled={!inStock}
+                style={{
+                    padding: "0.5rem",
+                    background: inStock ? "#8a1ee9fc" : "#aa7ed0fc",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: inStock ? 'pointer' : 'not-allowed',
+                }}
+                >
+                Buy Now
+                </button>
+            </ButtonWrapper>
+        </ProductContainer>
     </div>
   )
 }
@@ -82,7 +96,7 @@ const ProductContainer = styled.div`
 const ButtonWrapper= styled.div`
     display: flex;
     gap: 1rem;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     margin: 1rem 0.5rem 0 0.5rem; ;
 
@@ -104,6 +118,8 @@ const ButtonWrapper= styled.div`
     }
     @media (max-width: 600px) {
         flex-direction: column;
+        padding:0;
+        margin:0;
         button {
             width: 100%;
             margin:0;

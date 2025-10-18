@@ -6,22 +6,28 @@ import { liteClient as algoliasearch } from 'algoliasearch/lite';
 import { InstantSearch,RefinementList ,SearchBox,Hits,Pagination,Configure} from 'react-instantsearch';
 // import AlgoliaAutocomplete from '../../lib/AlgoliaAutocomplete';
 
-const searchClient = algoliasearch('LLSC4VG5FA', '95d46afd21d05c885d07d090eea4ad4f');
+const Search_API_Key=process.env.NEXT_PUBLIC_SEARCH_API_KEY;
+const Application_ID=process.env.NEXT_PUBLIC_APPLICATION_ID;
+
+const searchClient = algoliasearch(Application_ID, Search_API_Key);
 
 function Hit({ hit }) {
+  console.log('hits:',hit)
   return (
-  <ProductCard product={hit} key={hit.id}/>
+  <ProductCard product={hit} key={hit._id}/>
   );
 }
 
 function ProductList({products}) {
+  const indexName = `products_${process.env.NODE_ENV}`;
+  console.log(`index name :${indexName}`);
   return (
     <>
     <ProductCardContainer>
       <InstantSearch 
         insights={true}
         searchClient={searchClient}
-         indexName="B-classy"
+         indexName={indexName}
          routing={true}>
           <StyledSearchBox>
             <SearchBox />

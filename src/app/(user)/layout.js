@@ -11,6 +11,10 @@ import ReduxProvider from '@/components/UI/ReduxProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../toast.css'
+import CartSync from '@/components/cartSync'
+import ReactQueryProvider from '@/components/ReactQueryProvider';
+import AuthProvider from '@/context/AuthProvider';
+
 
 const inter = Inter({ subsets: ['latin'], fallback: ['system-ui', 'arial'] })
 
@@ -23,18 +27,23 @@ export default function RootLayout({ children }) {
               <AntdRegistry>
                 <AOSProvider>
                     <ReduxProvider>
-                      <Navbar />
-                      {children}
-                      <ToastContainer
-                        position="top-right"
-                        autoClose={3000}
-                        hideProgressBar={false}
-                        newestOnTop
-                        closeOnClick
-                        pauseOnHover
-                        draggable
-                        theme="colored"
-                      />
+                      <ReactQueryProvider>
+                        <AuthProvider>
+                          <CartSync />
+                          <Navbar />
+                          {children}
+                          <ToastContainer
+                            position="top-right"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop
+                            closeOnClick
+                            pauseOnHover
+                            draggable
+                            theme="colored"
+                          />
+                        </AuthProvider>
+                      </ReactQueryProvider>
                     </ReduxProvider>
                 </AOSProvider>
                 </AntdRegistry>

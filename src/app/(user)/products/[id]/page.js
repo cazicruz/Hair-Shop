@@ -5,28 +5,36 @@ import styled from 'styled-components';
 import ImageWithThumbnail from '@/components/products/ImageWithThumbnail'
 import ProductDetailsSection from '@/components/products/ProductDetailsSection'
 import LoadingScreen from '@/components/LoadingAnimation'
-import { products } from '@/data/products';
+import {useProducts} from '@/hooks/useProduct';
+import { toast } from 'react-toastify';
+
 
 // Dummy fetch function, replace with real API call
-const fetchProduct = async (id) => {
-    // Simulate API response
-    return products.find(product => product.id === parseInt(id));
-};
+
 
 export default function ProductDetails() {
     const params = useParams();
     const id = params.id;
-    const [product, setProduct] = useState(null);
+    const {useProductById}=useProducts()
+    const { data:product, isLoading, isError } =  useProductById(id);
+    console.log("product:",product,id,isLoading);
 
-    useEffect(() => {
-        if (id) {
-            fetchProduct(id).then(setProduct);
-        }
-    }, [id]);
-
-    if (!product) {
-        return <LoadingScreen />;
+    if (isLoading||!product) return <LoadingScreen />;
+    if (isError) {
+        toast.error("Error fetching product details")
+        return <p>❌ Failed to load product details</p>;
     }
+
+    
+    // useEffect(() => {
+    //     if (id) {
+    //         (async () => {
+    //         const productData = await getProductById(id);
+    //         setProduct(productData);
+    //         })();
+    //     }
+    // }, [id]);
+
 
     return (
         <main style={{ maxWidth: 800, margin: '2rem auto', padding: 24, background: '#fff', borderRadius: 8 }}>

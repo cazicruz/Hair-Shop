@@ -11,7 +11,6 @@ function Layout({children}) {
         {children}
         {/* </LoadingScreen> */}
         {/* </LoadingScreen2> */}
-
     </div>
   )
 }

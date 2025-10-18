@@ -1,24 +1,57 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Modal } from 'antd';
 import { useRouter } from 'next/navigation';  
+import useAuth from '@/hooks/useAuth';
 
-function LoginForm({ openModal, setOpenModal }) {
+function LoginForm() {
+  const [openModal, setOpenModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
-
+  const { login, register } = useAuth();
   const router = useRouter();
 
+  // Open modal after component mounts (fixes hydration issue)
+  useEffect(() => {
+    setOpenModal(true);
+  }, []);
 
-
-  const onFinish = values => {
+  const handleSubmit = async (values) => {
     setIsLoading(true);
-    console.log(`${isSignUp ? 'Sign Up' : 'Login'} values:`, values);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      if (isSignUp) {
+        await register(values);
+      } else {
+        await login(values);
+      }
+      // setOpenModal(false);
+    } catch (error) {
+      console.error(`${isSignUp ? 'Sign Up' : 'Login'} failed:`, error);
+      // Show the user a friendly error message (login mutation already normalizes errors,
+      // but guard here as well in case something else throws)
+      const message = error?.message || (error?.response?.data?.message) || 'Authentication failed. Please try again.';
+      // Use react-toastify if available via the project; fallback to alert if not
+      try {
+        // import dynamically to avoid bundling issues in some environments
+        const { toast } = await import('react-toastify');
+        toast.error(message, { className: 'toast-error' });
+      } catch (e) {
+        alert(message);
+      }
+    } finally {
       setIsLoading(false);
-      setOpenModal(false);
-    }, 1500);
+    }
+  };
+
+  const onFinish = async (values) => {
+    console.log(`${isSignUp ? 'Sign Up' : 'Login'} values:`, values);
+    await handleSubmit(values);
+  };
+
+  const handleCancel = () => {
+    setOpenModal(false);
+    // Optionally redirect back to home or previous page
+    router.push('/');
   };
 
   return (
@@ -26,8 +59,9 @@ function LoginForm({ openModal, setOpenModal }) {
       title={isSignUp ? 'Sign Up' : 'Login'}
       open={openModal}
       confirmLoading={isLoading}
-      onCancel={() => setOpenModal(false)}
+      // onCancel={handleCancel}
       footer={null}
+      // destroyOnHidden
     >
       <Form
         name="auth_form"
@@ -56,6 +90,16 @@ function LoginForm({ openModal, setOpenModal }) {
 
         {isSignUp && (
           <>
+            <Form.Item
+              label="Full Name"
+              name="name"
+              rules={[
+                { required: true, message: 'Please enter your full name' },
+              ]}
+            >
+              <Input placeholder="John Doe" />
+            </Form.Item>
+
             <Form.Item
               label="Confirm Password"
               name="confirmPassword"
@@ -92,7 +136,7 @@ function LoginForm({ openModal, setOpenModal }) {
                 { required: true, message: 'Please enter your address' },
               ]}
             >
-              <Input.TextArea placeholder="Your address" />
+              <Input.TextArea placeholder="Your address" rows={3} />
             </Form.Item>
           </>
         )}
@@ -103,25 +147,34 @@ function LoginForm({ openModal, setOpenModal }) {
           </Button>
         </Form.Item>
 
-        <Form.Item>
-          <Button type="link" onClick={() => setIsSignUp(!isSignUp)} block>
+        <Form.Item style={{ marginBottom: 0 }}>
+          <Button 
+            type="link" 
+            onClick={() => setIsSignUp(!isSignUp)} 
+            block
+            style={{ padding: 0 }}
+          >
             {isSignUp ? 'Already have an account? Login' : 'New user? Sign Up'}
           </Button>
         </Form.Item>
       </Form>
-      
-      {/* <div
-      style={{ textAlign: 'center', cursor: 'pointer', color: '#1890ff' }}
-      onClick={() => setIsSignUp(!isSignUp)}
-      > {isSignUp ? 'Already have an account? Login' : 'New user? Sign Up'}</div> */}
 
-      <div
-      style={{ textAlign: 'center', cursor: 'pointer', color: '#1890ff' }}
-      onClick={() => {
-        setOpenModal(false);
-        router.push('/forgotPassword');
-      }}
-      >Forgot Password?</div>
+      {!isSignUp && (
+        <div
+          style={{ 
+            textAlign: 'center', 
+            cursor: 'pointer', 
+            color: '#1890ff',
+            marginTop: '8px' 
+          }}
+          onClick={() => {
+            setOpenModal(false);
+            router.push('/forgotPassword');
+          }}
+        >
+          Forgot Password?
+        </div>
+      )}
     </Modal>
   );
 }

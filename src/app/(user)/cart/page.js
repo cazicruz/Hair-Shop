@@ -5,6 +5,7 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { useSelector,useDispatch } from 'react-redux';
 import { addItem, removeItem ,updateQuantity} from '@/redux/cartSlice';
 import { useRouter } from 'next/navigation';
+import {useCartActions} from '@/hooks/cartThunks'
 
 
 
@@ -154,6 +155,7 @@ function CartItem({ item, onQtyChange, onRemove }) {
 
 // Main Cart Page
 export default function CartPage() {
+    const { addItemToCart, removeItemFromCart, updateCartQuantity } = useCartActions();
     const cartItems = useSelector((state) => state.cart.items);
     console.log("Cart Items from Redux:", cartItems);
 
@@ -161,13 +163,13 @@ export default function CartPage() {
     
     const handleDeleteFromCart = (productId) => {
         // Implement delete from cart functionality
-        dispatch(removeItem(productId));
+        dispatch(removeItemFromCart(productId));
     }
 
     const handleQtyChange = (id, qty) => {
         if (qty < 1) return;
         // Implement quantity change functionality
-        dispatch(updateQuantity({ id, quantity: qty }));
+        dispatch(updateCartQuantity({ id, quantity: qty }));
     };
 
     const router = useRouter();
