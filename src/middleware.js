@@ -37,8 +37,8 @@ export async function middleware(request) {
   // Comment out if you want to skip verification for better performance
   if (pathname.startsWith('/admin') || pathname.startsWith('/checkout')) {
     try {
-      const response = await fetch(`${EXTERNAL_API_URL}/auth/verify`, {
-        method: 'POST',
+      const response = await fetch(`${EXTERNAL_API_URL}auth/profile`, {
+        method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',

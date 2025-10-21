@@ -30,7 +30,7 @@ const useAuth = () => {
                 }
             }
             
-            // Otherwise fetch from server to verify token
+            // Otherwise fetch from server to  token
             try {
                 const response = await axiosClient.get('/auth/profile');
                 const userData = response.data.user || response.data;
