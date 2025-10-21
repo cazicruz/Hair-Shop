@@ -40,6 +40,8 @@ export function useCart() {
       return res.data.data.cart;
     },
     enabled: isAuthenticated(), // only fetch if authenticated
+    staleTime: 1000 * 60 * 2, // 2 minutes
+    refetchOnWindowFocus: false,
   });
 
 

@@ -3,10 +3,11 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 const backendURL=process.env.API_URL;
+console.log('Axios Client Backend URL:', backendURL);
 
 
 const axiosClient = axios.create({
-  baseURL: backendURL || 'http://localhost:3000/api',
+  baseURL: backendURL || 'https://e-com-backend-m68j.onrender.com/api',
   withCredentials: true, // ensures httpOnly refresh cookie is sent
   headers: {
     'Content-Type': 'application/json',
