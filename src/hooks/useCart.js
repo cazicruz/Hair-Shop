@@ -5,6 +5,7 @@ import axiosClient from '@/lib/axiosClient';
 import { setCart} from '@/redux/cartSlice';
 import { useSelector,useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 // Centralized route definitions
 const cartRoutes = {
@@ -21,6 +22,10 @@ export function useCart() {
   const queryClient = useQueryClient();
         const dispatch = useDispatch();
 
+    const isAuthenticated = () => {
+    const token = Cookies.get('accessToken');
+    return !!token;
+    };
 
   // --- GET: Fetch cart items
   const {
@@ -34,14 +39,10 @@ export function useCart() {
       console.log("Fetched cart data:", res.data.data.cart);
       return res.data.data.cart;
     },
+    enabled: isAuthenticated(), // only fetch if authenticated
   });
 
-   useEffect(() => {
-    if (cart) {
-      console.log("Cart data on success:", cart.items);
-      dispatch(setCart(cart.items));
-    }
-  }, [cart, dispatch]);
+
 
   // --- POST: Add to cart
   const addToCart = useMutation({

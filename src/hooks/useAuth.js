@@ -83,7 +83,7 @@ const useAuth = () => {
         },
         onError: (error) => {
             const message = error?.message || 'Error logging in';
-            toast.error(message, { className: 'toast-error' });
+            // toast.error(message, { className: 'toast-error' });
         }
     });
 
@@ -151,6 +151,7 @@ const useAuth = () => {
     // Refresh token mutation
     const refreshTokenMutation = useMutation({
         mutationFn: async () => {
+            console.log('Refreshing token...');
             // The httpOnly refreshToken cookie will be sent automatically
             const response = await axiosClient.post('/auth/refresh');
             const { token: accessToken, user: userObj } = response.data;
@@ -169,6 +170,7 @@ const useAuth = () => {
             return userObj;
         },
         onSuccess: (userData) => {
+            console.log('Token refreshed successfully');
             queryClient.setQueryData(['user'], userData);
         },
         onError: () => {

@@ -56,10 +56,25 @@ axiosClient.interceptors.response.use(
         // - 429 or 5xx errors are server-side/rate-limit problems: show a toast and reject without redirecting.
         // - /auth/refresh and other non-login endpoints should keep the refresh flow below.
         let isAuthEndpoint = false;
+
+        // ✅ Whitelist cart endpoint - don't redirect on 401
+        const cartEndpoints = ['/cart/', '/api/cart/add', '/api/cart/remove', '/api/cart/clear', '/api/cart/update-quantity', '/api/cart/calculate-total'];
+        // const isCartEndpoint = cartEndpoints.some(endpoint => 
+        //     originalRequest?.url?.includes(endpoint)
+        // );
+
+        
         try {
-            const authPaths = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/logout'];
+            const authPaths = ['forgotPassword', '/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/logout'];
             const reqUrl = (originalRequest?.url || '') + (originalRequest?.baseURL || '');
             isAuthEndpoint = authPaths.some(p => reqUrl.includes(p));
+            const isCartEndpoint = cartEndpoints.some(p => reqUrl.includes(p));
+
+
+            if (isCartEndpoint) {
+            // Just reject without redirecting for cart endpoints
+            return Promise.reject(error);
+            }
 
             if (isAuthEndpoint) {
                 const status = error.response?.status;

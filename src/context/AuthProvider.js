@@ -5,7 +5,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import LoadingScreen2 from '@/components/LoadingScreen';
 
-const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
+const PUBLIC_ROUTES = ['/login', '/register','/forgotPassword', '/forgot-password', '/resetPassword'];
+// const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
 
 export default function AuthProvider({ children }) {
     const { user, isLoading, refreshToken } = useAuth();
@@ -15,19 +16,20 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         // Skip auth check for public routes
         const isPublicRoute = PUBLIC_ROUTES.some(route => pathname.startsWith(route));
+        // const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
         
         if (isLoading) {
             return;
         }
 
-        // If user is on a public route and is authenticated, redirect to dashboard
+        // If user is on a public route and is authenticated, redirect to products
         if (isPublicRoute && user) {
-            router.push('/dashboard');
+            router.push('/products');
             return;
         }
 
         // If user is not authenticated and not on a public route, redirect to login
-        if (!isPublicRoute && !user) {
+        if (!(isPublicRoute || pathname === '/') && !user) {
             router.push(`/login?redirect=${pathname}`);
             return;
         }

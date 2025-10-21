@@ -132,22 +132,21 @@ const CheckoutButton = styled.button`
 
 // Cart Item Component
 function CartItem({ item, onQtyChange, onRemove }) {
-    console.log("Cart Item:", item);
     
     return (
         <CartItemContainer>
-            <ProductImage src={item.productId.images[0]} alt={item.productId.name} />
+            <ProductImage src={item.images[0]} alt={item.name} />
             <ProductDetails>
-                <ProductName>{item.productId.name}</ProductName>
-                <ProductDesc>{item.productId.desc}</ProductDesc>
+                <ProductName>{item.name}</ProductName>
+                <ProductDesc>{item.desc}</ProductDesc>
                 <QuantityControl>
-                    <QtyButton onClick={() => onQtyChange(item.productId._id, item.quantity - 1)} disabled={item.quantity <= 1}>-</QtyButton>
+                    <QtyButton onClick={() => onQtyChange(item._id, item.quantity - 1)} disabled={item.quantity <= 1}>-</QtyButton>
                     <span>{item.quantity}</span>
-                    <QtyButton onClick={() => onQtyChange(item.productId._id, item.quantity + 1)}>+</QtyButton>
+                    <QtyButton onClick={() => onQtyChange(item._id, item.quantity + 1)}>+</QtyButton>
                 </QuantityControl>
             </ProductDetails>
-            <Price>${(item.productId.price * (item.quantity || 1)).toFixed(2)}</Price>
-            <RemoveButton onClick={() => onRemove(item?.productId._id)}>
+            <Price>${(item.price * (item.quantity || 1)).toFixed(2)}</Price>
+            <RemoveButton onClick={() => onRemove(item?._id)}>
                 <MdOutlineDeleteForever size={25} />
             </RemoveButton>
         </CartItemContainer>
@@ -176,10 +175,10 @@ export default function CartPage() {
     const router = useRouter();
 
     const handleCheckout = () => {
-    router.push('/checkout'); // or '/payment' depending on your route
+    router.push('/checkout');
     };
 
-    const subtotal = cartItems.reduce((sum, item) => sum + item.productId.price * item.quantity, 0);
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const shipping = subtotal > 0 ? 12 : 0;
     const total = subtotal + shipping;
 
