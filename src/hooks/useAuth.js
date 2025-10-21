@@ -5,10 +5,14 @@ import axiosClient from '@/lib/axiosClient';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import { useSearchParams } from 'next/navigation';
+
 
 const useAuth = () => {
     const queryClient = useQueryClient();
     const router = useRouter();
+    const searchParams = useSearchParams();
+
 
     // Fetch current user - this will run on mount and cache the user
     const { data: user, isLoading, error } = useQuery({
@@ -79,7 +83,8 @@ const useAuth = () => {
             // Update the user query cache
             queryClient.setQueryData(['user'], userData);
             toast.success('Login Successfull', { className: 'toast-success' });
-            router.push('/products');
+            const redirect = searchParams.get('redirect');
+            router.push(redirect || '/products');
         },
         onError: (error) => {
             const message = error?.message || 'Error logging in';

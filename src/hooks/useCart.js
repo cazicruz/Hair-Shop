@@ -61,6 +61,23 @@ export function useCart() {
     },
   });
 
+
+  //--- Post bulk add to cart
+
+  const bulkAddToCart = useMutation({
+    mutationFn: async (items) => {
+      const res = await axiosClient.post(cartRoutes.addToCart, { items });
+      console.log("Bulk add to cart response:", res.data);
+      return res.data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onError: (error) => {
+      console.error("Error bulk adding to cart:", error);
+      const message = error?.message || 'Error bulk adding to cart';
+      toast.error(message, { className: 'toast-error' });
+    },
+  });
+
   // --- PUT: Update item quantity
   const updateCartItem = useMutation({
     mutationFn: async ({
@@ -107,6 +124,7 @@ export function useCart() {
     isLoading,
     isError,
     addToCart,
+    bulkAddToCart,
     updateCartItem,
     deleteCartItem,
     clearCart,
