@@ -3,69 +3,70 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {TestimonyCard} from '@/components/home/Testimonials';
 import Image from 'next/image';
+import { useOrder } from '@/hooks/useOrder';
 
 // Dummy order data
-const dummyOrders = [
-    {
-        id: 'ORD001',
-        date: '2024-06-01',
-        status: 'Pending',
-        items: [
-            {
-                name: "Body Wave Bundle",
-                price: 25000,
-                quantity: 2,
-                description: "Soft, bouncy texture",
-                image: ["/images/wig2.png"]
-            },
-            {
-                name: 'Hair Oil',
-                price: 5000,
-                quantity: 1,
-                description: "Nourishing hair oil",
-                image:[ "/images/wig3.png"]
-            },
-        ],
-        total: 25.99,
-    },
-    {
-        id: 'ORD002',
-        date: '2024-05-28',
-        status: 'Delivered',
-        items: [
-            {
-                name: "Body Wave Bundle",
-                price: 25000,
-                quantity: 2,
-                description: "Soft, bouncy texture",
-                image: ["/images/wav hair.png", "/images/wig1.png"]
-            },
-        ],
-        total: 12.99,
-    },
-    {
-        id: 'ORD003',
-        date: '2024-06-03',
-        status: 'Shipped',
-        items: [
-            { 
-            name: "Body Wave Bundle",
-            price: 25000,
-            quantity: 2,
-            description: "Soft, bouncy texture",
-            image: ["/images/red-hair.png", "/images/red-hair.png"]
-            },
-            {
-            name: "Closure 4x4",
-            price: 15000,
-            quantity: 1,
-            description: "Perfect finish for your install",
-            image:[ "/images/red-hair.png", "/images/red-hair.png" ]
-            }
-        ],
-        total: 30.00,
-    },
-];
+// const dummyOrders = [
+//     {
+//         id: 'ORD001',
+//         date: '2024-06-01',
+//         status: 'Pending',
+//         items: [
+//             {
+//                 name: "Body Wave Bundle",
+//                 price: 25000,
+//                 quantity: 2,
+//                 description: "Soft, bouncy texture",
+//                 image: ["/images/wig2.png"]
+//             },
+//             {
+//                 name: 'Hair Oil',
+//                 price: 5000,
+//                 quantity: 1,
+//                 description: "Nourishing hair oil",
+//                 image:[ "/images/wig3.png"]
+//             },
+//         ],
+//         total: 25.99,
+//     },
+//     {
+//         id: 'ORD002',
+//         date: '2024-05-28',
+//         status: 'Delivered',
+//         items: [
+//             {
+//                 name: "Body Wave Bundle",
+//                 price: 25000,
+//                 quantity: 2,
+//                 description: "Soft, bouncy texture",
+//                 image: ["/images/wav hair.png", "/images/wig1.png"]
+//             },
+//         ],
+//         total: 12.99,
+//     },
+//     {
+//         id: 'ORD003',
+//         date: '2024-06-03',
+//         status: 'Shipped',
+//         items: [
+//             { 
+//             name: "Body Wave Bundle",
+//             price: 25000,
+//             quantity: 2,
+//             description: "Soft, bouncy texture",
+//             image: ["/images/red-hair.png", "/images/red-hair.png"]
+//             },
+//             {
+//             name: "Closure 4x4",
+//             price: 15000,
+//             quantity: 1,
+//             description: "Perfect finish for your install",
+//             image:[ "/images/red-hair.png", "/images/red-hair.png" ]
+//             }
+//         ],
+//         total: 30.00,
+//     },
+// ];
 
 const statusOptions = ['All', 'Pending', 'Shipped', 'Delivered', 'Cancelled'];
 const sortOptions = [
@@ -169,10 +170,13 @@ function OrdersPage() {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [statusFilter, setStatusFilter] = useState('All');
     const [sortBy, setSortBy] = useState('date');
+    const { userOrders,isUserOrdersLoading } = useOrder();
 
     useEffect(() => {
-        setOrders(dummyOrders);
-    }, []);
+        // In real app, fetch orders from API
+        console.log("User Orders:", userOrders);
+        setOrders(userOrders);
+    }, [userOrders,isUserOrdersLoading]);
 
     const filteredOrders = orders
         .filter(order => statusFilter === 'All' || order.status === statusFilter)

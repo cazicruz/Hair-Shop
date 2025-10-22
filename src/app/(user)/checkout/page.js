@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
 import { useCart } from '@/hooks/useCart';
-import {normalizeServerCart,deliveryMethod,capitalizeFirst} from '@/utils/helpers';
+import {normalizeServerCart,deliveryMethod} from '@/utils/helpers';
 import Cookies from 'js-cookie';
+import { useOrder } from "@/hooks/useOrder";
+import { useDispatch } from "react-redux";
+import { clearCart } from "@/redux/cartSlice";
 
 const theme = {
   colors: {
@@ -161,61 +164,141 @@ const QuantityBadge = styled.span`
 
 const PaymentPage = () => {
   const [deliveryType, setDeliveryType] = useState("ship");
-  const [shippingMethod, setShippingMethod] = useState("standard");
+  const [shippingMethod, setShippingMethod] = useState('STANDARD'); // ✅ Use key, not method.method
   const [billingSame, setBillingSame] = useState(true);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [billingAddress, setBillingAddress] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
-  const [totals, setTotals] = useState({});
+  const [totals, setTotals] = useState(null); // ✅ Initialize as null
 
-  const { cart, isLoading, error ,calculateCartTotal} = useCart();
+  const dispatch = useDispatch();
 
+  const { createOrderAndInitiatePayment } = useOrder();
+  const { cart, isLoading, isError, calculateCartTotal } = useCart();
 
+  // ✅ Prefill user info only once
   useEffect(() => {
-  // Prefill user info from cookies/query
-  const userCookie = Cookies.get('user');
-  if (userCookie) {
-    try {
-      const userData = JSON.parse(userCookie);
-      setName(userData.name || '');
-      setEmail(userData.email || '');
-      setPhone(userData.phone || '');
-    } catch (error) {
-      console.error('Error parsing user data:', error);
+    const userCookie = Cookies.get('user');
+    if (userCookie) {
+      try {
+        const userData = JSON.parse(userCookie);
+        setName(userData.name || '');
+        setEmail(userData.email || '');
+        setPhone(userData.phone || '');
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
     }
+  }, []); // ✅ Run only once
+
+  // ✅ Calculate totals when cart changes
+  useEffect(() => {
+    if (cart?.items && cart.items.length > 0) {
+      const fetchTotals = async () => {
+        try {
+          const result = await calculateCartTotal.mutateAsync();
+          setTotals(result); // Adjust based on your API response
+        } catch (error) {
+          console.error('Error calculating totals:', error);
+          // ✅ Fallback calculation
+          const carts = normalizeServerCart(cart.items);
+          const subtotal = carts.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+          setTotals({
+            subtotal,
+            tax: Math.round(subtotal * 0.075),
+          });
+        }
+      };
+      fetchTotals();
+    }
+  }, [cart?.items]); // ✅ Only when cart items change
+
+  // ✅ Early returns for loading/error states
+  if (isLoading) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>Loading cart...</div>
+        </Container>
+      </ThemeProvider>
+    );
   }
 
-  // Calculate totals when cart data is available
-    const fetchTotals = async () => {
-      try {
-        const result = await calculateCartTotal.mutateAsync();
-        setTotals(result);
-      } catch (error) {
-        console.error('Error calculating totals:', error);
-      }
-    };
-    fetchTotals();
-  
-  }, [cart,isLoading]); // ✅ Add carts as dependency
-  
+  if (isError || !cart) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container>
+          <div style={{ textAlign: 'center', padding: '2rem', color: '#f04c4c' }}>
+            Error loading cart. Please try again.
+          </div>
+        </Container>
+      </ThemeProvider>
+    );
+  }
 
-  console.log("Cart data in checkout page:", cart);
-  if (isLoading) return <div>Loading cart...</div>;
-  if (error) return <div>Error loading cart: {error.message}</div>;
+  if (!cart.items || cart.items.length === 0) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container>
+          <Card>
+            <Title>Your cart is empty</Title>
+            <p>Add some items to your cart before checking out.</p>
+          </Card>
+        </Container>
+      </ThemeProvider>
+    );
+  }
+
+  if (!totals) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>Calculating totals...</div>
+        </Container>
+      </ThemeProvider>
+    );
+  }
+
   const carts = normalizeServerCart(cart.items);
   
-
-  console.log("Cart totals in checkout page:", totals);
-
-  const subtotal = totals.subtotal;
-  const tax = totals.tax;
-  const shippingFee = deliveryType === "pickup" ? 0 : deliveryMethod[shippingMethod]?.cost;
+  const subtotal = totals.subtotal || 0;
+  const tax = totals.tax || 0;
+  const shippingFee = deliveryType === "pickup" ? 0 : (deliveryMethod[shippingMethod]?.cost || 0);
   const total = subtotal + shippingFee + tax;
 
-  const handleSubmit = (e) => {
+  console.log("Shipping Fee:", shippingFee);
+  console.log("Cart totals:", totals);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Redirecting to Paystack...");
+    
+    const orderData = {
+      contactInfo: {name, email, phone},
+      deliveryInfo:{ 
+      deliveryType: deliveryType==="pickup" ? "store_pickup" : "home_delivery",
+      deliveryMethod: deliveryType==="pickup" ? null : shippingMethod.toLowerCase(),
+      address: deliveryType === "ship" ? address : null,
+      },
+      billingAddress: billingSame ? address : billingAddress,
+    }
+
+    try {
+      const result = await createOrderAndInitiatePayment.mutateAsync(orderData);
+      console.log("Order creation result:", result);
+      dispatch(clearCart());
+
+      // ✅ Redirect to Paystack
+      if (result.paymentLink || result.authorization_url) {
+        window.location.href = result.paymentLink || result.authorization_url;
+      } else {
+        alert('Payment initialization successful!');
+      }
+    } catch (error) {
+      console.error('Order creation failed:', error);
+      alert('Failed to create order. Please try again.');
+    }
   };
 
   return (
@@ -223,8 +306,6 @@ const PaymentPage = () => {
       <Container>
         <Card>
           <Title>Checkout</Title>
-
-          
 
           <form onSubmit={handleSubmit}>
             <Section>
@@ -242,11 +323,11 @@ const PaymentPage = () => {
                 <Select value={shippingMethod} onChange={e => setShippingMethod(e.target.value)}>
                   {Object.entries(deliveryMethod).map(([key, method]) => (
                     <Option key={key} value={key}>
-                      {method.method}  {method.duration} (₦{method.cost.toLocaleString()})
+                      {method.method} - {method.duration} (₦{method.cost.toLocaleString()})
                     </Option>
                   ))}
                 </Select>
-                <Label>Address</Label>
+                <Label>Delivery Address</Label>
                 <Input
                   type="text"
                   value={address}
@@ -260,50 +341,82 @@ const PaymentPage = () => {
             <Section>
               <SectionTitle>Contact Info</SectionTitle>
               <Label>Full Name</Label>
-              <Input type="text" value={name} onChange={e => setName(e.target.value)} required />
+              <Input 
+                type="text" 
+                value={name} 
+                onChange={e => setName(e.target.value)} 
+                required 
+                placeholder="John Doe"
+              />
               <Label>Email</Label>
-              <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+              <Input 
+                type="email" 
+                value={email} 
+                onChange={e => setEmail(e.target.value)} 
+                required 
+                placeholder="john@example.com"
+              />
               <Label>Phone</Label>
-              <Input type="tel" value={phone} onChange={e => setPhone(e.target.value)} required />
+              <Input 
+                type="tel" 
+                value={phone} 
+                onChange={e => setPhone(e.target.value)} 
+                required 
+                placeholder="08012345678"
+              />
             </Section>
 
             <Section>
               <SectionTitle>Billing Address</SectionTitle>
-              <label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
                   checked={billingSame}
                   onChange={() => setBillingSame(!billingSame)}
-                /> Same as shipping address
+                />
+                Same as shipping address
               </label>
               {!billingSame && (
-                <Input type="text" placeholder="Enter billing address" required />
+                <>
+                  <Label style={{ marginTop: '8px' }}>Billing Address</Label>
+                  <Input 
+                    type="text" 
+                    value={billingAddress} 
+                    onChange={e => setBillingAddress(e.target.value)} 
+                    placeholder="Enter billing address" 
+                    required 
+                  />
+                </>
               )}
             </Section>
-            <section>
+
+            <Section>
               <SectionTitle>Order Summary</SectionTitle>
               <div>
-                {carts?.map((item, index) => (
-                  <Capsule key={index}>
-                    <ProductImage src={item.images[0]} alt={item.name} />
+                {carts.map((item, index) => (
+                  <Capsule key={item._id || index}>
+                    <ProductImage src={item.images?.[0] || '/placeholder.png'} alt={item.name} />
                     <CapsuleContent>
                       <strong>{item.name}</strong>
-                      <span className="price">₦{item.price}</span>
+                      <span className="price">₦{item.price?.toLocaleString()}</span>
                       <small>{item.description || "Premium quality hair extension"}</small>
                     </CapsuleContent>
                     <QuantityBadge>{item.quantity}</QuantityBadge>
                   </Capsule>
                 ))}
               </div>
-            </section>
-            <Summary>
-            <div>Subtotal: ₦{subtotal}</div>
-            <div>Shipping: ₦{shippingFee}</div>
-            <div>Estimated Tax: ₦{tax}</div>
-            <div><b>Total: ₦{total}</b></div>
-          </Summary>
+            </Section>
 
-            <Button type="submit">Pay Now</Button>
+            <Summary>
+              <div>Subtotal: ₦{subtotal.toLocaleString()}</div>
+              <div>Shipping: ₦{shippingFee.toLocaleString()}</div>
+              <div>Estimated Tax: ₦{tax.toLocaleString()}</div>
+              <div><b>Total: ₦{total.toLocaleString()}</b></div>
+            </Summary>
+
+            <Button type="submit" disabled={createOrderAndInitiatePayment.isPending}>
+              {createOrderAndInitiatePayment.isPending ? 'Processing...' : 'Pay Now'}
+            </Button>
           </form>
         </Card>
       </Container>

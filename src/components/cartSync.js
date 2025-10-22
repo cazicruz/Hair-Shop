@@ -14,7 +14,7 @@ function CartSync() {
   const user = queryClient.getQueryData(['user']);
 
   const extractReduxCartIds = (cartItems) => { // ✅ Fixed typo: Redox -> Redux
-    return cartItems.map(item => item._id); // ✅ Changed from item.id to item._id
+    return cartItems.map(item => item._id ); // ✅ Changed from item.id to item._id
   };
 
   const normalizeServerCart = (serverCart) => {
@@ -37,6 +37,7 @@ function CartSync() {
         // Server cart is empty but Redux has items - sync to server
         if (reduxCart && reduxCart.length > 0) {
           const cartIds = extractReduxCartIds(reduxCart);
+          console.log("Syncing Redux cart to server with IDs:", cartIds);
           bulkAddToCart.mutate(cartIds); // ✅ Use mutate instead of mutateAsync
         } else {
           // Both empty - clear Redux to be safe
