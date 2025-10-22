@@ -1,6 +1,9 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { ThemeProvider } from "styled-components";
+import { useCart } from '@/hooks/useCart';
+import {normalizeServerCart,deliveryMethod,capitalizeFirst} from '@/utils/helpers';
+import Cookies from 'js-cookie';
 
 const theme = {
   colors: {
@@ -138,36 +141,76 @@ const QuantityBadge = styled.span`
   align-self: flex-start;
 `;
 
-const sampleOrder = [
-  {
-    name: "Body Wave Bundle",
-    price: 25000,
-    quantity: 2,
-    description: "Soft, bouncy texture",
-    image: "/images/red-hair.png"
-  },
-  {
-    name: "Closure 4x4",
-    price: 15000,
-    quantity: 1,
-    description: "Perfect finish for your install",
-    image: "/images/red-hair.png"
-  }
-];
+// const sampleOrder = [
+//   {
+//     name: "Body Wave Bundle",
+//     price: 25000,
+//     quantity: 2,
+//     description: "Soft, bouncy texture",
+//     image: "/images/red-hair.png"
+//   },
+//   {
+//     name: "Closure 4x4",
+//     price: 15000,
+//     quantity: 1,
+//     description: "Perfect finish for your install",
+//     image: "/images/red-hair.png"
+//   }
+// ];
 
 
-const PaymentPage = ({order=sampleOrder}) => {
+const PaymentPage = () => {
   const [deliveryType, setDeliveryType] = useState("ship");
-  const [shippingMethod, setShippingMethod] = useState("gigl");
+  const [shippingMethod, setShippingMethod] = useState("standard");
   const [billingSame, setBillingSame] = useState(true);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [totals, setTotals] = useState({});
 
-  const shippingFee = deliveryType === "pickup" ? 0 : 10000;
-  const subtotal = 77900;
-  const tax = 3895;
+  const { cart, isLoading, error ,calculateCartTotal} = useCart();
+
+
+  useEffect(() => {
+  // Prefill user info from cookies/query
+  const userCookie = Cookies.get('user');
+  if (userCookie) {
+    try {
+      const userData = JSON.parse(userCookie);
+      setName(userData.name || '');
+      setEmail(userData.email || '');
+      setPhone(userData.phone || '');
+    } catch (error) {
+      console.error('Error parsing user data:', error);
+    }
+  }
+
+  // Calculate totals when cart data is available
+    const fetchTotals = async () => {
+      try {
+        const result = await calculateCartTotal.mutateAsync();
+        setTotals(result);
+      } catch (error) {
+        console.error('Error calculating totals:', error);
+      }
+    };
+    fetchTotals();
+  
+  }, [cart,isLoading]); // ✅ Add carts as dependency
+  
+
+  console.log("Cart data in checkout page:", cart);
+  if (isLoading) return <div>Loading cart...</div>;
+  if (error) return <div>Error loading cart: {error.message}</div>;
+  const carts = normalizeServerCart(cart.items);
+  
+
+  console.log("Cart totals in checkout page:", totals);
+
+  const subtotal = totals.subtotal;
+  const tax = totals.tax;
+  const shippingFee = deliveryType === "pickup" ? 0 : deliveryMethod[shippingMethod]?.cost;
   const total = subtotal + shippingFee + tax;
 
   const handleSubmit = (e) => {
@@ -197,7 +240,11 @@ const PaymentPage = ({order=sampleOrder}) => {
                 <SectionTitle>Shipping Details</SectionTitle>
                 <Label>Shipping Method</Label>
                 <Select value={shippingMethod} onChange={e => setShippingMethod(e.target.value)}>
-                  <Option value="gigl">GIGL (₦10,000, 3–5 days)</Option>
+                  {Object.entries(deliveryMethod).map(([key, method]) => (
+                    <Option key={key} value={key}>
+                      {method.method}  {method.duration} (₦{method.cost.toLocaleString()})
+                    </Option>
+                  ))}
                 </Select>
                 <Label>Address</Label>
                 <Input
@@ -236,9 +283,9 @@ const PaymentPage = ({order=sampleOrder}) => {
             <section>
               <SectionTitle>Order Summary</SectionTitle>
               <div>
-                {order?.map((item, index) => (
+                {carts?.map((item, index) => (
                   <Capsule key={index}>
-                    <ProductImage src={item.image} alt={item.name} />
+                    <ProductImage src={item.images[0]} alt={item.name} />
                     <CapsuleContent>
                       <strong>{item.name}</strong>
                       <span className="price">₦{item.price}</span>

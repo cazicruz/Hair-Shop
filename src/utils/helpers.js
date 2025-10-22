@@ -20,3 +20,17 @@ export function extractNameFromEmail(email) {
 
   return { firstName, lastName };
 }
+
+export const normalizeServerCart = (serverCart) => {
+    return serverCart.map(item => ({
+      ...item.productId,
+      quantity: item.quantity,
+      cartItemId: item._id
+    }));
+  };
+
+
+export const deliveryMethod = {
+  STANDARD: { method: 'standard', cost: 10000,duration: '5-7 days' },
+  EXPRESS: { method: 'express', cost: 20000,duration: '1-2 days' }
+};

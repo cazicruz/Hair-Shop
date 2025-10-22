@@ -115,7 +115,7 @@ export function useCart() {
   const calculateCartTotal = useMutation({
     mutationFn: async () => {
       const res = await axiosClient.get(cartRoutes.calculateCartTotal);
-      return res.data;
+      return res.data.data.totals;
     },
   });
 
