@@ -1,7 +1,7 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 
-const EXTERNAL_API_URL = process.env.API_URL || 'http://localhost:8000/api';
+const EXTERNAL_API_URL = process.env.API_URL || 'https://e-com-backend-m68j.onrender.com/api';
 
 export async function middleware(request) {
   const token = request.cookies.get('accessToken')?.value;

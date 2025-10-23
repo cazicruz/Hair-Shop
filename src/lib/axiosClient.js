@@ -143,7 +143,7 @@ axiosClient.interceptors.response.use(
         try {
             // Try to refresh the token
             const response = await axios.post(
-                `${process.env.API_URL || 'http://localhost:8000/api'}/auth/refresh`,
+                `${process.env.API_URL || 'https://e-com-backend-m68j.onrender.com/api'}/auth/refresh`,
                 { /* refreshToken */ },
                 { withCredentials: true }
             );
