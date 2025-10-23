@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState,Suspense } from 'react';
 import LoginForm from '@/components/modals/LoginForm';
 
 export default function AuthPage() {
@@ -20,9 +20,10 @@ export default function AuthPage() {
       justifyContent: 'center',
       zIndex: 1000
     }}>
-
+      <Suspense fallback={<div>Loading...</div>}>
         {<LoginForm openModal={true} setOpenModal={() => {}} />}
 
+      </Suspense>
     </div>
   );
 }
