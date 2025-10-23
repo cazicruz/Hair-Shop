@@ -30,7 +30,7 @@ function ProductDetailsSection({product}) {
             <li><strong>Length:</strong> {`${product.length.value}${product.length.unit}`}</li>
             <li><strong>Color:</strong> {capitalizeFirst(product.color)}</li>
         </ul>
-        <h2 style={{ color: '#b12704' }}>${product.price.toFixed(2)}</h2>
+        <h2 style={{ color: '#b12704' }}>₦{product.price.toFixed(2)}</h2>
         <p>
             {inStock ? (
                 <span style={{ color: 'green' }}>In Stock</span>

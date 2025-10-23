@@ -33,7 +33,7 @@ function ProductCard({product}) {
             />
             <h2 style={{ fontSize: "1.2rem", margin: "1rem 0 0.5rem" }}>{capitalizeFirst(product.name)}</h2>
             <p style={{ color: "#888", marginBottom: "0.5rem" }}>{capitalizeFirst(product.description)}</p>
-            <strong style={{ fontSize: "1.1rem" }}>${product.price.toFixed(2)}</strong>
+            <strong style={{ fontSize: "1.1rem" }}>₦{product.price.toFixed(2)}</strong>
         </Link>
             <ButtonWrapper>
                 <button
