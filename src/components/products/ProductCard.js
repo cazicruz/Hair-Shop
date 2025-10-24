@@ -7,6 +7,7 @@ import { addItem } from '@/redux/cartSlice';
 import { toast } from 'react-toastify';
 import {capitalizeFirst} from '@/utils/helpers'
 import {useCartActions} from '@/hooks/cartThunks'
+import { useCart } from '@/hooks/useCart';
 
 
 
@@ -14,10 +15,12 @@ function ProductCard({product}) {
     const { addItemToCart} = useCartActions();
     const dispatch = useDispatch();
     const inStock = product.stockQuantity > 0;
+    const { addToCart } = useCart();
 
     const handleAddToCart = (product) => {
-            dispatch(addItemToCart(product));
-            toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
+            addToCart.mutateAsync(product).then(() => {
+                toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
+            });
         }
   return (
     <div>

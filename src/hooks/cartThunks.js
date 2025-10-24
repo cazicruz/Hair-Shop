@@ -10,19 +10,19 @@ export const useCartActions = () => {
   return {
     addItemToCart:
       (item) => async (dispatch) => {
-        dispatch(addItem(item)); // update UI instantly
+        // dispatch(addItem(item)); // update UI instantly
         await addToCart.mutateAsync(item); // sync with server
       },
 
     removeItemFromCart:
       (id) => async (dispatch) => {
-        dispatch(removeItem(id));
+        // dispatch(removeItem(id));
         await deleteCartItem.mutateAsync(id);
       },
 
     updateCartQuantity:
       (id, quantity) => async (dispatch) => {
-        dispatch(updateQuantity({ id, quantity }));
+        // dispatch(updateQuantity({ id, quantity }));
         await updateCartItem.mutateAsync({ productId: id, quantity });
       },
   };

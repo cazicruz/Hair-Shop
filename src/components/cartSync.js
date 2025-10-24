@@ -27,23 +27,25 @@ function CartSync() {
 
   useEffect(() => {
     console.log("Syncing cart data to Redux:", cart, reduxCart);
-    
-    if (user && !isLoading) { // ✅ Check !isLoading to avoid premature sync
-      if (cart?.items && cart.items.length > 0) {
-        // Server has cart data - sync to Redux
-        const normalizedCart = normalizeServerCart(cart.items);
+
+    if (!isLoading) { // ✅ Check !isLoading to avoid premature sync
+      const normalizedCart = normalizeServerCart(cart.items);
         dispatch(setCart(normalizedCart));
-      } else if (!cart?.items || cart.items.length === 0) {
-        // Server cart is empty but Redux has items - sync to server
-        if (reduxCart && reduxCart.length > 0) {
-          const cartIds = extractReduxCartIds(reduxCart);
-          console.log("Syncing Redux cart to server with IDs:", cartIds);
-          bulkAddToCart.mutate(cartIds); // ✅ Use mutate instead of mutateAsync
-        } else {
-          // Both empty - clear Redux to be safe
-          dispatch(clearCart());
-        }
-      }
+      // if (cart?.items && cart.items.length > 0) {
+      //   // Server has cart data - sync to Redux
+      //   const normalizedCart = normalizeServerCart(cart.items);
+      //   dispatch(setCart(normalizedCart));
+      // } else if (!cart?.items || cart.items.length === 0) {
+      //   // Server cart is empty but Redux has items - sync to server
+      //   if (reduxCart && reduxCart.length > 0) {
+      //     const cartIds = extractReduxCartIds(reduxCart);
+      //     console.log("Syncing Redux cart to server with IDs:", cartIds);
+      //     bulkAddToCart.mutate(cartIds); // ✅ Use mutate instead of mutateAsync
+      //   } else {
+      //     // Both empty - clear Redux to be safe
+      //     dispatch(clearCart());
+      //   }
+      // }
     }
   }, [cart, isLoading, user, dispatch]); // ✅ Add user to dependencies
 

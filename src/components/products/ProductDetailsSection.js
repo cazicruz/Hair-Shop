@@ -5,21 +5,21 @@ import { IoBagHandleSharp } from "react-icons/io5";
 import { useDispatch } from 'react-redux';
 import { addItem } from '../../redux/cartSlice';
 import { toast } from 'react-toastify';
-import {useCartActions} from '@/hooks/cartThunks'
 import {capitalizeFirst} from '@/utils/helpers'
+import { useCart } from '@/hooks/useCart';
 
 
 
 function ProductDetailsSection({product}) {
-      const { addItemToCart} = useCartActions();
       const inStock = product.stockQuantity > 0;
 
-    const dispatch = useDispatch();
-
+    const { addToCart } = useCart();
     const handleAddToCart = (product) => {
         // Implement add to cart functionality
-        dispatch(addItemToCart(product));
-        toast.success('Product added to cart!', { className: 'toast-success' });
+        console.log("Adding to cart:", product);
+        addToCart.mutateAsync(product).then(() => {
+            toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
+        });
     }
   return (
     <div style={{width:'100%', paddingRight:'30px'}}>
@@ -50,8 +50,11 @@ function ProductDetailsSection({product}) {
                 opacity: inStock ? 1 : 0.5,
             }}
             icon={<FaOpencart size={20} />}
-            onClick={() => handleAddToCart(product)}
-            disabled={!!product.stockQuantity}
+            onClick={(e)=>{
+                    e.preventDefault();
+                    handleAddToCart(product);
+                }}
+            disabled={product.stockQuantity <= 0}
             text={'Add to Cart'}
         /> 
         <AddToCart
@@ -66,7 +69,7 @@ function ProductDetailsSection({product}) {
                 opacity: inStock ? 1 : 0.5,
             }}
             icon={<IoBagHandleSharp size={20} />}
-            disabled={!!product.stockQuantity}
+            disabled={product.stockQuantity <= 0}
             text={'Buy Now'}
         /> 
     </div>

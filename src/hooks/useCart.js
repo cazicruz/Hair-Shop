@@ -2,14 +2,14 @@
 import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '@/lib/axiosClient';
-import { setCart} from '@/redux/cartSlice';
-import { useSelector,useDispatch } from 'react-redux';
+import { setCart } from '@/redux/cartSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 // Centralized route definitions
 const cartRoutes = {
-  getUserCart: '/cart',
+  getUserCart: '/cart/',
   addToCart: '/cart/add',
   removeCartItem: '/cart/remove',
   emptyCart: '/cart/clear',
@@ -17,15 +17,12 @@ const cartRoutes = {
   calculateCartTotal: '/cart/calculate-total',
 };
 
-
 export function useCart() {
   const queryClient = useQueryClient();
-        const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const isAuthenticated = () => {
-    const token = Cookies.get('accessToken');
-    return !!token;
-    };
+  // ✅ Get cartId outside of query
+  const cartId = Cookies.get('cartId');
 
   // --- GET: Fetch cart items
   const {
@@ -33,88 +30,153 @@ export function useCart() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['cart'],
+    queryKey: ['cart'], // ✅ Add cartId to query key
     queryFn: async () => {
-      const res = await axiosClient.get(cartRoutes.getUserCart);
+      const res = await axiosClient.get(cartRoutes.getUserCart, { 
+        params: { id: cartId } 
+      });
       console.log("Fetched cart data:", res.data.data.cart);
       return res.data.data.cart;
     },
-    enabled: isAuthenticated(), // only fetch if authenticated
-    staleTime: 1000 * 60 * 2, // 2 minutes
+    enabled: !!cartId, // ✅ Fixed: was checking undefined variable
+    staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
   });
-
-
+  
 
   // --- POST: Add to cart
   const addToCart = useMutation({
     mutationFn: async (item) => {
-      const res = await axiosClient.post(cartRoutes.addToCart,{productId: item._id,quantity:`1`});
+      const currentCartId = Cookies.get('cartId');
+      const res = await axiosClient.post(cartRoutes.addToCart, {
+        cartId: currentCartId || null, // ✅ Handle no cart yet
+        productId: item._id,
+        quantity: 1 // ✅ Use number, not string
+      });
       console.log("Add to cart response:", res.data);
-      return res.data;
+      
+      const newCart = res.data.data.cart;
+      
+      // ✅ Set cartId if it's a new cart
+      if (newCart._id) {
+        Cookies.set('cartId', newCart._id, { 
+          secure: true, 
+          sameSite: 'strict',
+          expires: 7
+        });
+      }
+      
+      return newCart;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: (data) => {
+      console.log('data:', data);
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      // toast.success('Item added to cart', { className: 'toast-success' });
+    },
     onError: (error) => {
       console.error("Error adding to cart:", error);
-      const message = error?.message || 'Error adding to cart';
+      const message = error?.response?.data?.message || error?.message || 'Error adding to cart';
       toast.error(message, { className: 'toast-error' });
     },
   });
 
-
-  //--- Post bulk add to cart
-
+  // --- POST: Bulk add to cart
   const bulkAddToCart = useMutation({
     mutationFn: async (items) => {
-      const res = await axiosClient.post(cartRoutes.addToCart, { items });
+      const currentCartId = Cookies.get('cartId');
+      const res = await axiosClient.post(cartRoutes.addToCart, { 
+        cartId: currentCartId,
+        items 
+      });
       console.log("Bulk add to cart response:", res.data);
-      return res.data;
+      return res.data.data.cart;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      toast.success('Items added to cart', { className: 'toast-success' });
+    },
     onError: (error) => {
       console.error("Error bulk adding to cart:", error);
-      const message = error?.message || 'Error bulk adding to cart';
+      const message = error?.response?.data?.message || error?.message || 'Error bulk adding to cart';
       toast.error(message, { className: 'toast-error' });
     },
   });
 
-  // --- PUT: Update item quantity
+  // --- PATCH: Update item quantity
   const updateCartItem = useMutation({
-    mutationFn: async ({
-      productId,
-      quantity,
-    }) => {
+    mutationFn: async ({ productId, quantity }) => {
+      const currentCartId = Cookies.get('cartId');
       const res = await axiosClient.patch(cartRoutes.updateQuantity, {
+        cartId: currentCartId,
         productId,
         quantity,
       });
-      return res.data;
+      return res.data.data.cart;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      toast.success('Quantity updated', { className: 'toast-success' });
+    },
+    onError: (error) => {
+      console.error("Error updating quantity:", error);
+      const message = error?.response?.data?.message || error?.message || 'Error updating quantity';
+      toast.error(message, { className: 'toast-error' });
+    },
   });
 
   // --- DELETE: Remove a specific item
   const deleteCartItem = useMutation({
     mutationFn: async (productId) => {
-      const res = await axiosClient.delete(`${cartRoutes.removeCartItem}`,{data:{productId}});
-      return res.data;
+      const currentCartId = Cookies.get('cartId');
+      const res = await axiosClient.delete(cartRoutes.removeCartItem, {
+        data: { 
+          cartId: currentCartId,
+          productId 
+        }
+      });
+      return res.data.data.cart;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      toast.success('Item removed from cart', { className: 'toast-success' });
+    },
+    onError: (error) => {
+      console.error("Error removing item:", error);
+      const message = error?.response?.data?.message || error?.message || 'Error removing item';
+      toast.error(message, { className: 'toast-error' });
+    },
   });
 
   // --- DELETE ALL: Clear the entire cart
   const clearCart = useMutation({
     mutationFn: async () => {
-      const res = await axiosClient.delete(cartRoutes.emptyCart);
-      return res.data;
+      const currentCartId = Cookies.get('cartId');
+      const res = await axiosClient.delete(cartRoutes.emptyCart, {
+        data: { cartId: currentCartId }
+      });
+      return res.data.data.cart;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cart'] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      toast.success('Cart cleared', { className: 'toast-success' });
+    },
+    onError: (error) => {
+      console.error("Error clearing cart:", error);
+      const message = error?.response?.data?.message || error?.message || 'Error clearing cart';
+      toast.error(message, { className: 'toast-error' });
+    },
   });
 
-  // --- GET: Calculate cart total (optional utility)
+  // --- GET: Calculate cart total
   const calculateCartTotal = useMutation({
-    mutationFn: async () => {
-      const res = await axiosClient.get(cartRoutes.calculateCartTotal);
+    mutationFn: async (options = {}) => {
+      const currentCartId = Cookies.get('cartId');
+      const res = await axiosClient.get(cartRoutes.calculateCartTotal, {
+        params: { 
+          cartId: currentCartId,
+          ...options // deliveryType, deliveryMethod, etc.
+        }
+      });
       return res.data.data.totals;
     },
   });
