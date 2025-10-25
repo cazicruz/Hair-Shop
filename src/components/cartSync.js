@@ -18,6 +18,7 @@ function CartSync() {
   };
 
   const normalizeServerCart = (serverCart) => {
+    if (!serverCart) return [];
     return serverCart.map(item => ({
       ...item.productId,
       quantity: item.quantity,
@@ -29,7 +30,7 @@ function CartSync() {
     console.log("Syncing cart data to Redux:", cart, reduxCart);
 
     if (!isLoading) { // ✅ Check !isLoading to avoid premature sync
-      const normalizedCart = normalizeServerCart(cart.items);
+      const normalizedCart = normalizeServerCart(cart?.items);
         dispatch(setCart(normalizedCart));
       // if (cart?.items && cart.items.length > 0) {
       //   // Server has cart data - sync to Redux

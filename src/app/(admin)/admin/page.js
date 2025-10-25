@@ -14,6 +14,7 @@ import { LuPackageOpen } from "react-icons/lu";
 import { AiOutlineProduct } from "react-icons/ai";
 import { FaUsersGear } from "react-icons/fa6";
 import { Button, Layout, Menu, theme } from 'antd';
+import Cookies from 'js-cookie';
 
 
 const { Header, Sider, Content } = Layout;
@@ -78,6 +79,14 @@ flex-direction:colunm;
 `
 
 const AdminLayout = () => {
+  const user = Cookies.get('user');
+  console.log("User:", user);
+  if (!user || !JSON.parse(user).isAdmin) {
+    return <div style={{ padding: '20px', textAlign: 'center' }}>
+      <h2>Access Denied</h2>
+      <p>You do not have permission to access this page.</p>
+    </div>;
+  }
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState('2'); // Default to Orders
 
