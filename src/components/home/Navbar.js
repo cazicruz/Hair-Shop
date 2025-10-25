@@ -11,6 +11,9 @@ import { Badge } from 'antd';
 import { useSelector } from 'react-redux';
 import { useQueryClient } from '@tanstack/react-query';
 import {extractNameFromEmail} from '@/utils/helpers';
+import useAuth from '@/hooks/useAuth';
+import { BiLogOut } from "react-icons/bi";
+
 
 
 const navLinks = [
@@ -165,9 +168,18 @@ export default function Navbar() {
     const [cartCount,setCartCount]=useState(cart.length)
     const toggleMenu = () => setMenuOpen(!menuOpen);
 
+    const {logout} = useAuth();
+
     const queryClient = useQueryClient();
     const user = queryClient.getQueryData(['user']);
-    const userName = user ? extractNameFromEmail(user.email) : '';
+    console.log("User in Navbar:", user);
+
+    const userName = user ? extractNameFromEmail(user?.email) : '';
+    console.log("UserName:", userName);
+
+    const handleLogOut = () => {
+        logout();
+    };
 
     useEffect(() => {
         setCartCount(cart.length);
@@ -196,9 +208,10 @@ export default function Navbar() {
                         </Badge>
                 </CartLink>
                 {/* Assuming a simple loggedIn state for demonstration */}
-                <AccountLink href={localStorage.getItem('token') ? "/orders" : "/login"}>
-                    <Tooltip text={`${userName.firstName} ${userName.lastName}'s Account`} position='bottom'>
-                        <span role="img" aria-label={`${userName.firstName} ${userName.lastName}'s Account`}
+                <Link href={user ? "/orders" :'/login'}>
+                <AccountLink href={user ? "/orders" :'/login'}>
+                    <Tooltip text={user ? `${userName?.firstName} ${userName?.lastName}'s Account` : 'Login'} position='bottom'>
+                        <span role="img" aria-label={user ? `${userName?.firstName} ${userName?.lastName}'s Account` : 'Login / Sign Up'}
                         onClick={()=>setOpenModal(true)}
                         ><RiAccountPinCircleFill size={23} /></span>
                     </Tooltip>
@@ -207,6 +220,11 @@ export default function Navbar() {
                     openModal={openModal}
                       /> */}
                 </AccountLink>
+                </Link>
+                {user && 
+                <AccountLink href="#" onClick={handleLogOut} style={{marginLeft:'5px'}}>
+                    <BiLogOut size={23} title="Logout" color="#fff" />
+                </AccountLink>}
             </LinksDesktop>
             <MenuButton>
                 <CartLink href="/cart">
@@ -249,6 +267,13 @@ export default function Navbar() {
                         }}>
                         {user? `${userName.firstName} ${userName.lastName}'s Orders` :'Login / Sign Up'}
                     </NavLinkMobile>
+                    {user &&<NavLinkMobile href="/" onClick={() => {
+                        setMenuOpen(false)
+                        setOpenModal(true)
+                        handleLogOut();
+                        }}>
+                            Logout
+                    </NavLinkMobile>}
                 </LinksMobile>
             )}
         </NavbarContainer>
