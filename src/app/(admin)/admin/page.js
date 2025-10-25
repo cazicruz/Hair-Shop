@@ -81,19 +81,19 @@ flex-direction:colunm;
 const AdminLayout = () => {
   const user = Cookies.get('user');
   console.log("User:", user);
+  const [collapsed, setCollapsed] = useState(false);
+  const [selectedKey, setSelectedKey] = useState('2'); // Default to Orders
+  
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+  
   if (!user || !JSON.parse(user).isAdmin) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>
       <h2>Access Denied</h2>
       <p>You do not have permission to access this page.</p>
     </div>;
   }
-  const [collapsed, setCollapsed] = useState(false);
-  const [selectedKey, setSelectedKey] = useState('2'); // Default to Orders
-
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
-
   const renderContent = () => {
     switch (selectedKey) {
       case '1':
