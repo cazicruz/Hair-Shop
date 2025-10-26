@@ -81,7 +81,7 @@ export function useAdmin() {
     });
 
     // GET: User by ID
-    const getUserById = (userId) => {
+    const useUserById = (userId) => {
         return useQuery({
             queryKey: ['admin', 'user', userId],
             queryFn: async () => {
