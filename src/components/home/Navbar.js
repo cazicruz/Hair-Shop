@@ -1,5 +1,6 @@
 'use client';
 import React, { useState,useEffect } from 'react';
+import Image from 'next/image';
 import styled from 'styled-components';
 import { FaOpencart } from 'react-icons/fa';
 import { RiAccountPinCircleFill } from "react-icons/ri";
@@ -12,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { useQueryClient } from '@tanstack/react-query';
 import {extractNameFromEmail} from '@/utils/helpers';
 import useAuth from '@/hooks/useAuth';
-import { BiLogOut } from "react-icons/bi";
+import { HiOutlineLogout } from "react-icons/hi";
 
 
 
@@ -39,7 +40,11 @@ const Logo = styled.div`
     font-weight: bold;
     font-size: 1.5rem;
     color: #fff;
-    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
 `;
 
 const LinksDesktop = styled.div`
@@ -188,7 +193,7 @@ export default function Navbar() {
     return (
         <NavbarContainer>
             <Logo>
-                <span role="img" aria-label="B-Classy hair shop"></span> B-Classy <BsStars color="gold"/>
+                    <Image src="/favicon.png" alt="B-Classy Hair Shop Logo" width={40} height={40} style={{marginBottom:'5px', borderRadius:'5px'}}/>
             </Logo>
             <LinksDesktop>
                 {navLinks.map(link => (
@@ -222,8 +227,8 @@ export default function Navbar() {
                 </AccountLink>
                 </Link>
                 {user && 
-                <AccountLink href="#" onClick={handleLogOut} style={{marginLeft:'5px'}}>
-                    <BiLogOut size={23} title="Logout" color="#fff" />
+                <AccountLink href="#" onClick={handleLogOut} style={{marginLeft:'5px', cursor:'pointer'}}>
+                    <HiOutlineLogout size={23} title="Logout" color="#fff" />
                 </AccountLink>}
             </LinksDesktop>
             <MenuButton>

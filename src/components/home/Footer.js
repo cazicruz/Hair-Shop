@@ -9,6 +9,7 @@ import SocialBox from './SocialBox';
 
 
 
+
 const FooterContainer = styled.footer`
   width: 100%;
   background: ${({ theme }) => theme.colors.primary};
@@ -93,7 +94,7 @@ const Footer = () => {
       <div><FaStore size={60} /></div>
       <h3>STORE INFORMATION</h3>
       <p>Visit us at our physical locations for premium hair products.</p>
-      <p><FaMapMarkerAlt /> <strong>Address:</strong> 123 Beauty Lane, Port Harcourt</p>
+      <p><FaMapMarkerAlt /> <strong>Address:</strong> NTA, Ozouba Road, Port Harcourt, Rivers State</p>
       <SocialBox />
     </FooterElement>
 
@@ -101,16 +102,17 @@ const Footer = () => {
       <h3>ONLINE STORE INFORMATION</h3>
       <p><strong>OPENING HOURS</strong></p>
       <ul>
-        <li><p><strong>Monday</strong> - Friday: 8:00AM - 5:00PM</p></li>
-        <li><p><strong>Saturday:</strong> 10:00AM - 3:00PM</p></li>
+        <li><p><strong>Monday - Saturday</strong>: 10:00AM - 5:00PM</p></li>
+        {/* <li><p><strong>Saturday:</strong> 10:00AM - 5:00PM</p></li> */}
         <li><p><strong>Sunday:</strong> Closed</p></li>
         <li>
           <p>
             <FaPhone style={{ marginRight: '6px', verticalAlign: 'middle' }} />
-            <strong>:</strong> +234 708 470 4785
+            <strong>:</strong> +2348125617018
           </p>
         </li>
       </ul>
+      <div></div>
     </FooterElement>
 
     <FooterElement data-aos="fade-left" data-aos-offset="200" data-aos-delay="300">

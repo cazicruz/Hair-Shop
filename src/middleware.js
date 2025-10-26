@@ -1,7 +1,7 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 
-const EXTERNAL_API_URL = process.env.API_URL || 'https://e-com-backend-m68j.onrender.com/api';
+const EXTERNAL_NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://e-com-backend-m68j.onrender.com/api';
 
 export async function middleware(request) {
   const token = request.cookies.get('accessToken')?.value;
@@ -37,7 +37,9 @@ export async function middleware(request) {
   // Comment out if you want to skip verification for better performance
   if (pathname.startsWith('/admin') || pathname.startsWith('/checkout')) {
     try {
-      const response = await fetch(`${EXTERNAL_API_URL}auth/profile`, {
+      // ensure proper URL join - EXTERNAL_NEXT_PUBLIC_API_URL may already include /api
+      const verifyUrl = `${EXTERNAL_NEXT_PUBLIC_API_URL.replace(/\/$/, '')}/auth/profile`;
+      const response = await fetch(verifyUrl, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

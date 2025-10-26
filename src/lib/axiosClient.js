@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
-const backendURL=process.env.API_URL;
+const backendURL=process.env.NEXT_PUBLIC_API_URL;
 console.log('Axios Client Backend URL:', backendURL);
 
 
@@ -13,6 +13,7 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+console.log('axiosClient initialized with baseURL:', axiosClient.defaults.baseURL);
 
 
 // Request interceptor to add token to headers
@@ -143,7 +144,7 @@ axiosClient.interceptors.response.use(
         try {
             // Try to refresh the token
             const response = await axios.post(
-                `${process.env.API_URL || 'https://e-com-backend-m68j.onrender.com/api'}/auth/refresh`,
+                `${process.env.NEXT_PUBLIC_API_URL || 'https://e-com-backend-m68j.onrender.com/api'}/auth/refresh`,
                 { /* refreshToken */ },
                 { withCredentials: true }
             );

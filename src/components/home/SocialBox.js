@@ -2,26 +2,29 @@ import React from 'react';
 import {  FaInstagram, FaTwitter, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import { BsTwitterX } from "react-icons/bs";
 import styled from 'styled-components';
+import { RiTiktokLine } from "react-icons/ri";
 
 
 const SocialBox = () => {
     return (
         <Social>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" >
+            <a href="https://www.instagram.com/bclassy_hairs?igsh=b21uZ25rYXoxaGJ0" target="_blank" rel="noopener noreferrer" >
                 <FaInstagram />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" >
-                <FaTwitter />
+            <a href="https://www.tiktok.com/@bclassy_hairs?_t=ZS-90ja5wFewYp&_r=1" target="_blank" rel="noopener noreferrer" >
+                <RiTiktokLine />
             </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" >
+            <a href="https://www.facebook.com/share/16X5mzpkSk/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" >
                 <FaFacebook />
             </a>
-            <a href="https://x.com" target="_blank" rel="noopener noreferrer" >
+            {/* <a href="https://x.com" target="_blank" rel="noopener noreferrer" >
                 <BsTwitterX />
-            </a>
-            <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" >
-                <span><FaWhatsapp /></span>
-            </a>
+            </a> */}
+            <span>
+                <a href="https://wa.me/+2348125617018" target="_blank" rel="noopener noreferrer" >
+                    <span><FaWhatsapp /></span>
+                </a>
+            </span>
         </Social>
     );
 };

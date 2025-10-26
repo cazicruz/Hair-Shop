@@ -17,6 +17,15 @@ import AuthProvider from '@/context/AuthProvider';
 
 
 const inter = Inter({ subsets: ['latin'], fallback: ['system-ui', 'arial'] })
+export const metadata = {
+  title: "BClassy Hairs",
+  description: "an online store for all your hair needs",
+  icons: {
+    icon: "/favicon.png", // or .svg, .ico
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+};
 
 export default function RootLayout({ children }) {
   return (

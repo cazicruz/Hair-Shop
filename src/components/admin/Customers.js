@@ -1,12 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import LoadingScreen from '@/components/LoadingAnimation';
+import { useAdmin } from '@/hooks/useAdmin';
 
 // Dummy API functions (replace with real API calls)
-const fetchCustomers = async () => [
-  { id: 1, name: 'Jane Doe', email: 'jane@example.com', status: 'Active' },
-  { id: 2, name: 'John Smith', email: 'john@example.com', status: 'Inactive' },
-];
+// const fetchCustomers = async () => [
+//   { id: 1, name: 'Jane Doe', email: 'jane@example.com', status: 'Active' },
+//   { id: 2, name: 'John Smith', email: 'john@example.com', status: 'Inactive' },
+// ];
 const updateCustomer = async (id, data) => ({ ...data, id });
 const deleteCustomer = async (id) => true;
 
@@ -60,22 +62,28 @@ const Button = styled.button`
   }
 `;
 
-const Customers = () => {
-  const [customers, setCustomers] = useState([]);
+const Customers = ({ users, isLoading }) => {
+  const [customers, setCustomers] = useState( []);
   const [editingId, setEditingId] = useState(null);
-  const [editData, setEditData] = useState({ name: '', email: '', status: '' });
+  const [editData, setEditData] = useState({ name: '', email: '', status: '', phone: '', address: '', role: '' });
+  const { updateUser, deleteUser ,toggleUserStatus} = useAdmin();
 
   useEffect(() => {
     const loadCustomers = async () => {
-      const data = await fetchCustomers();
-      setCustomers(data);
+      if (users && Array.isArray(users)){
+        setCustomers(users);
+      }
     };
     loadCustomers();
-  }, []);
+  }, [users, isLoading]);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   const handleEdit = (customer) => {
     setEditingId(customer.id);
-    setEditData({ name: customer.name, email: customer.email, status: customer.status });
+    setEditData({ name: customer.name, email: customer.email, status: customer.status, phone: customer.phone, address: customer.address, role: customer.role });
   };
 
   const handleEditChange = (e) => {
@@ -83,14 +91,30 @@ const Customers = () => {
   };
 
   const handleEditSave = async () => {
-    const updated = await updateCustomer(editingId, editData);
-    setCustomers(customers.map(c => c.id === editingId ? updated : c));
+    const updated = await updateUser.mutateAsync({
+      userId: editingId,
+      email: editData.email,
+      phone: editData.phone,
+      address: editData.address,
+      role: editData.role,
+    });
+    setCustomers(customers.map(c => c.id === editingId ? { ...c, ...updated } : c));
     setEditingId(null);
+  };
+
+  const handleStatusToggle = async (e) => {
+    e.preventDefault();
+    const newStatus = e.target.value === 'Active' ? true : false;
+    if (newStatus !== customers.find(c => c.id === editingId).isActive) {
+      const updated = await toggleUserStatus.mutateAsync({
+        userId: editingId,
+      });
+    }
   };
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this customer?')) {
-      await deleteCustomer(id);
+      await deleteUser.mutateAsync(id);
       setCustomers(customers.filter(c => c.id !== id));
     }
   };
@@ -104,6 +128,8 @@ const Customers = () => {
             <Th>Name</Th>
             <Th>Email</Th>
             <Th>Status</Th>
+            <Th>Address</Th>
+            <Th>Contact</Th>
             <Th>Actions</Th>
           </tr>
         </thead>
@@ -137,13 +163,35 @@ const Customers = () => {
                   <Select
                     name="status"
                     value={editData.status}
-                    onChange={handleEditChange}
+                    onChange={handleStatusToggle}
                   >
                     <option value="Active">Active</option>
                     <option value="Inactive">Inactive</option>
                   </Select>
                 ) : (
-                  customer.status
+                  customer.isActive ? 'Active' : 'Inactive'
+                )}
+              </Td>
+              <Td>
+                {editingId === customer.id ? (
+                  <Input
+                    name="address"
+                    value={editData.address}
+                    onChange={handleEditChange}
+                  />
+                ) : (
+                  customer.address
+                )}
+              </Td>
+              <Td>
+                {editingId === customer.id ? (
+                  <Input
+                    name="contact"
+                    value={editData.phone}
+                    onChange={handleEditChange}
+                  />
+                ) : (
+                  customer.phone
                 )}
               </Td>
               <Td>

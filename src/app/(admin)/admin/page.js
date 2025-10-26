@@ -15,6 +15,8 @@ import { AiOutlineProduct } from "react-icons/ai";
 import { FaUsersGear } from "react-icons/fa6";
 import { Button, Layout, Menu, theme } from 'antd';
 import Cookies from 'js-cookie';
+import {useAdmin} from '@/hooks/useAdmin';
+import Image from 'next/image';
 
 
 const { Header, Sider, Content } = Layout;
@@ -74,32 +76,40 @@ const ToggleButton = styled(Button)`
 const LogoContainer = styled.div`
 display:flex;
 align-items:center;
+gap:10px;
 justify-content:center;
-flex-direction:colunm;
+// flex-direction:column;
+padding:20px 0;
+
+h2{
+  padding:0;
+}
 `
 
 const AdminLayout = () => {
   const user = Cookies.get('user');
-  console.log("User:", user);
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState('2'); // Default to Orders
+
+  const { users ,isUsersLoading} = useAdmin();
+  console.log("Admin Users:", users);
   
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   
-  if (!user || !JSON.parse(user).isAdmin) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h2>Access Denied</h2>
-      <p>You do not have permission to access this page.</p>
-    </div>;
-  }
+  // if (!user || !JSON.parse(user).isAdmin) {
+  //   return <div style={{ padding: '20px', textAlign: 'center' }}>
+  //     <h2>Access Denied</h2>
+  //     <p>You do not have permission to access this page.</p>
+  //   </div>;
+  // }
   const renderContent = () => {
     switch (selectedKey) {
       case '1':
         return <Dashboard />;
       case '2':
-        return <Users />;
+        return <Users users={users} isLoading={isUsersLoading} />;
       case '3':
         return <Orders />;
       case '4':
@@ -113,7 +123,8 @@ const AdminLayout = () => {
         <FullHeightLayout>
           <FixedSider trigger={null} collapsible collapsed={collapsed}>
               <LogoContainer>
-                <h2>B-Classy</h2>
+                <Image src="/favicon.png" alt="B-Classy Hair Shop Logo" width={40} height={40} style={{marginBottom:'5px', borderRadius:'5px'}}/>
+                {!collapsed && <h2>B-Classy</h2>}
               </LogoContainer>
             <Menu
               theme="dark"
