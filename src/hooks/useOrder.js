@@ -5,6 +5,7 @@ import axiosClient from '@/lib/axiosClient';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import useAdminQuery from './useAdminQuery';
 
 // Centralized route definitions
 const orderRoutes = {
@@ -99,6 +100,7 @@ export function useOrder() {
         },
         onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+            queryClient.invalidateQueries({ queryKey: ['admin', 'orders'] });
             queryClient.invalidateQueries({ queryKey: ['allOrders'] });
             toast.success('Payment verified successfully!', { className: 'toast-success' });
             return data;
@@ -120,7 +122,8 @@ export function useOrder() {
             return res.data;
         },
         onSuccess: (data) => {
-            queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+            // queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+            queryClient.invalidateQueries({ queryKey: ['admin', 'orders'] });
             queryClient.invalidateQueries({ queryKey: ['allOrders'] });
             queryClient.invalidateQueries({ queryKey: ['order', data.orderId] });
             toast.success('Order status updated successfully!', { className: 'toast-success' });
@@ -140,6 +143,7 @@ export function useOrder() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+            queryClient.invalidateQueries({ queryKey: ['admin', 'orders'] });
             queryClient.invalidateQueries({ queryKey: ['allOrders'] });
             toast.success('Order deleted successfully!', { className: 'toast-success' });
         },
@@ -158,6 +162,7 @@ export function useOrder() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+            queryClient.invalidateQueries({ queryKey: ['admin', 'orders'] });
             queryClient.invalidateQueries({ queryKey: ['allOrders'] });
             toast.success('Order permanently deleted!', { className: 'toast-success' });
         },

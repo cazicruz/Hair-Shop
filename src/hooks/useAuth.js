@@ -96,7 +96,8 @@ const useAuth = () => {
     const registerMutation = useMutation({
         mutationFn: async (userData) => {
             const response = await axiosClient.post('/auth/register', userData);
-            const { token: accessToken, user: userObj } = response.data;
+            const { token: accessToken, user: userObj } = response.data.data;
+            console.log('Register response data:', response.data);
             
             // refreshToken is set as httpOnly cookie by the server
             
@@ -116,8 +117,14 @@ const useAuth = () => {
         },
         onSuccess: (userData) => {
             queryClient.setQueryData(['user'], userData);
-            toast.success(`welcome ${userData.name}`, { className: 'toast-success' });
+            console.log('User registered successfully:', userData);
+            toast.success(`Welcome to B-Classy Hairs`, { className: 'toast-success' });
             router.push('/products');
+        },
+        onError: (error) => {
+            for(const err of error.response.data.errors) {
+                toast.error(err.message, { className: 'toast-error' });
+            }
         }
     });
 

@@ -1,6 +1,8 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useAdmin } from "@/hooks/useAdmin";
+import { useOrder } from "@/hooks/useOrder";
 
 // Styled Components
 const Container = styled.div`
@@ -58,101 +60,47 @@ const Button = styled.button`
   }
 `;
 
-const dummyOrders = [
-    {
-        id: 'ORD001',
-        date: '2024-06-01',
-        status: 'Pending',
-        items: [
-            {
-                name: "Body Wave Bundle",
-                price: 25000,
-                quantity: 2,
-                description: "Soft, bouncy texture",
-                image: ["/images/wig2.png"]
-            },
-            {
-                name: 'Hair Oil',
-                price: 5000,
-                quantity: 1,
-                description: "Nourishing hair oil",
-                image:[ "/images/wig3.png"]
-            },
-        ],
-        total: 25.99,
-    },
-    {
-        id: 'ORD002',
-        date: '2024-05-28',
-        status: 'Delivered',
-        items: [
-            {
-                name: "Body Wave Bundle",
-                price: 25000,
-                quantity: 2,
-                description: "Soft, bouncy texture",
-                image: ["/images/wav hair.png", "/images/wig1.png"]
-            },
-        ],
-        total: 12.99,
-    },
-    {
-        id: 'ORD003',
-        date: '2024-06-03',
-        status: 'Shipped',
-        items: [
-            { 
-            name: "Body Wave Bundle",
-            price: 25000,
-            quantity: 2,
-            description: "Soft, bouncy texture",
-            image: ["/images/red-hair.png", "/images/red-hair.png"]
-            },
-            {
-            name: "Closure 4x4",
-            price: 15000,
-            quantity: 1,
-            description: "Perfect finish for your install",
-            image:[ "/images/red-hair.png", "/images/red-hair.png" ]
-            }
-        ],
-        total: 30.00,
-    },
-];
-const statusOptions = ["Pending", "Shipped", "Delivered", "Cancelled"];
+const statusOptions = ['pending', 'shipping', 'delivered', 'canceled'];
 
 function AdminOrders() {
-  const [orders, setOrders] = useState(dummyOrders);
-  const [editId, setEditId] = useState(null);
-  const [editDate, setEditDate] = useState("");
-  const [editStatus, setEditStatus] = useState("");
-  const [editCustomer, setEditCustomer] = useState({ name: "", email: "", phone: "" });
+  const [orders, setOrders] = useState([]);
+  const { updateOrderStatus,hardDeleteOrder } = useOrder();
+
+  const { orders: hookOrders, isOrdersLoading, isOrdersError, useOrders } = useAdmin();
+  if (isOrdersError) {
+    return <div>Error loading orders.</div>;
+  }
+
+  useEffect(() => {
+    // Fetch orders from backend when component mounts
+    async function fetchOrders() {
+      console.log("Hook Orders:", hookOrders);
+      setOrders(hookOrders || []);
+    }
+    fetchOrders();
+  }, [hookOrders, isOrdersLoading]);
+
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    await updateOrderStatus.mutateAsync({ orderId, status: newStatus })
+      .then(() => {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === orderId ? { ...order, status: newStatus } : order
+          )
+        );
+      })
+      .catch((error) => {
+        console.error("Error updating order status:", error);
+      });
+  };
 
   const handleDelete = (id) => {
-    setOrders(orders.filter((order) => order.id !== id));
-  };
-
-  const handleEdit = (order) => {
-    setEditId(order.id);
-    setEditDate(order.date);
-    setEditStatus(order.status);
-    setEditCustomer({ ...order.customer });
-  };
-
-  const handleSave = (id) => {
-    setOrders(
-      orders.map((order) =>
-        order.id === id
-          ? {
-              ...order,
-              date: editDate,
-              status: editStatus,
-              customer: { ...editCustomer },
-            }
-          : order
-      )
-    );
-    setEditId(null);
+    hardDeleteOrder.mutate(id, {
+      onSuccess: () => {
+        setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));    
+      }
+    });
   };
 
   return (
@@ -175,21 +123,12 @@ function AdminOrders() {
             <tr key={order.id}>
               <Td>{order.id}</Td>
               <Td>
-                {editId === order.id ? (
-                  <Input
-                    type="date"
-                    value={editDate}
-                    onChange={(e) => setEditDate(e.target.value)}
-                  />
-                ) : (
-                  order.date
-                )}
+                {new Date(order.createdAt).toLocaleDateString()}
               </Td>
               <Td>
-                {editId === order.id ? (
                   <Select
-                    value={editStatus}
-                    onChange={(e) => setEditStatus(e.target.value)}
+                    value={order.status}
+                    onChange={(e) => handleStatusChange(order._id, e.target.value.toLowerCase())}
                   >
                     {statusOptions.map((opt) => (
                       <option key={opt} value={opt}>
@@ -197,47 +136,16 @@ function AdminOrders() {
                       </option>
                     ))}
                   </Select>
-                ) : (
-                  order.status
-                )}
+                  {/* order.status */}
               </Td>
               <Td>
-                {editId === order.id ? (
                   <>
-                    <Input
-                      type="text"
-                      placeholder="Name"
-                      value={editCustomer.name}
-                      onChange={(e) =>
-                        setEditCustomer({ ...editCustomer, name: e.target.value })
-                      }
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Email"
-                      value={editCustomer.email}
-                      onChange={(e) =>
-                        setEditCustomer({ ...editCustomer, email: e.target.value })
-                      }
-                    />
-                    <Input
-                      type="tel"
-                      placeholder="Phone"
-                      value={editCustomer.phone}
-                      onChange={(e) =>
-                        setEditCustomer({ ...editCustomer, phone: e.target.value })
-                      }
-                    />
-                  </>
-                ) : (
-                  <>
-                    <strong>{order?.customer?.name}</strong>
+                    <strong>{order?.contactInfo?.name}</strong>
                     <br />
-                    {order?.customer?.email}
+                    {order?.contactInfo?.email}
                     <br />
-                    {order?.customer?.phone}
+                    {order?.contactInfo?.phone}
                   </>
-                )}
               </Td>
               <Td>
                 <ul>
@@ -247,26 +155,23 @@ function AdminOrders() {
                       <br />
                       <span>{item.description}</span>
                       <br />
-                      {item.image.map((img, i) => (
-                        <Img key={i} src={img} alt={item.name} />
-                      ))}
+
+                       {item.productId?.images?.length > 0 && (
+                        <img
+                          src={item.productId.images[0]}
+                          alt={item.productId.name}
+                          style={{ width: 80, height: 80, borderRadius: 8 }}
+                        />
+      )}
                     </li>
                   ))}
                 </ul>
               </Td>
-              <Td>₦{order.total}</Td>
+              <Td>₦{order.totalAmount}</Td>
               <Td>
-                {editId === order.id ? (
-                  < div style={{ display: 'flex', gap: '8px' }}>
-                    <Button onClick={() => handleSave(order.id)}>Save</Button>
-                    <Button onClick={() => setEditId(null)}>Cancel</Button>
-                  </div>
-                ) : (
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <Button onClick={() => handleEdit(order)}>Edit</Button>
                     <Button danger onClick={() => handleDelete(order.id)}>Delete</Button>
                   </div>
-                )}
               </Td>
             </tr>
           ))}

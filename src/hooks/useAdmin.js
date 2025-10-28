@@ -112,15 +112,16 @@ export function useAdmin() {
 
     // PATCH: Deactivate/Activate user
     const toggleUserStatus = useMutation({
-        mutationFn: async ({ userId, isActive }) => {
-            const res = await axiosClient.patch(adminRoutes.deactivateUser(userId));
+        mutationFn: async (userId) => {
+            const res = await axiosClient.patch(adminRoutes.deactivateUser(userId), {});
+            console.log('Deactivate/Activate response:', res.data);
             return res.data.data;
         },
-        onSuccess: (data, variables) => {
+        onSuccess: (data) => {
             queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
-            queryClient.invalidateQueries({ queryKey: ['admin', 'user', variables.userId] });
+            // queryClient.invalidateQueries({ queryKey: ['admin', 'user', variables.userId] });
             toast.success(
-                `User ${variables.isActive ? 'activated' : 'deactivated'} successfully`,
+                `User ${data.isActive ? 'activated' : 'deactivated'} successfully`,
                 { className: 'toast-success' }
             );
         },
@@ -349,7 +350,8 @@ export function useAdmin() {
         isUsersLoading,
         isUsersError,
         useUsers, // ✅ With pagination/filters
-        getUserById,
+        useUserById,
+        // getUserById,
         updateUser,
         toggleUserStatus,
         deleteUser,

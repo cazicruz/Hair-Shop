@@ -83,7 +83,7 @@ const Customers = ({ users, isLoading }) => {
 
   const handleEdit = (customer) => {
     setEditingId(customer.id);
-    setEditData({ name: customer.name, email: customer.email, status: customer.status, phone: customer.phone, address: customer.address, role: customer.role });
+    setEditData({ name: customer.name, email: customer.email, status: customer.isActive, phone: customer.phone, address: customer.address, role: customer.role });
   };
 
   const handleEditChange = (e) => {
@@ -102,14 +102,9 @@ const Customers = ({ users, isLoading }) => {
     setEditingId(null);
   };
 
-  const handleStatusToggle = async (e) => {
-    e.preventDefault();
-    const newStatus = e.target.value === 'Active' ? true : false;
-    if (newStatus !== customers.find(c => c.id === editingId).isActive) {
-      const updated = await toggleUserStatus.mutateAsync({
-        userId: editingId,
-      });
-    }
+  const handleStatusToggle = async (id) => {
+    // e.preventDefault();
+     await toggleUserStatus.mutateAsync(id);
   };
 
   const handleDelete = async (id) => {
@@ -159,18 +154,9 @@ const Customers = ({ users, isLoading }) => {
                 )}
               </Td>
               <Td>
-                {editingId === customer.id ? (
-                  <Select
-                    name="status"
-                    value={editData.status}
-                    onChange={handleStatusToggle}
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </Select>
-                ) : (
-                  customer.isActive ? 'Active' : 'Inactive'
-                )}
+                <Button onClick={() => handleStatusToggle(customer.id)}>
+                  {customer.isActive ? 'Deactivate' : 'Activate'}
+                </Button>
               </Td>
               <Td>
                 {editingId === customer.id ? (

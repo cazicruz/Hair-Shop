@@ -121,7 +121,7 @@ const AdminLayout = () => {
 
   return (
         <FullHeightLayout>
-          <FixedSider trigger={null} collapsible collapsed={collapsed}>
+          <FixedSider trigger={null} collapsible collapsed={collapsed ? collapsed.toString() :false}>
               <LogoContainer>
                 <Image src="/favicon.png" alt="B-Classy Hair Shop Logo" width={40} height={40} style={{marginBottom:'5px', borderRadius:'5px'}}/>
                 {!collapsed && <h2>B-Classy</h2>}
