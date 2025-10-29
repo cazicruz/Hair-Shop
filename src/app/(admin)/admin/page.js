@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Orders from '@/components/admin/Orders';
 import Users from '@/components/admin/Customers';
 import Dashboard from '@/components/admin/Dashboard';
+import ProductsPage from '@/components/products/admin/productPage';
 // import Products from '@/components/admin/Products'; // Add your components
 import {
   MenuFoldOutlined,
@@ -113,7 +114,7 @@ const AdminLayout = () => {
       case '3':
         return <Orders />;
       case '4':
-        return <div>Select a menu item</div>; //placeholder for products
+        return <ProductsPage />; //placeholder for products
       default:
         return <Dashboard />;
     }
@@ -140,7 +141,7 @@ const AdminLayout = () => {
             />
           </FixedSider>
 
-          <MainLayout collapsed={collapsed}>
+          <MainLayout collapsed={collapsed ? collapsed.toString() :false}>
             <StyledHeader bg={colorBgContainer}>
               <ToggleButton
                 type="text"

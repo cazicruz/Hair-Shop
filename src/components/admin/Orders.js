@@ -120,8 +120,8 @@ function AdminOrders() {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order.id}>
-              <Td>{order.id}</Td>
+            <tr key={order._id}>
+              <Td>{order._id}</Td>
               <Td>
                 {new Date(order.createdAt).toLocaleDateString()}
               </Td>
