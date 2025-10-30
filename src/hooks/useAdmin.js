@@ -185,16 +185,16 @@ export function useAdmin() {
     }, { staleTime: 1000 * 60 * 2 });
 
     // GET: Order by ID
-    const getOrderById = (orderId) => {
-        return useQuery({
-            queryKey: ['admin', 'order', orderId],
-            queryFn: async () => {
-                const res = await axiosClient.get(adminRoutes.getOrderById(orderId));
-                return res.data.data.order || res.data.data;
-            },
-            enabled: !!orderId && isAdmin(),
-        });
-    };
+    // const getOrderById = (orderId) => {
+    //     return useQuery({
+    //         queryKey: ['admin', 'order', orderId],
+    //         queryFn: async () => {
+    //             const res = await axiosClient.get(adminRoutes.getOrderById(orderId));
+    //             return res.data.data.order || res.data.data;
+    //         },
+    //         enabled: !!orderId && isAdmin(),
+    //     });
+    // };
 
     // // PATCH: Update order status
     // const updateOrderStatus = useMutation({

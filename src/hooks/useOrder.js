@@ -63,16 +63,16 @@ export function useOrder() {
     });
 
     // --- GET: Order by ID
-    const getOrderById = (orderId) => {
-        return useQuery({
-            queryKey: ['order', orderId],
-            queryFn: async () => {
-                const res = await axiosClient.get(orderRoutes.getOrderById(orderId));
-                return res.data.data;
-            },
-            enabled: !!orderId,
-        });
-    };
+    // const getOrderById = (orderId) => {
+    //     return useQuery({
+    //         queryKey: ['order', orderId],
+    //         queryFn: async () => {
+    //             const res = await axiosClient.get(orderRoutes.getOrderById(orderId));
+    //             return res.data.data;
+    //         },
+    //         enabled: !!orderId,
+    //     });
+    // };
 
     // --- POST: Create order and initiate payment
     const createOrderAndInitiatePayment = useMutation({
@@ -181,7 +181,7 @@ export function useOrder() {
         allOrders,
         isAllOrdersLoading,
         isAllOrdersError,
-        getOrderById,
+        // getOrderById,
         
         // Mutations
         createOrderAndInitiatePayment,
