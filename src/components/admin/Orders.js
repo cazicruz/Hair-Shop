@@ -65,12 +65,9 @@ const statusOptions = ['pending', 'shipping', 'delivered', 'canceled'];
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const { updateOrderStatus,hardDeleteOrder } = useOrder();
-
   const { orders: hookOrders, isOrdersLoading, isOrdersError, useOrders } = useAdmin();
-  if (isOrdersError) {
-    return <div>Error loading orders.</div>;
-  }
 
+  
   useEffect(() => {
     // Fetch orders from backend when component mounts
     async function fetchOrders() {
@@ -79,7 +76,10 @@ function AdminOrders() {
     }
     fetchOrders();
   }, [hookOrders, isOrdersLoading]);
-
+  
+  if (isOrdersError) {
+    return <div>Error loading orders.</div>;
+  }
 
   const handleStatusChange = async (orderId, newStatus) => {
     await updateOrderStatus.mutateAsync({ orderId, status: newStatus })
