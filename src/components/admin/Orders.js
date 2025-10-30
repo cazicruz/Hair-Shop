@@ -62,10 +62,9 @@ const Button = styled.button`
 
 const statusOptions = ['pending', 'shipping', 'delivered', 'canceled'];
 
-function AdminOrders() {
+function AdminOrders({hookOrders, isLoading, isError}) {
   const [orders, setOrders] = useState([]);
   const { updateOrderStatus,hardDeleteOrder } = useOrder();
-  const { orders: hookOrders, isOrdersLoading, isOrdersError, useOrders } = useAdmin();
 
   
   useEffect(() => {
@@ -75,9 +74,9 @@ function AdminOrders() {
       setOrders(hookOrders || []);
     }
     fetchOrders();
-  }, [hookOrders, isOrdersLoading]);
+  }, [hookOrders, isLoading]);
   
-  if (isOrdersError) {
+  if (isError) {
     return <div>Error loading orders.</div>;
   }
 

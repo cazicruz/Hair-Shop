@@ -90,9 +90,11 @@ h2{
 const AdminLayout = () => {
   const user = Cookies.get('user');
   const [collapsed, setCollapsed] = useState(false);
-  const [selectedKey, setSelectedKey] = useState('2'); // Default to Orders
+  const [selectedKey, setSelectedKey] = useState('1'); // Default to Orders
 
   const { users ,isUsersLoading} = useAdmin();
+  const { orders: hookOrders, isOrdersLoading, isOrdersError, useOrders } = useAdmin();
+  
   console.log("Admin Users:", users);
   
   const {
@@ -108,11 +110,16 @@ const AdminLayout = () => {
   const renderContent = () => {
     switch (selectedKey) {
       case '1':
-        return <Dashboard />;
+        return <Dashboard orders={hookOrders} 
+        users={users}
+        isUsersLoading={isUsersLoading}
+        isOrdersLoading={isOrdersLoading}
+        setSelectedKey={setSelectedKey}
+         />;
       case '2':
         return <Users users={users} isLoading={isUsersLoading} />;
       case '3':
-        return <Orders />;
+        return <Orders hookOrders={hookOrders} isLoading={isOrdersLoading} />;
       case '4':
         return <ProductsPage />; //placeholder for products
       default:

@@ -63,7 +63,7 @@ export default function ProductsPage() {
   const [isCreating, setIsCreating] = useState(false)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [search,setSearch] = useState('')
   const limit=10;
       const { 

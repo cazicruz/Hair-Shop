@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 import {
@@ -13,6 +13,8 @@ import {
   PointElement,
   LineElement,
 } from 'chart.js';
+import DashboardSkeleton from './DashboardSkeleton';
+
 
 ChartJS.register(
   CategoryScale,
@@ -126,9 +128,9 @@ const StatusBadge = styled.span`
   font-size: 0.85rem;
   color: white;
   background-color: ${({ status }) =>
-    status === 'Delivered' ? '#28a745' :
-    status === 'Pending' ? '#ffc107' :
-    status === 'Shipped' ? '#17a2b8' : '#6c757d'};
+    status === 'delivered' ? '#28a745' :
+    status === 'pending' ? '#ffc107' :
+    status === 'shipped' ? '#17a2b8' : '#6c757d'};
 
     @media (max-width: 600px) {
       font-size: 0.75rem;
@@ -214,24 +216,35 @@ const doughnutData = {
   ],
 };
 
-const orders = [
-  { id: 'ORD001', customer: 'Jane Doe', date: '2025-09-10', total: '$45.00', status: 'Delivered' },
-  { id: 'ORD002', customer: 'John Smith', date: '2025-09-12', total: '$32.50', status: 'Pending' },
-  { id: 'ORD003', customer: 'Alice Brown', date: '2025-09-13', total: '$78.20', status: 'Shipped' },
-];
+// const orders = [
+//   { id: 'ORD001', customer: 'Jane Doe', date: '2025-09-10', total: '$45.00', status: 'Delivered' },
+//   { id: 'ORD002', customer: 'John Smith', date: '2025-09-12', total: '$32.50', status: 'Pending' },
+//   { id: 'ORD003', customer: 'Alice Brown', date: '2025-09-13', total: '$78.20', status: 'Shipped' },
+// ];
 
-export default function Dashboard() {
+export default function Dashboard({orders,users,isUsersLoading,isOrdersLoading,setSelectedKey}) {
+  // const [totalOrderCount,serTotalOrderCount] = useState(0);
+  // const[activeUsers, setActiveUsers]= userState(0)
+
+  useEffect
+  if (isUsersLoading || isOrdersLoading) {
+  return <DashboardSkeleton />;
+}
+
+    // useEffect(() => {
+    //     const 
+    //   }, [users, orders]);
   return (
     <Container>
       <Title>Admin Dashboard</Title>
 
       <SummaryGrid>
         <SummaryCard>
-          <Metric>1,245</Metric>
+          <Metric>{orders.length}</Metric>
           <Label>Total Orders</Label>
         </SummaryCard>
         <SummaryCard>
-          <Metric>320</Metric>
+          <Metric>{users.length}</Metric>
           <Label>Active Customers</Label>
         </SummaryCard>
         <SummaryCard>
@@ -267,11 +280,11 @@ export default function Dashboard() {
             </thead>
             <tbody>
               {orders.map(order => (
-                <tr key={order.id}>
-                  <Td>{order.id}</Td>
-                  <Td>{order.customer}</Td>
-                  <Td>{order.date}</Td>
-                  <Td>{order.total}</Td>
+                <tr key={order._id}>
+                  <Td>{order._id}</Td>
+                  <Td>{order.contactInfo.email}</Td>
+                  <Td>{order.createdAt}</Td>
+                  <Td>{order.totalAmount}</Td>
                   <Td><StatusBadge status={order.status}>{order.status}</StatusBadge></Td>
                 </tr>
               ))}
@@ -284,17 +297,23 @@ export default function Dashboard() {
         <Card>
           <CardTitle>Orders</CardTitle>
           <CardDesc>View, manage, and track all customer orders.</CardDesc>
-          <Button>Manage Orders</Button>
+          <Button
+          // onClick={setSelectedKey(3)}
+          >Manage Orders</Button>
         </Card>
         <Card>
           <CardTitle>Products</CardTitle>
           <CardDesc>Add, edit, or remove products from your shop.</CardDesc>
-          <Button>Manage Products</Button>
+          <Button
+          //  onClick={setSelectedKey(4)}
+          >Manage Products</Button>
         </Card>
         <Card>
           <CardTitle>Customers</CardTitle>
           <CardDesc>See customer details and manage accounts.</CardDesc>
-          <Button>Manage Customers</Button>
+          <Button
+          // onClick={setSelectedKey(2)}
+          >Manage Customers</Button>
         </Card>
       </Grid>
     </Container>
