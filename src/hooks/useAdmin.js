@@ -361,7 +361,7 @@ export function useAdmin() {
         isOrdersLoading,
         isOrdersError,
         useOrders, // ✅ With pagination/filters
-        getOrderById,
+        // getOrderById,
         // updateOrderStatus,
 
         // Product Management

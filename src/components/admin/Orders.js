@@ -170,7 +170,7 @@ function AdminOrders() {
               <Td>₦{order.totalAmount}</Td>
               <Td>
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <Button danger onClick={() => handleDelete(order.id)}>Delete</Button>
+                    <Button danger onClick={() => handleDelete(order._id)}>Delete</Button>
                   </div>
               </Td>
             </tr>

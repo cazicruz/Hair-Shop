@@ -5,6 +5,7 @@ import {TestimonyCard} from '@/components/home/Testimonials';
 import Image from 'next/image';
 import { useOrder } from '@/hooks/useOrder';
 
+
 // Dummy order data
 // const dummyOrders = [
 //     {
@@ -68,7 +69,7 @@ import { useOrder } from '@/hooks/useOrder';
 //     },
 // ];
 
-const statusOptions = ['All', 'Pending', 'Shipped', 'Delivered', 'Cancelled'];
+const statusOptions = ['All', 'pending', 'shipped', 'delivered', 'cancelled'];
 const sortOptions = [
     { value: 'date', label: 'Date' },
     { value: 'status', label: 'Status' },
@@ -175,7 +176,7 @@ function OrdersPage() {
     useEffect(() => {
         // In real app, fetch orders from API
         console.log("User Orders:", userOrders);
-        setOrders(userOrders);
+        setOrders(userOrders||[]);
     }, [userOrders,isUserOrdersLoading]);
 
     const filteredOrders = orders
@@ -223,10 +224,10 @@ function OrdersPage() {
                         <Tr key={order.id}
                         style={{ cursor: 'pointer', backgroundColor: selectedOrder === order ? '#e9ecef' : '' }}
                         >
-                            <Td>{order.id}</Td>
-                            <Td>{order.date}</Td>
+                            <Td>{order._id}</Td>
+                            <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
                             <Td>{order.status}</Td>
-                            <Td>${order.total.toFixed(2)}</Td>
+                            <Td>${order.totalAmount?.toFixed(2)}</Td>
                             <Td>
                                 <ViewButton onClick={() => setSelectedOrder(order)}>View</ViewButton>
                             </Td>
