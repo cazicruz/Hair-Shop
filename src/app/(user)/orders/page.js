@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {TestimonyCard} from '@/components/home/Testimonials';
 import Image from 'next/image';
 import { useOrder } from '@/hooks/useOrder';
+import OrdersSkeleton from '@/components/skeletons/UserOrderSkeleton';
 
 
 // Dummy order data
@@ -69,7 +70,7 @@ import { useOrder } from '@/hooks/useOrder';
 //     },
 // ];
 
-const statusOptions = ['All', 'pending', 'shipped', 'delivered', 'cancelled'];
+const statusOptions = ['All', 'pending', 'shipped', 'delivered', 'canceled'];
 const sortOptions = [
     { value: 'date', label: 'Date' },
     { value: 'status', label: 'Status' },
@@ -179,6 +180,10 @@ function OrdersPage() {
         setOrders(userOrders||[]);
     }, [userOrders,isUserOrdersLoading]);
 
+    if (isUserOrdersLoading) {
+        return <OrdersSkeleton />;
+    }
+
     const filteredOrders = orders
         .filter(order => statusFilter === 'All' || order.status === statusFilter)
         .sort((a, b) => {
@@ -221,13 +226,13 @@ function OrdersPage() {
                 </thead>
                 <tbody>
                     {filteredOrders.map(order => (
-                        <Tr key={order.id}
+                        <Tr key={order._id}
                         style={{ cursor: 'pointer', backgroundColor: selectedOrder === order ? '#e9ecef' : '' }}
                         >
                             <Td>{order._id}</Td>
                             <Td>{new Date(order.createdAt).toLocaleDateString()}</Td>
                             <Td>{order.status}</Td>
-                            <Td>${order.totalAmount?.toFixed(2)}</Td>
+                            <Td>₦{order.totalAmount?.toLocaleString()}</Td>
                             <Td>
                                 <ViewButton onClick={() => setSelectedOrder(order)}>View</ViewButton>
                             </Td>
@@ -241,13 +246,21 @@ function OrdersPage() {
                     <h2>Order Details: {selectedOrder.id}</h2>
                     <p><strong>Date:</strong> {selectedOrder.date}</p>
                     <p><strong>Status:</strong> {selectedOrder.status}</p>
-                    <p><strong>Total:</strong> ${selectedOrder.total.toFixed(2)}</p>
+                    <p><strong>Total:</strong> ₦{selectedOrder.totalAmount.toLocaleString()}</p>
                     <h3>Items:</h3>
                     <ul>
                         {selectedOrder.items.map((item, idx) => (
                             <li key={idx}>
                                 <ItemCard>
-                                    <Image src={item?.image[0]} alt={item?.name} width={60} height={60} />
+                                    {/* <Image src={item?.image[0]} alt={item?.name} width={60} height={60} /> */}
+                                    {console.log("userOrder",item)}
+                                    {item.productId?.images?.length > 0 && (
+                        <Image
+                          src={item.productId.images[0]}
+                          alt={item.productId.name}
+                          width={60} height={60}
+                        />
+                        )}
                                     <div>
                                         {item?.name} x {item?.quantity}
                                         <br />

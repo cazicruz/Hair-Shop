@@ -161,7 +161,7 @@ function AdminOrders({hookOrders, isLoading, isError}) {
                           alt={item.productId.name}
                           style={{ width: 80, height: 80, borderRadius: 8 }}
                         />
-      )}
+                        )}
                     </li>
                   ))}
                 </ul>

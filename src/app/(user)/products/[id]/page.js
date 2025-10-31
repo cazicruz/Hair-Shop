@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ImageWithThumbnail from '@/components/products/ImageWithThumbnail'
 import ProductDetailsSection from '@/components/products/ProductDetailsSection'
 import LoadingScreen from '@/components/LoadingAnimation'
-import {useProducts} from '@/hooks/useProduct';
+import {useProductById} from '@/hooks/useProduct';
 import { toast } from 'react-toastify';
 
 
@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 export default function ProductDetails() {
     const params = useParams();
     const id = params.id;
-    const {useProductById}=useProducts()
+    // const {useProductById}=useProducts()
     const { data:product, isLoading, isError } =  useProductById(id);
     console.log("product:",product,id,isLoading);
 

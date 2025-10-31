@@ -282,6 +282,7 @@ const PaymentPage = () => {
       address: deliveryType === "ship" ? address : null,
       },
       billingAddress: billingSame ? address : billingAddress,
+      cartId:Cookies.get('cartId'),
     }
 
     try {

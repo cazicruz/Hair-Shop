@@ -248,7 +248,7 @@ export default function Dashboard({orders,users,isUsersLoading,isOrdersLoading,s
           <Label>Active Customers</Label>
         </SummaryCard>
         <SummaryCard>
-          <Metric>$12,430</Metric>
+          <Metric>₦12,430</Metric>
           <Label>Monthly Revenue</Label>
         </SummaryCard>
       </SummaryGrid>
