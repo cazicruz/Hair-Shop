@@ -156,7 +156,7 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
       })
       setImages(product.images || [])
       setImageFiles([])
-    } else if (open) {
+    } else if (!product && open) {
       // Reset form for creating new product
       setFormData({
         name: "",
@@ -176,7 +176,7 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
     }
   }, [product, open])
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (!formData.name || !formData.price || formData.price <= 100 || !formData.brand) {
@@ -184,7 +184,8 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
     return;
   }
 
-  if (imageFiles.length === 0) {
+  // ✅ For edits, allow keeping old images
+  if (isCreating && imageFiles.length === 0) {
     message.error("Please upload at least one product image");
     return;
   }
@@ -192,7 +193,6 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
   setUploading(true);
 
   try {
-    // ✅ Build multipart form data
     const form = new FormData();
     form.append("name", formData.name);
     form.append("description", formData.description || "");
@@ -201,27 +201,30 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
     form.append("stock", parseInt(formData.stockQuantity) || 0);
     form.append("popularity", parseInt(formData.popularity) || 0);
     form.append("color", formData.color || "");
-
-    // categories and tags must be stringified
     form.append("categories", JSON.stringify(formData.categories || []));
-    console.log('tags:',formData.tags)
-    // Append tags as array entries (and also as "thag[]" to match backend typo if needed)
-    const tags = formData.tags || [];
-    if (Array.isArray(tags)) {
-      tags.forEach(tag => form.append('tags[]', tag));
-      // If backend truly expects "thag" (typo), send those too:
-    } else {
-      form.append('tags[]', tags);
-    }
-    form.append("length", JSON.stringify(formData.length || { value: 0, unit: "inches" }));
-
-    // ✅ Append each selected image file
+    form.append("tags", JSON.stringify(formData.tags || []));
+    form.append("length", JSON.stringify(formData.length || {}));
+    
+    // ✅ Only append new image files
     imageFiles.forEach((file) => {
-      form.append("images", file.originFileObj);
+      form.append("fImages", file.originFileObj);
     });
 
-    // ✅ Send using axios with correct headers
-    const res = await createProduct.mutateAsync(form);
+    // ✅ Send existing images if editing
+    if (!isCreating) {
+      images.forEach((img) => {
+    form.append("images", img);
+  });
+    }
+
+    let response;
+    if (isCreating) {
+      response = await createProduct.mutateAsync(form);
+    } else {
+      console.log('form:',...form.entries())
+      console.log('product:',product)
+      response = await updateProduct.mutateAsync({ id: product._id, updates: form });
+    }
 
     onSave();
     onOpenChange(false);
@@ -232,6 +235,7 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
     setUploading(false);
   }
 };
+
 
 
   // Upload images to cloudinary or your backend
