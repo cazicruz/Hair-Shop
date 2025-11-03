@@ -10,12 +10,12 @@ import { Carousel } from 'antd'
 import styled from 'styled-components'
 
 const hairItems = [
-  { id: 1, name: 'Argan Oil Shampoo', image: '/images/red-hair.png', price: '$15.99' },
-  { id: 2, name: 'Keratin Hair Mask', image: '/images/image3.png', price: '$12.49' },
-  { id: 3, name: 'Silk Protein Conditioner', image: '/images/image4.png', price: '$13.99' },
-  { id: 4, name: 'Silky Straight Hair Extension', image: '/images/image5.png', price: '$49.99' },
-  { id: 5, name: 'Curly Hair Bundle', image: '/images/image6.png', price: '$59.99' },
-  { id: 6, name: 'Wavy Lace Front Wig', image: '/images/image2.jpg', price: '$89.99' },
+  { id: 1, name: 'Argan Oil Shampoo', image: '/images/red-hair.png', price: '₦15000.99' },
+  { id: 2, name: 'Keratin Hair Mask', image: '/images/image3.png', price: '₦12000.49' },
+  { id: 3, name: 'Silk Protein Conditioner', image: '/images/image4.png', price: '₦13000.99' },
+  { id: 4, name: 'Silky Straight Hair Extension', image: '/images/image5.png', price: '₦49000.99' },
+  { id: 5, name: 'Curly Hair Bundle', image: '/images/image6.png', price: '₦59000.99' },
+  { id: 6, name: 'Wavy Lace Front Wig', image: '/images/image2.jpg', price: '₦89000.99' },
 ];
 
 function HairCarousel({itemsList}) {

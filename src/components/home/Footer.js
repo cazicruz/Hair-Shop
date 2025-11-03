@@ -120,7 +120,7 @@ const Footer = () => {
       <ul>
         <li><Link href="/about">About Us</Link></li>
         <li><Link href="/contact">Contact</Link></li>
-        <li><Link href="/policy/trading">Our Trading Policy</Link></li>
+        {/* <li><Link href="/policy/trading">Our Trading Policy</Link></li> */}
         <li><Link href="/policy/privacy">Privacy Policy</Link></li>
         <li><Link href="/terms">Terms of Service</Link></li>
         <li><Link href="/faq">FAQ&rsquo;s</Link></li>
@@ -134,11 +134,11 @@ const Footer = () => {
     <p>
       <strong>
         <a href="https://cazicruz.github.io/portfolio/">
-          &copy; {currentYear} DavDev
+          &copy; {currentYear} B-Classy Hairs
         </a>
       </strong>. All rights reserved.
       <br />
-      This website and all its content are the exclusive property of DavDev...
+      This website and all its content are the exclusive property of B-Classy Hairs...
     </p>
   </div>
   <div data-aos="fade-down" data-aos-offset="0" data-aos-delay="600">
