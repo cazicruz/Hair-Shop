@@ -201,7 +201,7 @@ const handleSubmit = async (e) => {
     form.append("description", formData.description || "");
     form.append("price", parseFloat(formData.price));
     form.append("brand", formData.brand);
-    form.append("stock", parseInt(formData.stockQuantity) || 0);
+    form.append("stockQuantity", parseInt(formData.stockQuantity) || 0);
     form.append("popularity", parseInt(formData.popularity) || 0);
     form.append("color", formData.color || "");
     form.append("categories", JSON.stringify(formData.categories || []));
