@@ -136,6 +136,7 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
     isDeleted: false,
   })
   const [images, setImages] = useState([])
+  const [previewImages,setPreviewImages] = useState([])
   const [imageFiles, setImageFiles] = useState([])
   const [uploading, setUploading] = useState(false)
 
@@ -153,7 +154,9 @@ export function ProductModal({ open, onOpenChange, product, isCreating, onSave }
         tags: product.tags || [],
         length: product.length || { value: 0, unit: "inches" },
         isDeleted: product.isDeleted || false,
+        // images:product.images ||[],
       })
+      setPreviewImages(product.images ||[]);
       setImages(product.images || [])
       setImageFiles([])
     } else if (!product && open) {
@@ -203,8 +206,10 @@ const handleSubmit = async (e) => {
     form.append("color", formData.color || "");
     form.append("categories", JSON.stringify(formData.categories || []));
     form.append("tags", JSON.stringify(formData.tags || []));
-    form.append("length", JSON.stringify(formData.length || {}));
-    
+    form.append("length", JSON.stringify({
+      value: parseFloat(formData.length.value) || 0,
+      unit: formData.length.unit || "inches"
+    }));   
     // ✅ Only append new image files
     imageFiles.forEach((file) => {
       form.append("fImages", file.originFileObj);
@@ -239,41 +244,44 @@ const handleSubmit = async (e) => {
 
 
   // Upload images to cloudinary or your backend
-  const uploadImages = async (files) => {
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append('images', file.originFileObj);
-    });
+  // const uploadImages = async (files) => {
+  //   const formData = new FormData();
+  //   files.forEach((file) => {
+  //     formData.append('images', file.originFileObj);
+  //   });
 
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+  //   try {
+  //     const response = await fetch('/api/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
       
-      if (!response.ok) throw new Error('Upload failed');
+  //     if (!response.ok) throw new Error('Upload failed');
       
-      const data = await response.json();
-      return data.urls; // Array of uploaded image URLs
-    } catch (error) {
-      console.error('Image upload error:', error);
-      message.error('Failed to upload images');
-      return [];
-    }
-  }
+  //     const data = await response.json();
+  //     return data.urls; // Array of uploaded image URLs
+  //   } catch (error) {
+  //     console.error('Image upload error:', error);
+  //     message.error('Failed to upload images');
+  //     return [];
+  //   }
+  // }
 
   const handleImageUpload = (info) => {
     const newFiles = info.fileList.filter(file => !file.url); // Only new files
     setImageFiles(newFiles);
     
     // Show preview of new files
-    const previews = newFiles.map((file) => 
-      file.url || URL.createObjectURL(file.originFileObj)
-    );
-    setImages(prev => [...prev, ...previews]);
+    const previews = newFiles.map(file => URL.createObjectURL(file.originFileObj));
+    setImageFiles(prev => [...prev, ...newFiles]);
+    setImages(prev => [...prev]); // don't insert blob here
+    setPreviewImages(prev => [...prev, ...previews]); // new preview state
+
+    // setImages(prev => [...prev, ...previews]);
   }
 
   const removeImage = (index) => {
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index))
     setImages((prev) => prev.filter((_, i) => i !== index))
     setImageFiles((prev) => prev.filter((_, i) => i !== index))
   }
@@ -431,7 +439,7 @@ const handleSubmit = async (e) => {
         <FormField>
           <Label>Product Images *</Label>
           <ImageGrid>
-            {images.map((img, index) => (
+            {previewImages.map((img, index) => (
               <ImageBox key={index}>
                 <img src={img} alt={`Product ${index + 1}`} />
                 <button 

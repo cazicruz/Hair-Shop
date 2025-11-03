@@ -109,7 +109,9 @@ export function useProducts(options, filters) {
   // --- PUT: update a product
   const updateProduct = useMutation({
     mutationFn: async ({ id, updates }) => {
-      const res = await axiosClient.put(productRoutes.updateProduct(id), updates);
+      const res = await axiosClient.put(productRoutes.updateProduct(id), updates,{
+         headers: { "Content-Type": "multipart/form-data" },
+      });
       return res.data;
     },
     onSuccess: () => {
