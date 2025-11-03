@@ -103,7 +103,7 @@ export function ProductTable({
                   </TableCell>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>{product.brand}</TableCell>
-                  <TableCell>${product.price.toFixed(2)}</TableCell>
+                  <TableCell>${product.price.toLocaleString()}</TableCell>
                   <TableCell>
                     <span className={product.stock < 10 ? "text-destructive" : "text-foreground"}>{product.stock}</span>
                   </TableCell>

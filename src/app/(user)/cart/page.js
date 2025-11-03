@@ -145,7 +145,7 @@ function CartItem({ item, onQtyChange, onRemove }) {
                     <QtyButton onClick={() => onQtyChange(item._id, item.quantity + 1)}>+</QtyButton>
                 </QuantityControl>
             </ProductDetails>
-            <Price>₦{(item.price * (item.quantity || 1)).toFixed(2)}</Price>
+            <Price>₦{(item.price * (item.quantity || 1)).toLocaleString()}</Price>
             <RemoveButton onClick={() => onRemove(item?._id)}>
                 <MdOutlineDeleteForever size={25} />
             </RemoveButton>
@@ -202,15 +202,15 @@ export default function CartPage() {
                     <SummaryContainer>
                         <SummaryRow>
                             <span>Subtotal</span>
-                            <span>₦{subtotal.toFixed(2)}</span>
+                            <span>₦{subtotal.toLocaleString()}</span>
                         </SummaryRow>
                         <SummaryRow>
                             <span>Shipping</span>
-                            <span>₦{shipping.toFixed(2)}</span>
+                            <span>₦{shipping.toLocaleString()}</span>
                         </SummaryRow>
                         <SummaryRow style={{ fontWeight: 700 }}>
                             <span>Total</span>
-                            <span>₦{total.toFixed(2)}</span>
+                            <span>₦{total.toLocaleString()}</span>
                         </SummaryRow>
                         <CheckoutButton onClick={handleCheckout}>Proceed to Checkout</CheckoutButton>
                     </SummaryContainer>

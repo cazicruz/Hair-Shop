@@ -57,7 +57,7 @@ function Product() {
         <h1>{product.name}</h1>
         <p className="tagline">Luxury hair extensions for bold & classy women</p>
         <p className="description">{product.description}</p>
-        <Price>${product.price}</Price>
+        <Price>₦{product.price}</Price>
 
         <Section>
           <h4>Choose Size:</h4>
