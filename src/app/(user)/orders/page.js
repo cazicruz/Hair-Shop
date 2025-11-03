@@ -1,5 +1,6 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
+import { useSearchParams } from "next/navigation";
 import styled from 'styled-components';
 import {TestimonyCard} from '@/components/home/Testimonials';
 import Image from 'next/image';
@@ -172,10 +173,23 @@ function OrdersPage() {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [statusFilter, setStatusFilter] = useState('All');
     const [sortBy, setSortBy] = useState('date');
-    const { userOrders,isUserOrdersLoading } = useOrder();
+    const { userOrders,isUserOrdersLoading,verifyOrderPayment } = useOrder();
+
+    const searchParams = useSearchParams();
+    const trxref = searchParams.get("trxref");
+    const reference = searchParams.get("reference");
+
+    useEffect(()=>{
+        if(reference||selectedOrder){
+            verifyOrderPayment.mutateAsync(reference||selectedOrder._id).then(() => {
+   router.replace("/orders");
+        });
+    }
+    },[reference,selectedOrder])
 
     useEffect(() => {
         // In real app, fetch orders from API
+        
         console.log("User Orders:", userOrders);
         setOrders(userOrders||[]);
     }, [userOrders,isUserOrdersLoading]);

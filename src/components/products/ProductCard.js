@@ -64,7 +64,7 @@ function ProductCard({product}) {
                         )}
                     </p>
                 </div>
-                <button
+                {/* <button
                 disabled={!inStock}
                 style={{
                     padding: "0.5rem",
@@ -76,7 +76,7 @@ function ProductCard({product}) {
                 }}
                 >
                 Buy Now
-                </button>
+                </button> */}
             </ButtonWrapper>
         </ProductContainer>
     </div>

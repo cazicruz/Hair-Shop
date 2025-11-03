@@ -38,6 +38,8 @@ function ProductDetailsSection({product}) {
                 <span style={{ color: 'red' }}>Out of Stock</span>
             )}
         </p>
+        <div style={{marginTop: 16,
+                padding: '12px 32px'}}></div>
         <AddToCart
             style={{
                 marginTop: 16,
@@ -57,7 +59,7 @@ function ProductDetailsSection({product}) {
             disabled={product.stockQuantity <= 0}
             text={'Add to Cart'}
         /> 
-        <AddToCart
+        {/* <AddToCart
             style={{
                 marginTop: 16,
                 padding: '10px 32px',
@@ -71,7 +73,7 @@ function ProductDetailsSection({product}) {
             icon={<IoBagHandleSharp size={20} />}
             disabled={product.stockQuantity <= 0}
             text={'Buy Now'}
-        /> 
+        />  */}
     </div>
   )
 }
