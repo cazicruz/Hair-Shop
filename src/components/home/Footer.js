@@ -121,7 +121,7 @@ const Footer = () => {
         <li><Link href="/about">About Us</Link></li>
         <li><Link href="/contact">Contact</Link></li>
         {/* <li><Link href="/policy/trading">Our Trading Policy</Link></li> */}
-        <li><Link href="/policy/privacy">Privacy Policy</Link></li>
+        <li><Link href="/privacy-policy">Privacy Policy</Link></li>
         <li><Link href="/terms">Terms of Service</Link></li>
         <li><Link href="/faq">FAQ&rsquo;s</Link></li>
       </ul>

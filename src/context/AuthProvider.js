@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import LoadingScreen2 from '@/components/LoadingScreen';
 
-const PUBLIC_ROUTES = ['/products','/cart','/login', '/register','/forgotPassword', '/forgot-password', '/resetPassword'];
+const PUBLIC_ROUTES = ['/about','/faq','/terms','/privacy-policy','/contact','/products','/cart','/login', '/register','/forgotPassword', '/forgot-password', '/resetPassword'];
 // const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
 
 export default function AuthProvider({ children }) {

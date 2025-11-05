@@ -60,7 +60,7 @@ axiosClient.interceptors.response.use(
         let isAuthEndpoint = false;
 
         // ✅ Whitelist cart endpoint - don't redirect on 401
-        const cartEndpoints = ['/cart/', '/api/cart/add', '/api/cart/remove', '/api/cart/clear', '/api/cart/update-quantity', '/api/cart/calculate-total'];
+        const cartEndpoints = ['/about','/cart/', '/api/cart/add', '/api/cart/remove', '/api/cart/clear', '/api/cart/update-quantity', '/api/cart/calculate-total'];
         // const isCartEndpoint = cartEndpoints.some(endpoint => 
         //     originalRequest?.url?.includes(endpoint)
         // );
