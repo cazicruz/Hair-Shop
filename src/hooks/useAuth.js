@@ -122,8 +122,14 @@ const useAuth = () => {
             router.push('/products');
         },
         onError: (error) => {
-            for(const err of error.response.data.errors) {
-                toast.error(err.message, { className: 'toast-error' });
+            const resp = error?.response?.data;
+            if (resp?.errors && Array.isArray(resp.errors)) {
+                for (const err of resp.errors) {
+                    toast.error(err?.message || err, { className: 'toast-error' });
+                }
+            } else {
+                const message = resp?.message || error?.message || 'Registration failed';
+                toast.error(message, { className: 'toast-error' });
             }
         }
     });
