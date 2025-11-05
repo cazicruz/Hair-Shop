@@ -12,17 +12,17 @@ import { BsStarFill } from 'react-icons/bs'
 const testimonies = [
   { 
     quote: "The quality of hair is absolutely amazing! I've been using their products for over a year now and I couldn't be happier. Highly recommend!", 
-    author: "Sarah Johnson", 
+    author: "Elizabeth Odogwu", 
     image: '/images/wav hair.png',
     rating: 5,
-    location: "Port Harcourt"
+    location: "Edo"
   },
   { 
     quote: "B-Classy Hairs transformed my look completely. The variety of products and the customer service is top-notch. Will definitely come back!", 
-    author: "Chioma Okafor", 
+    author: "Esosa Odogwu", 
     image: '/images/lux hair.png',
     rating: 5,
-    location: "Lagos"
+    location: "Edo"
   },
   { 
     quote: "The staff is so friendly and knowledgeable! They helped me find the perfect wig that matches my style. Love it!", 
@@ -33,7 +33,7 @@ const testimonies = [
   },  
   { 
     quote: "Best hair products I've ever used! The quality is exceptional and the prices are very reasonable. Five stars!", 
-    author: "Jennifer Williams", 
+    author: "Jennifer Okafor", 
     image: '/images/bundle.png',
     rating: 5,
     location: "Enugu"

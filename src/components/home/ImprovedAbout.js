@@ -58,7 +58,7 @@ function ImprovedAbout() {
 
             <StatsGrid>
               <StatItem>
-                <StatNumber>5+</StatNumber>
+                <StatNumber>3+</StatNumber>
                 <StatLabel>Years Experience</StatLabel>
               </StatItem>
               <StatItem>
