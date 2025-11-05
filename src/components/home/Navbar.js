@@ -179,7 +179,6 @@ export default function Navbar() {
     const user = queryClient.getQueryData(['user']);
 
     const userName =  extractNameFromEmail(user?.email);
-    console.log("UserName:", userName,user);
 
     const handleLogOut = () => {
         logout();
