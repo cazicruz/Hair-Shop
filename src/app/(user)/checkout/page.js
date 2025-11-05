@@ -268,8 +268,6 @@ const PaymentPage = () => {
   const shippingFee = deliveryType === "pickup" ? 0 : (deliveryMethod[shippingMethod]?.cost || 0);
   const total = subtotal + shippingFee + tax;
 
-  console.log("Shipping Fee:", shippingFee);
-  console.log("Cart totals:", totals);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -287,7 +285,6 @@ const PaymentPage = () => {
 
     try {
       const result = await createOrderAndInitiatePayment.mutateAsync(orderData);
-      console.log("Order creation result:", result);
       dispatch(clearCart());
 
       // ✅ Redirect to Paystack

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -9,7 +9,14 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-coverflow'
 import { BsStars, BsCartPlus } from 'react-icons/bs'
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
+import {useProducts} from '@/hooks/useProduct'
+import {useCartActions} from '@/hooks/cartThunks'
+import { useCart } from '@/hooks/useCart';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+
+
 
 const newItems = [
   { id: 1, name: 'Argan Oil Shampoo', image: '/images/red-hair.png', price: '₦15,000', tag: 'New', discount: null },
@@ -21,6 +28,42 @@ const newItems = [
 ]
 
 function ImprovedLatest() {
+  const [loading,setLoading] = useState(false);
+  const [products,setProducts] =useState(newItems);
+  const { addItemToCart} = useCartActions();
+  const dispatch = useDispatch();
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (product) => {
+          addToCart.mutateAsync(product).then(() => {
+              toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
+          });
+      }
+
+
+  const { 
+    products:fetchedProducts, 
+    isLoading, 
+    isFetching,
+    } = useProducts({ page:1, limit:6 },{});
+
+  const fetchProducts = async (pageNum = 1) => {
+    setLoading(true)
+    try {
+      fetchedProducts.length<6 ? setProducts( newItems) : setProducts(fetchedProducts)
+      setLoading(isLoading)
+    } catch (error) {
+      console.error("Failed to fetch products:", error)
+      message.error("Failed to load products")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProducts(1)
+  }, [loading,isLoading ])
+
   return (
     <SliderWrapper>
       <HeaderSection data-aos="fade-up">
@@ -67,7 +110,7 @@ function ImprovedLatest() {
           }}
           loop={true}
         >
-          {newItems.map((item, index) => (
+          {products.map((item, index) => (
             <SwiperSlide key={item.id}>
               <ProductCard
                 as={motion.div}
@@ -87,7 +130,9 @@ function ImprovedLatest() {
                     height={280}
                   />
                   <ImageOverlay>
-                    <QuickViewButton>
+                    <QuickViewButton
+                    disabled={!item.stockQuantity}
+                    >
                       <BsCartPlus /> Add to Cart
                     </QuickViewButton>
                   </ImageOverlay>
@@ -395,7 +440,15 @@ const QuickViewButton = styled.button`
     background: #667eea;
     color: white;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #e2e8f0;
+    color: #a0aec0;
+  }
 `
+
 
 const ProductInfo = styled.div`
   padding: 8px 0;

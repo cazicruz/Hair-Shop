@@ -226,8 +226,7 @@ const handleSubmit = async (e) => {
     if (isCreating) {
       response = await createProduct.mutateAsync(form);
     } else {
-      console.log('form:',...form.entries())
-      console.log('product:',product)
+
       response = await updateProduct.mutateAsync({ id: product._id, updates: form });
     }
 

@@ -114,7 +114,6 @@ export function useAdmin() {
     const toggleUserStatus = useMutation({
         mutationFn: async (userId) => {
             const res = await axiosClient.patch(adminRoutes.deactivateUser(userId), {});
-            console.log('Deactivate/Activate response:', res.data);
             return res.data.data;
         },
         onSuccess: (data) => {

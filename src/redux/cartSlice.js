@@ -13,7 +13,6 @@ const cartSlice = createSlice({
             if (existingItem) {
                 existingItem.quantity += item.quantity;
             } else {
-                console.log("Adding item to cart slice:", item);
                 item.quantity = item.quantity || 1;
                 state.items.push(item);
             }

@@ -44,7 +44,6 @@ function LoginForm() {
   };
 
   const onFinish = async (values) => {
-    console.log(`${isSignUp ? 'Sign Up' : 'Login'} values:`, values);
     await handleSubmit(values);
   };
 

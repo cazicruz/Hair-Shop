@@ -177,10 +177,9 @@ export default function Navbar() {
 
     const queryClient = useQueryClient();
     const user = queryClient.getQueryData(['user']);
-    console.log("User in Navbar:", user);
 
-    const userName = user ? extractNameFromEmail(user?.email) : '';
-    console.log("UserName:", userName);
+    const userName =  extractNameFromEmail(user?.email);
+    console.log("UserName:", userName,user);
 
     const handleLogOut = () => {
         logout();
@@ -270,7 +269,12 @@ export default function Navbar() {
                         setOpenModal(true)
                         
                         }}>
-                        {user? `${userName.firstName} ${userName.lastName}'s Orders` :'Login / Sign Up'}
+                        {user
+                            ? (user.fullName
+                                ? user.fullName
+                                : `${userName?.firstName ?? ''} ${userName?.lastName ?? ''}'s Orders`)
+                            : 'Login / Sign Up'}
+
                     </NavLinkMobile>
                     {user &&<NavLinkMobile href="/" onClick={() => {
                         setMenuOpen(false)

@@ -12,7 +12,6 @@ const Application_ID=process.env.NEXT_PUBLIC_APPLICATION_ID;
 const searchClient = algoliasearch(Application_ID, Search_API_Key);
 
 function Hit({ hit }) {
-  console.log('hits:',hit)
   return (
   <ProductCard product={hit} key={hit._id}/>
   );
@@ -20,7 +19,6 @@ function Hit({ hit }) {
 
 function ProductList({products}) {
   const indexName = `products_${process.env.NODE_ENV}`;
-  console.log(`index name :${indexName}`);
   return (
     <>
     <ProductCardContainer>

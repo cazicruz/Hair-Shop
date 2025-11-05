@@ -35,7 +35,6 @@ export function useCart() {
       const res = await axiosClient.get(cartRoutes.getUserCart, { 
         params: { id: cartId } 
       });
-      console.log("Fetched cart data:", res.data.data.cart);
       return res.data.data.cart;
     },
     enabled: !!cartId, // ✅ Fixed: was checking undefined variable
@@ -53,7 +52,6 @@ export function useCart() {
         productId: item._id,
         quantity: 1 // ✅ Use number, not string
       });
-      console.log("Add to cart response:", res.data);
       
       const newCart = res.data.data.cart;
       
@@ -69,7 +67,6 @@ export function useCart() {
       return newCart;
     },
     onSuccess: (data) => {
-      console.log('data:', data);
       queryClient.invalidateQueries({ queryKey: ['cart'] });
       // toast.success('Item added to cart', { className: 'toast-success' });
     },
@@ -88,7 +85,6 @@ export function useCart() {
         cartId: currentCartId,
         items 
       });
-      console.log("Bulk add to cart response:", res.data);
       return res.data.data.cart;
     },
     onSuccess: () => {

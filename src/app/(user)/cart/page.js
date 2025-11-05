@@ -157,7 +157,6 @@ function CartItem({ item, onQtyChange, onRemove }) {
 export default function CartPage() {
     const { addItemToCart, removeItemFromCart, updateCartQuantity } = useCartActions();
     const cartItems = useSelector((state) => state.cart.items);
-    console.log("Cart Items from Redux:", cartItems);
 
     const dispatch = useDispatch();
     

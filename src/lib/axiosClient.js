@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 const backendURL=process.env.NEXT_PUBLIC_API_URL;
-console.log('Axios Client Backend URL:', backendURL);
 
 
 const axiosClient = axios.create({
@@ -13,7 +12,6 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
-console.log('axiosClient initialized with baseURL:', axiosClient.defaults.baseURL);
 
 
 // Request interceptor to add token to headers

@@ -83,7 +83,6 @@ export default function ProductsPage() {
       setTotalPages(allPages || 1)
       setPage(currentPage || pageNum)
       setLoading(isLoading)
-      console.log('products paginated:',products);
     } catch (error) {
       console.error("Failed to fetch products:", error)
       message.error("Failed to load products")

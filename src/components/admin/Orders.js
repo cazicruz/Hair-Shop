@@ -70,7 +70,6 @@ function AdminOrders({hookOrders, isLoading, isError}) {
   useEffect(() => {
     // Fetch orders from backend when component mounts
     async function fetchOrders() {
-      console.log("Hook Orders:", hookOrders);
       setOrders(hookOrders || []);
     }
     fetchOrders();

@@ -16,7 +16,6 @@ function ProductDetailsSection({product}) {
     const { addToCart } = useCart();
     const handleAddToCart = (product) => {
         // Implement add to cart functionality
-        console.log("Adding to cart:", product);
         addToCart.mutateAsync(product).then(() => {
             toast.success(`${product.name} added to cart!`, { className: 'toast-success' });
         });

@@ -95,7 +95,6 @@ const AdminLayout = () => {
   const { users ,isUsersLoading} = useAdmin();
   const { orders: hookOrders, isOrdersLoading, isOrdersError, useOrders } = useAdmin();
   
-  console.log("Admin Users:", users);
   
   const {
     token: { colorBgContainer, borderRadiusLG },

@@ -42,7 +42,6 @@ export default function AuthProvider({ children }) {
         const interval = setInterval(() => {
             refreshToken().catch(() => {
                 // Token refresh failed, user will be logged out by the axios interceptor
-                console.log('Token refresh failed');
             });
         }, 10 * 60 * 1000); // 10 minutes
 

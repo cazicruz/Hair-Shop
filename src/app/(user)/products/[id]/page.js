@@ -17,7 +17,6 @@ export default function ProductDetails() {
     const id = params.id;
     // const {useProductById}=useProducts()
     const { data:product, isLoading, isError } =  useProductById(id);
-    console.log("product:",product,id,isLoading);
 
     if (isLoading||!product) return <LoadingScreen />;
     if (isError) {

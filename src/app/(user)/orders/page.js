@@ -190,7 +190,6 @@ function OrdersPage() {
     useEffect(() => {
         // In real app, fetch orders from API
         
-        console.log("User Orders:", userOrders);
         setOrders(userOrders||[]);
     }, [userOrders,isUserOrdersLoading]);
 
@@ -267,7 +266,6 @@ function OrdersPage() {
                             <li key={idx}>
                                 <ItemCard>
                                     {/* <Image src={item?.image[0]} alt={item?.name} width={60} height={60} /> */}
-                                    {console.log("userOrder",item)}
                                     {item.productId?.images?.length > 0 && (
                         <Image
                           src={item.productId.images[0]}
