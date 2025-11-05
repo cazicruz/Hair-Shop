@@ -162,13 +162,14 @@ const ImageOverlay = styled.div`
 const TextSection = styled.div`
   display: flex;
   align-items: center;
-  width:400px;
+  width:100vw;
   padding: 60px 40px;
   position: relative;
   z-index: 1;
 
   @media (max-width: 968px) {
     padding: 40px 20px 60px;
+    
   }
 `
 

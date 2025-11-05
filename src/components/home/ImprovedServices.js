@@ -10,7 +10,7 @@ const serviceList = [
   { 
     title: "Premium Wigs", 
     description: "Luxury wigs for every occasion and style.", 
-    img: "/images/bundle.png",
+    img: "/images/wav hair.png",
     color: "#ff6b9d"
   },
   { 
@@ -22,7 +22,7 @@ const serviceList = [
   { 
     title: "Hair Bundles", 
     description: "100% virgin human hair bundles.", 
-    img: "/images/wav hair.png",
+    img: "/images/bundle.png",
     color: "#12c2e9"
   },
   { 
