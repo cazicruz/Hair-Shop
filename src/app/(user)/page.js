@@ -17,6 +17,7 @@ import ImprovedTestimonials from "@/components/home/ImprovedTestimonials";
 import ImprovedLatest from "@/components/home/ImprovedLatest";
 import ImprovedFooter from "@/components/home/ImprovedFooter"
 import ImprovedFaq from "@/components/home/ImprovedFaq"
+import BirthdayPopup from "@/components/home/birtdayPopUp/BirthdayPopup"
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
       {/* <Navbar /> */}
       {/* <HeroTwo /> */}
       <ImprovedHero />
+      <BirthdayPopup />
       {/* <Latest /> */}
       <ImprovedLatest />
       <ImprovedServices />
