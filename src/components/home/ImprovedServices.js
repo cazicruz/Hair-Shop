@@ -111,9 +111,9 @@ function ImprovedServices({
             <CardContent>
               <ServiceTitle>{service.title}</ServiceTitle>
               <ServiceDescription>{service.description}</ServiceDescription>
-              <ExploreLink>
+              {/* <ExploreLink>
                 Explore →
-              </ExploreLink>
+              </ExploreLink> */}
             </CardContent>
             <CardGlow $color={service.color} />
           </ServiceCard>
