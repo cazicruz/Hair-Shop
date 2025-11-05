@@ -71,7 +71,7 @@ const BulletItem = styled.p`
 `;
 
 export default function TermsOfService() {
-    const support ='suport@bclassy.com'
+    const support ='suport@Bclassyhairs.com'
   return (
     <Container>
       <Content>

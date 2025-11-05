@@ -87,6 +87,8 @@ const BulletItem = styled.p`
 `;
 
 export default function PrivacyPolicy() {
+      const support ='suport@Bclassyhairs.com'
+
   return (
     <Container>
       <Content>
@@ -164,7 +166,7 @@ export default function PrivacyPolicy() {
           <Section>
             <SectionTitle>Contact Us</SectionTitle>
             <Paragraph $mb="0">
-              If you have any questions about this privacy policy or our privacy practices, please contact us at privacy@example.com or through our contact page.
+              If you have any questions about this privacy policy or our privacy practices, please contact us at {support} or through our contact page.
             </Paragraph>
           </Section>
         </Card>

@@ -154,17 +154,17 @@ export default function AboutUs() {
           <TeamGrid>
             <TeamMember>
               <Avatar />
-              <MemberName>John Doe</MemberName>
+              <MemberName>Janai Odogwu</MemberName>
               <MemberRole>CEO & Founder</MemberRole>
             </TeamMember>
             <TeamMember>
               <Avatar />
-              <MemberName>Jane Smith</MemberName>
+              <MemberName>Jane Nwosu</MemberName>
               <MemberRole>Chief Operations Officer</MemberRole>
             </TeamMember>
             <TeamMember>
               <Avatar />
-              <MemberName>Mike Johnson</MemberName>
+              <MemberName>Mike Obodo</MemberName>
               <MemberRole>Head of Product</MemberRole>
             </TeamMember>
           </TeamGrid>

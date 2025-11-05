@@ -191,28 +191,27 @@ export default function Contact() {
             <InfoSection>
               <InfoItem>
                 <InfoLabel>Email</InfoLabel>
-                <InfoText>support@example.com</InfoText>
+                <InfoText>support@Bclassyhairs.com</InfoText>
               </InfoItem>
               
               <InfoItem>
                 <InfoLabel>Phone</InfoLabel>
-                <InfoText>+1 (555) 123-4567</InfoText>
+                <InfoText>+234 (812) 5617018</InfoText>
               </InfoItem>
               
               <InfoItem>
                 <InfoLabel>Address</InfoLabel>
                 <InfoText>
-                  123 Business Street<br />
-                  Suite 100<br />
-                  City, State 12345
+                  NTA, Ozouba Road<br />
+                  {/* Suite 100<br /> */}
+                  Port Harcourt, Rivers State 501101
                 </InfoText>
               </InfoItem>
               
               <InfoItem>
                 <InfoLabel>Business Hours</InfoLabel>
                 <InfoText>
-                  Monday - Friday: 9:00 AM - 6:00 PM<br />
-                  Saturday: 10:00 AM - 4:00 PM<br />
+                 <strong>Monday - Saturday</strong>: 10:00AM - 5:00PM<br />
                   Sunday: Closed
                 </InfoText>
               </InfoItem>
